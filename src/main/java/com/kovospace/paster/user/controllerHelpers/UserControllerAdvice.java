@@ -32,6 +32,10 @@ public class UserControllerAdvice {
         && errorMessages.contains("Password is required.")
         && errorMessages.contains("Username is required.")) {
       return new ErrorResponseDTO("Username and password are required.");
+    } else if (errorMessages.size() > 1
+        && errorMessages.contains("Password field is empty.")
+        && errorMessages.contains("Username field is empty.")) {
+      return new ErrorResponseDTO("Username and password fields are empty.");
     }
     return new ErrorResponseDTO(errorMessages.get(0));
   }
