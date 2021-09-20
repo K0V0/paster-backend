@@ -12,8 +12,16 @@ import lombok.Setter;
 @Getter
 @Setter
 public class User {
-  @Id @GeneratedValue(strategy = GenerationType.IDENTITY) private long id;
+
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private long id;
+
   private String name;
+
   private String pasword;
-  @Transient private String jwtToken;
+
+  @Transient
+  private String jwtToken;
+
 }

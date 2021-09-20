@@ -3,6 +3,7 @@ package com.kovospace.paster.user.controllers;
 import com.kovospace.paster.user.controllerHelpers.UserControllerResponder;
 import com.kovospace.paster.user.dtos.UserLoginRequestDTO;
 import com.kovospace.paster.user.dtos.UserLoginResponseDTO;
+import com.kovospace.paster.user.dtos.UserRegisterRequestDTO;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,11 @@ public class UserController {
   @Autowired
   public UserController(UserControllerResponder responder) {
     this.responder = responder;
+  }
+
+  @PostMapping("/register")
+  public ResponseEntity<UserLoginResponseDTO> register(@Valid @RequestBody UserRegisterRequestDTO user) {
+    return responder.register(user);
   }
 
   @PostMapping("/login")

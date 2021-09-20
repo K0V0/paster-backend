@@ -8,7 +8,6 @@ import lombok.Setter;
 @Setter
 public class UserLoginResponseDTO extends OkResponseDTO {
 
-  private String user;
   private String jwtToken;
 
   public UserLoginResponseDTO() { super(); }

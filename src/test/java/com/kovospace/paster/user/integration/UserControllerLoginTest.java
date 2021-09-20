@@ -26,14 +26,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
 @AutoConfigureTestDatabase
 @TestMethodOrder(OrderAnnotation.class)
-@EnableWebMvc
 public class UserControllerLoginTest {
 
   @Autowired

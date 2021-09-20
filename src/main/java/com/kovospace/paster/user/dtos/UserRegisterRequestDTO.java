@@ -15,13 +15,13 @@ import lombok.Setter;
 @Getter
 @Setter
 @GroupSequence({
-    UserLoginRequestDTO.class,
+    UserRegisterRequestDTO.class,
     FirstOrder.class,
     SecondOrder.class,
     ThirdOrder.class,
     FourthOrder.class
 })
-public class UserLoginRequestDTO {
+public class UserRegisterRequestDTO {
 
   @NotNull(message = "Username is required.", groups = FirstOrder.class)
   @NotBlank(message = "Username field is empty.", groups = SecondOrder.class)
@@ -33,6 +33,8 @@ public class UserLoginRequestDTO {
   @Size(min = 8, message = "Password must have at least 8 characters.", groups = ThirdOrder.class)
   private String pass;
 
+  @NotNull(message = "Password confirmation is required.", groups = FirstOrder.class)
+  @NotBlank(message = "Password confirmation field is empty.", groups = SecondOrder.class)
+  private String pass2;
+
 }
-
-

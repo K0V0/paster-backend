@@ -2,6 +2,7 @@ package com.kovospace.paster.user.controllerHelpers;
 
 import com.kovospace.paster.user.dtos.UserLoginRequestDTO;
 import com.kovospace.paster.user.dtos.UserLoginResponseDTO;
+import com.kovospace.paster.user.dtos.UserRegisterRequestDTO;
 import com.kovospace.paster.user.services.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,16 @@ public class UserControllerResponderImpl implements UserControllerResponder {
           userService.login(dto.getName(), dto.getPass()),
           UserLoginResponseDTO.class
       )
+    );
+  }
+
+  @Override
+  public ResponseEntity<UserLoginResponseDTO> register(UserRegisterRequestDTO dto) {
+    return ResponseEntity.ok(
+        modelMapper.map(
+            userService.register(dto.getName(), dto.getPass(), dto.getPass2()),
+            UserLoginResponseDTO.class
+        )
     );
   }
 }

@@ -18,4 +18,9 @@ public class UserServiceImpl implements UserService {
     return null;
   }
 
+  @Override
+  public User register(String name, String pass, String pass2) {
+    return null;
+  }
+
 }
