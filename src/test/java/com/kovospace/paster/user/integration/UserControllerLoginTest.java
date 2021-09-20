@@ -1,5 +1,6 @@
 package com.kovospace.paster.user.integration;
 
+import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -113,7 +114,9 @@ public class UserControllerLoginTest {
                 .content("{}")
         )
         .andExpect(status().is(400))
-        .andExpect(jsonPath("$.message", is("Username and password are required.")));
+        .andExpect(jsonPath("$.messages.length()", is(2)))
+        .andExpect(jsonPath("$.messages.name", is("Username is required.")))
+        .andExpect(jsonPath("$.messages.pass", is("Password is required.")));
   }
 
   @Test
@@ -128,7 +131,9 @@ public class UserControllerLoginTest {
                 .content(objectMapper.writeValueAsBytes(user))
         )
         .andExpect(status().is(400))
-        .andExpect(jsonPath("$.message", is("Username and password are required.")));
+        .andExpect(jsonPath("$.messages.length()", is(2)))
+        .andExpect(jsonPath("$.messages.name", is("Username is required.")))
+        .andExpect(jsonPath("$.messages.pass", is("Password is required.")));
   }
 
   @Test
@@ -145,7 +150,9 @@ public class UserControllerLoginTest {
                 .content(objectMapper.writeValueAsBytes(user))
         )
         .andExpect(status().is(400))
-        .andExpect(jsonPath("$.message", is("Username and password fields are empty.")));
+        .andExpect(jsonPath("$.messages.length()", is(2)))
+        .andExpect(jsonPath("$.messages.name", is("Username field is empty.")))
+        .andExpect(jsonPath("$.messages.pass", is("Password field is empty.")));
   }
 
   @Test
@@ -161,7 +168,8 @@ public class UserControllerLoginTest {
                 .content(objectMapper.writeValueAsBytes(user))
         )
         .andExpect(status().is(400))
-        .andExpect(jsonPath("$.message", is("Username is required.")));
+        .andExpect(jsonPath("$.messages.length()", is(1)))
+        .andExpect(jsonPath("$.messages.name", is("Username is required.")));
   }
 
   @Test
@@ -178,7 +186,8 @@ public class UserControllerLoginTest {
                 .content(objectMapper.writeValueAsBytes(user))
         )
         .andExpect(status().is(400))
-        .andExpect(jsonPath("$.message", is("Username field is empty.")));
+        .andExpect(jsonPath("$.messages.length()", is(1)))
+        .andExpect(jsonPath("$.messages.name", is("Username field is empty.")));
   }
 
   @Test
@@ -194,7 +203,8 @@ public class UserControllerLoginTest {
                 .content(objectMapper.writeValueAsBytes(user))
         )
         .andExpect(status().is(400))
-        .andExpect(jsonPath("$.message", is("Password is required.")));
+        .andExpect(jsonPath("$.messages.length()", is(1)))
+        .andExpect(jsonPath("$.messages.pass", is("Password is required.")));
   }
 
   @Test
@@ -211,7 +221,8 @@ public class UserControllerLoginTest {
                 .content(objectMapper.writeValueAsBytes(user))
         )
         .andExpect(status().is(400))
-        .andExpect(jsonPath("$.message", is("Password field is empty.")));
+        .andExpect(jsonPath("$.messages.length()", is(1)))
+        .andExpect(jsonPath("$.messages.pass", is("Password field is empty.")));
   }
 
   @Test
@@ -228,7 +239,8 @@ public class UserControllerLoginTest {
                 .content(objectMapper.writeValueAsBytes(user))
         )
         .andExpect(status().is(400))
-        .andExpect(jsonPath("$.message", is("Password must have at least 8 characters.")));
+        .andExpect(jsonPath("$.messages.length()", is(1)))
+        .andExpect(jsonPath("$.messages.pass", is("Password must have at least 8 characters.")));
   }
 
   @Test
@@ -245,7 +257,7 @@ public class UserControllerLoginTest {
                 .content(objectMapper.writeValueAsBytes(user))
         )
         .andExpect(status().is(400))
-        .andExpect(jsonPath("$.message", is("Username field is empty.")));
+        .andExpect(jsonPath("$.messages.name", is("Username field is empty.")));
   }
 
   @Test
@@ -262,7 +274,9 @@ public class UserControllerLoginTest {
                 .content(objectMapper.writeValueAsBytes(user))
         )
         .andExpect(status().is(400))
-        .andExpect(jsonPath("$.message", is("Password field is empty.")));
+        .andExpect(jsonPath("$.messages.length()", is(1)))
+        .andExpect(jsonPath("$.messages.length()", is(1)))
+        .andExpect(jsonPath("$.messages.pass", is("Password field is empty.")));
   }
 
   @Test
@@ -279,7 +293,8 @@ public class UserControllerLoginTest {
                 .content(objectMapper.writeValueAsBytes(user))
         )
         .andExpect(status().is(400))
-        .andExpect(jsonPath("$.message", is("Whitespaces not allowed anywhere.")));
+        .andExpect(jsonPath("$.messages.length()", is(1)))
+        .andExpect(jsonPath("$.messages.name", is("Whitespaces not allowed anywhere.")));
   }
 
   @Test
@@ -296,7 +311,8 @@ public class UserControllerLoginTest {
                 .content(objectMapper.writeValueAsBytes(user))
         )
         .andExpect(status().is(400))
-        .andExpect(jsonPath("$.message", is("Whitespaces not allowed anywhere.")));
+        .andExpect(jsonPath("$.messages.length()", is(1)))
+        .andExpect(jsonPath("$.messages.name", is("Whitespaces not allowed anywhere.")));
   }
 
   @Test
@@ -313,6 +329,7 @@ public class UserControllerLoginTest {
                 .content(objectMapper.writeValueAsBytes(user))
         )
         .andExpect(status().is(400))
-        .andExpect(jsonPath("$.message", is("Whitespaces not allowed anywhere.")));
+        .andExpect(jsonPath("$.messages.length()", is(1)))
+        .andExpect(jsonPath("$.messages.name", is("Whitespaces not allowed anywhere.")));
   }
 }

@@ -95,7 +95,10 @@ public class UserControllerRegisterTest {
                 .content("{}")
         )
         .andExpect(status().is(400))
-        .andExpect(jsonPath("$.message", is("Username and password are required.")));
+        .andExpect(jsonPath("$.messages.length()", is(3)))
+        .andExpect(jsonPath("$.messages.name", is("Username is required.")))
+        .andExpect(jsonPath("$.messages.pass", is("Password is required.")))
+        .andExpect(jsonPath("$.messages.pass2", is("Password confirmation is required.")));
   }
 
   @Test
@@ -110,7 +113,333 @@ public class UserControllerRegisterTest {
                 .content(objectMapper.writeValueAsBytes(user))
         )
         .andExpect(status().is(400))
-        .andExpect(jsonPath("$.message", is("Username and password are required.")));
+        .andExpect(jsonPath("$.messages.length()", is(3)))
+        .andExpect(jsonPath("$.messages.name", is("Username is required.")))
+        .andExpect(jsonPath("$.messages.pass", is("Password is required.")))
+        .andExpect(jsonPath("$.messages.pass2", is("Password confirmation is required.")));
+  }
+
+  @Test
+  @Order(8)
+  public void usernameAndPasswordsEmpty() throws Exception {
+    UserRegisterRequestDTO user = new UserRegisterRequestDTO();
+    user.setName("");
+    user.setPass("");
+    user.setPass2("");
+
+    mockMvc
+        .perform(
+            post("/user/register")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsBytes(user))
+        )
+        .andExpect(status().is(400))
+        .andExpect(jsonPath("$.messages.length()", is(3)))
+        .andExpect(jsonPath("$.messages.name", is("Username field is empty.")))
+        .andExpect(jsonPath("$.messages.pass", is("Password field is empty.")))
+        .andExpect(jsonPath("$.messages.pass2", is("Password confirmation field is empty.")));
+  }
+
+  @Test
+  @Order(9)
+  public void usernameNull() throws Exception {
+    UserRegisterRequestDTO user = new UserRegisterRequestDTO();
+    user.setPass("12345678");
+    user.setPass2("12345678");
+
+    mockMvc
+        .perform(
+            post("/user/register")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsBytes(user))
+        )
+        .andExpect(status().is(400))
+        .andExpect(jsonPath("$.messages.length()", is(1)))
+        .andExpect(jsonPath("$.messages.name", is("Username is required.")));
+  }
+
+  @Test
+  @Order(10)
+  public void usernameEmpty() throws Exception {
+    UserRegisterRequestDTO user = new UserRegisterRequestDTO();
+    user.setName("");
+    user.setPass("12345678");
+    user.setPass2("12345678");
+
+    mockMvc
+        .perform(
+            post("/user/register")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsBytes(user))
+        )
+        .andExpect(status().is(400))
+        .andExpect(jsonPath("$.messages.length()", is(1)))
+        .andExpect(jsonPath("$.messages.name", is("Username field is empty.")));
+  }
+
+  @Test
+  @Order(11)
+  public void passwordNull() throws Exception {
+    UserRegisterRequestDTO user = new UserRegisterRequestDTO();
+    user.setName("comrade_testovic");
+    user.setPass2("12345678");
+
+    mockMvc
+        .perform(
+            post("/user/register")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsBytes(user))
+        )
+        .andExpect(status().is(400))
+        .andExpect(jsonPath("$.messages.length()", is(1)))
+        .andExpect(jsonPath("$.messages.pass", is("Password is required.")));
+  }
+
+  @Test
+  @Order(12)
+  public void passwordEmpty() throws Exception {
+    UserRegisterRequestDTO user = new UserRegisterRequestDTO();
+    user.setName("comrade_testovic");
+    user.setPass("");
+    user.setPass2("12345678");
+
+    mockMvc
+        .perform(
+            post("/user/register")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsBytes(user))
+        )
+        .andExpect(status().is(400))
+        .andExpect(jsonPath("$.messages.length()", is(1)))
+        .andExpect(jsonPath("$.messages.pass", is("Password field is empty.")));
+  }
+
+  @Test
+  @Order(13)
+  public void passwordConfirmationNull() throws Exception {
+    UserRegisterRequestDTO user = new UserRegisterRequestDTO();
+    user.setName("comrade_testovic");
+    user.setPass("12345678");
+
+    mockMvc
+        .perform(
+            post("/user/register")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsBytes(user))
+        )
+        .andExpect(status().is(400))
+        .andExpect(jsonPath("$.messages.length()", is(1)))
+        .andExpect(jsonPath("$.messages.pass2", is("Password confirmation is required.")));
+  }
+
+  @Test
+  @Order(14)
+  public void passwordConfirmationEmpty() throws Exception {
+    UserRegisterRequestDTO user = new UserRegisterRequestDTO();
+    user.setName("comrade_testovic");
+    user.setPass("12345678");
+    user.setPass2("");
+
+    mockMvc
+        .perform(
+            post("/user/register")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsBytes(user))
+        )
+        .andExpect(status().is(400))
+        .andExpect(jsonPath("$.messages.length()", is(1)))
+        .andExpect(jsonPath("$.messages.pass2", is("Password confirmation field is empty.")));
+  }
+
+  @Test
+  @Order(15)
+  public void usernameIsJustSpaces() throws Exception {
+    UserRegisterRequestDTO user = new UserRegisterRequestDTO();
+    user.setName("       ");
+    user.setPass("12345678");
+    user.setPass2("12345678");
+
+    mockMvc
+        .perform(
+            post("/user/register")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsBytes(user))
+        )
+        .andExpect(status().is(400))
+        .andExpect(jsonPath("$.messages.length()", is(1)))
+        .andExpect(jsonPath("$.messages.name", is("Username field is empty.")));
+  }
+
+  @Test
+  @Order(16)
+  public void passwordIsJustSpaces() throws Exception {
+    UserRegisterRequestDTO user = new UserRegisterRequestDTO();
+    user.setName("comrade_testovic");
+    user.setPass("       ");
+    user.setPass2("12345678");
+
+    mockMvc
+        .perform(
+            post("/user/register")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsBytes(user))
+        )
+        .andExpect(status().is(400))
+        .andExpect(jsonPath("$.messages.length()", is(1)))
+        .andExpect(jsonPath("$.messages.pass", is("Password field is empty.")));
+  }
+
+  @Test
+  @Order(17)
+  public void passwordConfirmationIsJustSpaces() throws Exception {
+    UserRegisterRequestDTO user = new UserRegisterRequestDTO();
+    user.setName("comrade_testovic");
+    user.setPass("12345678");
+    user.setPass2("       ");
+
+    mockMvc
+        .perform(
+            post("/user/register")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsBytes(user))
+        )
+        .andExpect(status().is(400))
+        .andExpect(jsonPath("$.messages.length()", is(1)))
+        .andExpect(jsonPath("$.messages.pass2", is("Password confirmation field is empty.")));
+  }
+
+  @Test
+  @Order(18)
+  public void usernameBeginWithSpace() throws Exception {
+    UserRegisterRequestDTO user = new UserRegisterRequestDTO();
+    user.setName(" comrade_testovic");
+    user.setPass("12345678");
+    user.setPass2("12345678");
+
+    mockMvc
+        .perform(
+            post("/user/register")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsBytes(user))
+        )
+        .andExpect(status().is(400))
+        .andExpect(jsonPath("$.messages.length()", is(1)))
+        .andExpect(jsonPath("$.messages.name", is("Your username begins with space.")));
+  }
+
+  @Test
+  @Order(19)
+  public void usernameWithSpace() throws Exception {
+    UserRegisterRequestDTO user = new UserRegisterRequestDTO();
+    user.setName("comrade testovic");
+    user.setPass("12345678");
+    user.setPass2("12345678");
+
+    mockMvc
+        .perform(
+            post("/user/register")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsBytes(user))
+        )
+        .andExpect(status().is(400))
+        .andExpect(jsonPath("$.messages.length()", is(1)))
+        .andExpect(jsonPath("$.messages.name", is("Your username contains space(s).")));
+  }
+
+  @Test
+  @Order(20)
+  public void usernameEndsWithSpace() throws Exception {
+    UserRegisterRequestDTO user = new UserRegisterRequestDTO();
+    user.setName("comrade_testovic ");
+    user.setPass("12345678");
+    user.setPass2("12345678");
+
+    mockMvc
+        .perform(
+            post("/user/register")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsBytes(user))
+        )
+        .andExpect(status().is(400))
+        .andExpect(jsonPath("$.messages.length()", is(1)))
+        .andExpect(jsonPath("$.messages.name", is("Your username ends with space.")));
+  }
+
+  @Test
+  @Order(21)
+  public void usernameContainsNotAllowedChars() throws Exception {
+    UserRegisterRequestDTO user = new UserRegisterRequestDTO();
+    user.setName("com#rade_te/sto?vic");
+    user.setPass("12345678");
+    user.setPass2("12345678");
+
+    mockMvc
+        .perform(
+            post("/user/register")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsBytes(user))
+        )
+        .andExpect(status().is(400))
+        .andExpect(jsonPath("$.messages.length()", is(1)))
+        .andExpect(jsonPath("$.messages.name", is("Your username contains not allowed characters.\n"
+            + "Allowed characters are letters, numbers, underscores, dashes and dots.")));
+  }
+
+  @Test
+  @Order(22)
+  public void passwordShort() throws Exception {
+    UserRegisterRequestDTO user = new UserRegisterRequestDTO();
+    user.setName("comrade_testovic");
+    user.setPass("1234567");
+    user.setPass2("1234567");
+
+    mockMvc
+        .perform(
+            post("/user/register")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsBytes(user))
+        )
+        .andExpect(status().is(400))
+        .andExpect(jsonPath("$.messages.length()", is(1)))
+        .andExpect(jsonPath("$.messages.pass", is("Password must have at least 8 characters.")));
+  }
+
+  @Test
+  @Order(23)
+  public void passwordStartsOrEndsWithSpace() throws Exception {
+    UserRegisterRequestDTO user = new UserRegisterRequestDTO();
+    user.setName("comrade_testovic");
+    user.setPass(" 1234567");
+    user.setPass2(" 1234567");
+
+    mockMvc
+        .perform(
+            post("/user/register")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsBytes(user))
+        )
+        .andExpect(status().is(400))
+        .andExpect(jsonPath("$.messages.length()", is(1)))
+        .andExpect(jsonPath("$.messages.pass", is("Your password is starting or ending with space(s).")));
+  }
+
+  @Test
+  @Order(24)
+  public void passwordStartsOrEndsWithSpace2() throws Exception {
+    UserRegisterRequestDTO user = new UserRegisterRequestDTO();
+    user.setName("comrade_testovic");
+    user.setPass("1234567 ");
+    user.setPass2("1234567 ");
+
+    mockMvc
+        .perform(
+            post("/user/register")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsBytes(user))
+        )
+        .andExpect(status().is(400))
+        .andExpect(jsonPath("$.messages.length()", is(1)))
+        .andExpect(jsonPath("$.messages.pass", is("Your password is starting or ending with space(s).")));
   }
 
 }
