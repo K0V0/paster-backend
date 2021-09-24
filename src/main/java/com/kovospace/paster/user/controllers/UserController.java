@@ -4,6 +4,7 @@ import com.kovospace.paster.user.controllerHelpers.UserControllerResponder;
 import com.kovospace.paster.user.dtos.UserLoginRequestDTO;
 import com.kovospace.paster.user.dtos.UserLoginResponseDTO;
 import com.kovospace.paster.user.dtos.UserRegisterRequestDTO;
+import com.kovospace.paster.user.exceptions.UserException;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -24,12 +25,14 @@ public class UserController {
   }
 
   @PostMapping("/register")
-  public ResponseEntity<UserLoginResponseDTO> register(@Valid @RequestBody UserRegisterRequestDTO user) {
+  public ResponseEntity<UserLoginResponseDTO> register(@Valid @RequestBody UserRegisterRequestDTO user)
+      throws UserException {
     return responder.register(user);
   }
 
   @PostMapping("/login")
-  public ResponseEntity<UserLoginResponseDTO> login(@Valid @RequestBody UserLoginRequestDTO user) {
+  public ResponseEntity<UserLoginResponseDTO> login(@Valid @RequestBody UserLoginRequestDTO user)
+      throws UserException {
     return responder.login(user);
   }
 

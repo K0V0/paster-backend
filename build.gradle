@@ -36,15 +36,25 @@ dependencies {
     // @Valid annotations
     implementation 'org.springframework.boot:spring-boot-starter-validation'
 
+    // annotation processor for configs
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+
     // Spring security, JWT token
     implementation 'org.springframework.boot:spring-boot-starter-security'
 
     // Tests
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
+    // @SetEnviromentVariable
+    implementation 'org.junit-pioneer:junit-pioneer:1.4.2'
 
     // modelMapper
     implementation 'org.modelmapper:modelmapper:2.4.0'
+
+    // JWT token stuff
+    implementation 'com.auth0:java-jwt:3.16.0'
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.2', 'io.jsonwebtoken:jjwt-jackson:0.11.2'
 }
 
 test {

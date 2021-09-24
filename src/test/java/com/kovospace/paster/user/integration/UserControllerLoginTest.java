@@ -47,10 +47,10 @@ public class UserControllerLoginTest {
   @Test
   @Order(1)
   public void endpointNotFound() throws Exception {
-    TestRestTemplate testRestTemplate = new TestRestTemplate();
-    ResponseEntity<ErrorResponseDTO> errorResponse = testRestTemplate
-        .getForEntity("http://0.0.0.0:4004/user/logi", ErrorResponseDTO.class);
-    System.out.println(Objects.requireNonNull(errorResponse.getBody()).getMessage());
+    //TestRestTemplate testRestTemplate = new TestRestTemplate();
+    //ResponseEntity<ErrorResponseDTO> errorResponse = testRestTemplate
+       // .getForEntity("http://0.0.0.0:4004/user/logi", ErrorResponseDTO.class);
+    //System.out.println(Objects.requireNonNull(errorResponse.getBody()).getMessage());
     MvcResult res = mockMvc
         .perform(post("/user/logi"))
         .andDo(print())

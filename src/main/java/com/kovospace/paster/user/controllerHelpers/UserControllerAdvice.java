@@ -3,6 +3,8 @@ package com.kovospace.paster.user.controllerHelpers;
 import com.kovospace.paster.base.dtos.ErrorResponseDTO;
 import com.kovospace.paster.base.dtos.ErrorsResponseDTO;
 import com.kovospace.paster.user.controllers.UserController;
+import com.kovospace.paster.user.exceptions.UserRegisterAlreadyOccupiedException;
+import com.kovospace.paster.user.exceptions.UserRegisterPasswordsNotMatchException;
 import java.util.Map;
 import java.util.stream.Collectors;
 import org.springframework.http.HttpStatus;
@@ -32,8 +34,19 @@ public class UserControllerAdvice {
             v -> v.getDefaultMessage() == null ? "" : v.getDefaultMessage(),
             (e1, e2) -> e1 + " " + e2
         ));
-    System.out.println(errorMessages);
     return new ErrorsResponseDTO(errorMessages);
+  }
+
+  @ResponseStatus(HttpStatus.CONFLICT)
+  @ExceptionHandler(UserRegisterPasswordsNotMatchException.class)
+  public ErrorResponseDTO passwordConfirmDidNotMatch(UserRegisterPasswordsNotMatchException e) {
+    return new ErrorResponseDTO(e.getMessage());
+  }
+
+  @ResponseStatus(HttpStatus.FORBIDDEN)
+  @ExceptionHandler(UserRegisterAlreadyOccupiedException.class)
+  public ErrorResponseDTO usernameAlreadyTaken(UserRegisterAlreadyOccupiedException e) {
+    return new ErrorResponseDTO(e.getMessage());
   }
 
 }

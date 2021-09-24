@@ -7,17 +7,23 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kovospace.paster.base.services.TimeService;
 import com.kovospace.paster.user.dtos.UserRegisterRequestDTO;
+import com.kovospace.paster.user.models.User;
+import com.kovospace.paster.user.repositories.UserRepository;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -33,6 +39,15 @@ public class UserControllerRegisterTest {
 
   @Autowired
   private ObjectMapper objectMapper;
+
+  @Autowired
+  private UserRepository userRepository;
+
+  @Autowired
+  private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+  @MockBean
+  private TimeService timeService;
 
   @Test
   @Order(1)
@@ -440,6 +455,76 @@ public class UserControllerRegisterTest {
         .andExpect(status().is(400))
         .andExpect(jsonPath("$.messages.length()", is(1)))
         .andExpect(jsonPath("$.messages.pass", is("Your password is starting or ending with space(s).")));
+  }
+
+  @Test
+  @Order(25)
+  public void passwordAndConfirmationDidNotMatch() throws Exception {
+    UserRegisterRequestDTO user = new UserRegisterRequestDTO();
+    user.setName("comrade_testovic");
+    user.setPass("12345678");
+    user.setPass2("12345679");
+
+    mockMvc
+        .perform(
+            post("/user/register")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsBytes(user))
+        )
+        .andExpect(status().is(409))
+        .andExpect(jsonPath("$.message", is("Password and its confirmation did not match.")));
+  }
+
+  @Test
+  @Order(26)
+  public void usernameAlreadyTaken() throws Exception {
+    UserRegisterRequestDTO user = new UserRegisterRequestDTO();
+    user.setName("comrade_testovic");
+    user.setPass("12345678");
+    user.setPass2("12345678");
+
+    User dbUser = new User();
+    dbUser.setName("comrade_testovic");
+    dbUser.setPasword(bCryptPasswordEncoder.encode("12345678"));
+    userRepository.save(dbUser);
+
+    mockMvc
+        .perform(
+            post("/user/register")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsBytes(user))
+        )
+        .andExpect(status().is(403))
+        .andExpect(jsonPath("$.message", is("Username is already taken.")));
+
+    userRepository.deleteAll();
+  }
+
+  @Test
+  @Order(27)
+  public void usernameSaved() throws Exception {
+    UserRegisterRequestDTO user = new UserRegisterRequestDTO();
+    user.setName("comrade_testovic");
+    user.setPass("12345678");
+    user.setPass2("12345678");
+
+    Mockito.when(timeService.getTime()).thenReturn(1234567890L);
+
+    /*User dbUser = new User();
+    dbUser.setName("comrade_testovic");
+    dbUser.setPasword(bCryptPasswordEncoder.encode("12345678"));
+    userRepository.save(dbUser);*/
+
+    mockMvc
+        .perform(
+            post("/user/register")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsBytes(user))
+        )
+        .andExpect(status().is(201))
+        .andExpect(jsonPath("$.jwtToken", is("")));
+
+    //userRepository.deleteAll();
   }
 
 }

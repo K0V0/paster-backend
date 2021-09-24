@@ -3,9 +3,11 @@ package com.kovospace.paster.user.controllerHelpers;
 import com.kovospace.paster.user.dtos.UserLoginRequestDTO;
 import com.kovospace.paster.user.dtos.UserLoginResponseDTO;
 import com.kovospace.paster.user.dtos.UserRegisterRequestDTO;
+import com.kovospace.paster.user.exceptions.UserException;
 import com.kovospace.paster.user.services.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
@@ -32,12 +34,14 @@ public class UserControllerResponderImpl implements UserControllerResponder {
   }
 
   @Override
-  public ResponseEntity<UserLoginResponseDTO> register(UserRegisterRequestDTO dto) {
-    return ResponseEntity.ok(
+  public ResponseEntity<UserLoginResponseDTO> register(UserRegisterRequestDTO dto)
+      throws UserException {
+    return new ResponseEntity<>(
         modelMapper.map(
             userService.register(dto.getName(), dto.getPass(), dto.getPass2()),
             UserLoginResponseDTO.class
-        )
+        ),
+        HttpStatus.CREATED
     );
   }
 }
