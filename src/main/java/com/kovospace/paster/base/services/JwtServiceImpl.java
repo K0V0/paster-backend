@@ -44,7 +44,6 @@ public class JwtServiceImpl implements JwtService {
   public String generate(User user) {
     Claims claims = Jwts.claims();
     claims.put("userId", user.getId());
-
     String token = Jwts.builder()
         .setClaims(claims)
         .setIssuedAt(timeService.getDate())

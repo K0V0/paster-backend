@@ -11,6 +11,7 @@ import com.kovospace.paster.base.services.TimeService;
 import com.kovospace.paster.user.dtos.UserRegisterRequestDTO;
 import com.kovospace.paster.user.models.User;
 import com.kovospace.paster.user.repositories.UserRepository;
+import org.junit.Assert;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -502,18 +503,14 @@ public class UserControllerRegisterTest {
 
   @Test
   @Order(27)
-  public void usernameSaved() throws Exception {
+  public void userCreatedTokenObtained() throws Exception {
     UserRegisterRequestDTO user = new UserRegisterRequestDTO();
     user.setName("comrade_testovic");
     user.setPass("12345678");
     user.setPass2("12345678");
+    String jwtToken = "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjJ9.Puh4y7UM2bdCuqyQOK-iyOwloMGPOskNwfjjKZ2jDQ8";
 
     Mockito.when(timeService.getTime()).thenReturn(1234567890L);
-
-    /*User dbUser = new User();
-    dbUser.setName("comrade_testovic");
-    dbUser.setPasword(bCryptPasswordEncoder.encode("12345678"));
-    userRepository.save(dbUser);*/
 
     mockMvc
         .perform(
@@ -522,9 +519,9 @@ public class UserControllerRegisterTest {
                 .content(objectMapper.writeValueAsBytes(user))
         )
         .andExpect(status().is(201))
-        .andExpect(jsonPath("$.jwtToken", is("")));
+        .andExpect(jsonPath("$.jwtToken", is(jwtToken)));
 
-    //userRepository.deleteAll();
+    userRepository.deleteAll();
   }
 
 }
