@@ -1,6 +1,5 @@
 package com.kovospace.paster.user.integration;
 
-import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -9,21 +8,24 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kovospace.paster.base.dtos.ErrorResponseDTO;
+import com.kovospace.paster.base.services.JwtService;
+import com.kovospace.paster.base.services.TimeService;
 import com.kovospace.paster.user.dtos.UserLoginRequestDTO;
-import java.util.Objects;
+import com.kovospace.paster.user.models.User;
+import com.kovospace.paster.user.repositories.UserRepository;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -41,8 +43,17 @@ public class UserControllerLoginTest {
   @Autowired
   private ObjectMapper objectMapper;
 
-  //@MockBean
-  //private UserControllerResponder responder;
+  @Autowired
+  private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+  @Autowired
+  private UserRepository userRepository;
+
+  @Autowired
+  private JwtService jwtService;
+
+  @MockBean
+  private TimeService timeService;
 
   @Test
   @Order(1)
@@ -56,8 +67,6 @@ public class UserControllerLoginTest {
         .andDo(print())
         .andExpect(status().is(404))
         .andReturn();
-    System.out.println("-------------------------");
-    System.out.println(res.getResponse().getContentAsString());
         //.andExpect(jsonPath("$.message", is("Endpoint not found.")));
   }
 
@@ -332,4 +341,74 @@ public class UserControllerLoginTest {
         .andExpect(jsonPath("$.messages.length()", is(1)))
         .andExpect(jsonPath("$.messages.name", is("Whitespaces not allowed anywhere.")));
   }
+
+  @Test
+  @Order(19)
+  public void userNotFound() throws Exception {
+    UserLoginRequestDTO user = new UserLoginRequestDTO();
+    user.setName("comrade_nonexistent");
+    user.setPass("12345678");
+
+    mockMvc
+        .perform(
+            post("/user/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsBytes(user))
+        )
+        .andExpect(status().is(401))
+        .andExpect(jsonPath("$.message", is("Wrong username or password.")));
+  }
+
+  @Test
+  @Order(20)
+  public void usersPasswordWrong() throws Exception {
+    UserLoginRequestDTO user = new UserLoginRequestDTO();
+    user.setName("comrade_dubmo_forgetto");
+    user.setPass("neviemNepametam");
+
+    User dbUser = new User();
+    dbUser.setName("comrade_dumbo_forgetto");
+    dbUser.setPasword(bCryptPasswordEncoder.encode("12345678"));
+    userRepository.save(dbUser);
+
+    mockMvc
+        .perform(
+            post("/user/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsBytes(user))
+        )
+        .andExpect(status().is(401))
+        .andExpect(jsonPath("$.message", is("Wrong username or password.")));
+
+    userRepository.deleteAll();
+  }
+
+  @Test
+  @Order(21)
+  public void userLoginOK() throws Exception {
+    UserLoginRequestDTO user = new UserLoginRequestDTO();
+    user.setName("comrade_testovic");
+    user.setPass("12345678");
+
+    User dbUser = new User();
+    dbUser.setName("comrade_testovic");
+    dbUser.setPasword(bCryptPasswordEncoder.encode("12345678"));
+    userRepository.save(dbUser);
+
+    Mockito.when(timeService.getTime()).thenReturn(1234567890L);
+
+    String jwtToken = jwtService.generate(dbUser);
+
+    mockMvc
+        .perform(
+            post("/user/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsBytes(user))
+        )
+        .andExpect(status().is(200))
+        .andExpect(jsonPath("$.jwtToken", is(jwtToken)));
+
+    userRepository.deleteAll();
+  }
+
 }

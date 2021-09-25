@@ -1,6 +1,7 @@
 package com.kovospace.paster.base.controllerHelpers;
 
 import com.kovospace.paster.base.dtos.ErrorResponseDTO;
+import com.kovospace.paster.user.exceptions.UserLoginBadCredentialsException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -28,6 +29,12 @@ public class ControllerAdvice {
   @ExceptionHandler(UnsupportedMediaTypeStatusException.class)
   public ErrorResponseDTO notSupportedMedia() {
     return new ErrorResponseDTO("Wrong request media type.");
+  }
+
+  @ResponseStatus(HttpStatus.UNAUTHORIZED)
+  @ExceptionHandler(UserLoginBadCredentialsException.class)
+  public ErrorResponseDTO wrongUserOrPass() {
+    return new ErrorResponseDTO("Wrong username or password.");
   }
 
 }

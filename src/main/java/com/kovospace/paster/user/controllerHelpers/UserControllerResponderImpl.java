@@ -4,6 +4,7 @@ import com.kovospace.paster.user.dtos.UserLoginRequestDTO;
 import com.kovospace.paster.user.dtos.UserLoginResponseDTO;
 import com.kovospace.paster.user.dtos.UserRegisterRequestDTO;
 import com.kovospace.paster.user.exceptions.UserException;
+import com.kovospace.paster.user.exceptions.UserLoginBadCredentialsException;
 import com.kovospace.paster.user.services.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,8 @@ public class UserControllerResponderImpl implements UserControllerResponder {
   }
 
   @Override
-  public ResponseEntity<UserLoginResponseDTO> login(UserLoginRequestDTO dto) {
+  public ResponseEntity<UserLoginResponseDTO> login(UserLoginRequestDTO dto)
+      throws UserException {
     return ResponseEntity.ok(
         modelMapper.map(
           userService.login(dto.getName(), dto.getPass()),

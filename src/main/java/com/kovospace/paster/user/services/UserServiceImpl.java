@@ -2,10 +2,12 @@ package com.kovospace.paster.user.services;
 
 import com.kovospace.paster.base.services.JwtService;
 import com.kovospace.paster.user.exceptions.UserException;
+import com.kovospace.paster.user.exceptions.UserLoginBadCredentialsException;
 import com.kovospace.paster.user.exceptions.UserRegisterAlreadyOccupiedException;
 import com.kovospace.paster.user.exceptions.UserRegisterPasswordsNotMatchException;
 import com.kovospace.paster.user.models.User;
 import com.kovospace.paster.user.repositories.UserRepository;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -25,8 +27,16 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public User login(String name, String pass) {
-    return null;
+  public User login(String name, String pass) throws UserLoginBadCredentialsException {
+    Optional<User> user = repo.findFirstByName(name);
+    if (user.isPresent()) {
+      User u = user.get();
+      if (encoder.matches(pass, u.getPasword())) {
+        u.setJwtToken(jwtService.generate(user.get()));
+        return u;
+      }
+    }
+    throw new UserLoginBadCredentialsException();
   }
 
   @Override
