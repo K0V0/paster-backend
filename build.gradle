@@ -18,6 +18,8 @@ repositories {
     mavenCentral()
 }
 
+def powermock = '2.0.2'
+
 dependencies {
     // Basic
     implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -45,6 +47,10 @@ dependencies {
     // Tests
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
+    implementation 'uk.org.webcompere:system-stubs-jupiter:1.2.0'
+    testImplementation "org.powermock:powermock-core:${powermock}"
+    testImplementation "org.powermock:powermock-module-junit4:${powermock}"
+    testImplementation "org.powermock:powermock-api-mockito2:${powermock}"
     // @SetEnviromentVariable
     implementation 'org.junit-pioneer:junit-pioneer:1.4.2'
 

@@ -4,7 +4,6 @@ import com.kovospace.paster.user.dtos.UserLoginRequestDTO;
 import com.kovospace.paster.user.dtos.UserLoginResponseDTO;
 import com.kovospace.paster.user.dtos.UserRegisterRequestDTO;
 import com.kovospace.paster.user.exceptions.UserException;
-import com.kovospace.paster.user.exceptions.UserLoginBadCredentialsException;
 import com.kovospace.paster.user.services.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -57,7 +57,7 @@ public class JwtServiceImpl implements JwtService {
   public long parse(String jwtToken) throws InvalidJwtTokenException {
     if (jwtToken != null) {
       if (jwtToken.startsWith(prefix)) {
-        if (jwtToken.replace(prefix, "").length() == 0) {
+        if (jwtToken.replace(prefix, "").trim().length() == 0) {
           throw new InvalidJwtTokenException("JWT Token is missing.");
         }
         Claims claims = jwtParser
