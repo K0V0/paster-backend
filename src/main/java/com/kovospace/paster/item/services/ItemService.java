@@ -1,7 +1,7 @@
-package com.kovospace.paster.board.services;
+package com.kovospace.paster.item.services;
 
-import com.kovospace.paster.board.exceptions.ItemNotFoundException;
-import com.kovospace.paster.board.models.Item;
+import com.kovospace.paster.item.exceptions.ItemNotFoundException;
+import com.kovospace.paster.item.models.Item;
 import java.util.List;
 
 public interface ItemService {

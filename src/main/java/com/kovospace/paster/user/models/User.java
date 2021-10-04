@@ -1,6 +1,6 @@
 package com.kovospace.paster.user.models;
 
-import com.kovospace.paster.board.models.Item;
+import com.kovospace.paster.item.models.Item;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;

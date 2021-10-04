@@ -1,7 +1,5 @@
 package com.kovospace.paster.base.configurations;
 
-import static org.hibernate.criterion.Restrictions.and;
-
 import com.kovospace.paster.base.filters.JwtAuthFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;

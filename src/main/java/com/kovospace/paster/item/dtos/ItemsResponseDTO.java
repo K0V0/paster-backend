@@ -1,4 +1,4 @@
-package com.kovospace.paster.board.dtos;
+package com.kovospace.paster.item.dtos;
 
 import java.util.List;
 import lombok.AllArgsConstructor;

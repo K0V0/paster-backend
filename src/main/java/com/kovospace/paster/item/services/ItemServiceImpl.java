@@ -1,8 +1,8 @@
-package com.kovospace.paster.board.services;
+package com.kovospace.paster.item.services;
 
-import com.kovospace.paster.board.exceptions.ItemNotFoundException;
-import com.kovospace.paster.board.models.Item;
-import com.kovospace.paster.board.repositories.ItemRepository;
+import com.kovospace.paster.item.exceptions.ItemNotFoundException;
+import com.kovospace.paster.item.models.Item;
+import com.kovospace.paster.item.repositories.ItemRepository;
 import com.kovospace.paster.user.models.User;
 import com.kovospace.paster.user.repositories.UserRepository;
 import java.util.List;

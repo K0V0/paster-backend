@@ -1,4 +1,4 @@
-package com.kovospace.paster.board.exceptions;
+package com.kovospace.paster.item.exceptions;
 
 public abstract class ItemException extends Exception {
   public ItemException() {}

@@ -1,12 +1,12 @@
-package com.kovospace.paster.board.controllerHelpers;
+package com.kovospace.paster.item.controllerHelpers;
 
-import com.kovospace.paster.base.exceptions.JwtTokenException;
 import com.kovospace.paster.base.services.JwtService;
-import com.kovospace.paster.board.dtos.ItemRequestDTO;
-import com.kovospace.paster.board.dtos.ItemResponseDTO;
-import com.kovospace.paster.board.dtos.ItemsResponseDTO;
-import com.kovospace.paster.board.exceptions.ItemNotFoundException;
-import com.kovospace.paster.board.services.ItemService;
+import com.kovospace.paster.item.dtos.ItemRequestDTO;
+import com.kovospace.paster.item.dtos.ItemResponseDTO;
+import com.kovospace.paster.item.dtos.ItemsResponseDTO;
+import com.kovospace.paster.item.exceptions.ItemNotFoundException;
+import com.kovospace.paster.item.services.ItemService;
+import io.jsonwebtoken.JwtException;
 import java.util.stream.Collectors;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +34,7 @@ public class ItemControllerResponderImpl implements ItemControllerResponder {
 
   @Override
   public ResponseEntity<ItemsResponseDTO> getItems(String token)
-      throws JwtTokenException {
+      throws JwtException {
     long userId = jwtService.parse(token);
     return new ResponseEntity<ItemsResponseDTO>(
         new ItemsResponseDTO(
@@ -50,7 +50,7 @@ public class ItemControllerResponderImpl implements ItemControllerResponder {
 
   @Override
   public ResponseEntity<ItemResponseDTO> getItem(String token, long itemId)
-      throws JwtTokenException, ItemNotFoundException {
+      throws JwtException, ItemNotFoundException {
     long userId = jwtService.parse(token);
     return new ResponseEntity<ItemResponseDTO>(
       modelMapper.map(
@@ -62,7 +62,7 @@ public class ItemControllerResponderImpl implements ItemControllerResponder {
   }
 
   @Override
-  public void addItem(String token, ItemRequestDTO dto) throws JwtTokenException {
+  public void addItem(String token, ItemRequestDTO dto) throws JwtException {
     long userId = jwtService.parse(token);
     itemService.addItem(userId, dto.getText());
   }

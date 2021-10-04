@@ -1,9 +1,8 @@
-package com.kovospace.paster.board.dtos;
+package com.kovospace.paster.item.dtos;
 
 import com.kovospace.paster.base.dtoHelpers.FirstOrder;
 import com.kovospace.paster.base.dtoHelpers.SecondOrder;
 import com.kovospace.paster.base.dtoHelpers.ThirdOrder;
-import com.kovospace.paster.user.dtos.UserLoginRequestDTO;
 import javax.validation.GroupSequence;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -14,7 +13,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @GroupSequence({
-    UserLoginRequestDTO.class,
+    ItemRequestDTO.class,
     FirstOrder.class,
     SecondOrder.class,
     ThirdOrder.class

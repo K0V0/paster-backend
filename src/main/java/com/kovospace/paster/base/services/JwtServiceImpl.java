@@ -1,11 +1,13 @@
 package com.kovospace.paster.base.services;
 
-import com.kovospace.paster.base.exceptions.jwtTokenException.InvalidJwtTokenException;
 import com.kovospace.paster.user.models.User;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.security.SignatureException;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import javax.annotation.PostConstruct;
 import javax.crypto.SecretKey;
@@ -37,7 +39,9 @@ public class JwtServiceImpl implements JwtService {
   @PostConstruct
   public void init() {
     this.secretKey = Keys.hmacShaKeyFor(privateKey.getBytes(StandardCharsets.UTF_8));
-    this.jwtParser = Jwts.parserBuilder().setSigningKey(secretKey).build();
+    this.jwtParser = Jwts.parserBuilder()
+        .setSigningKey(privateKey.getBytes(StandardCharsets.UTF_8))
+        .build();
   }
 
   @Override
@@ -54,20 +58,22 @@ public class JwtServiceImpl implements JwtService {
   }
 
   @Override
-  public long parse(String jwtToken) throws InvalidJwtTokenException {
+  public long parse(String jwtToken) throws JwtException {
+    System.out.println(privateKey);
+    System.out.println("================================");
     if (jwtToken != null) {
       if (jwtToken.startsWith(prefix)) {
         if (jwtToken.replace(prefix, "").trim().length() == 0) {
-          throw new InvalidJwtTokenException("JWT Token is missing.");
+          throw new JwtException("JWT Token is missing.");
         }
         Claims claims = jwtParser
-            .parseClaimsJws(jwtToken.replace(prefix, ""))
+            .parseClaimsJws(jwtToken.replace(prefix, "").trim())
             .getBody();
         return Long.parseLong(claims.get("userId").toString());
 
       }
-      throw new InvalidJwtTokenException("Token prefix invalid or missing.");
+      throw new JwtException("Token prefix invalid or missing.");
     }
-    throw new InvalidJwtTokenException("JWT Token is missing.");
+    throw new JwtException("JWT Token is missing.");
   }
 }

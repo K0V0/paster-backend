@@ -37,6 +37,6 @@ public class TimeServiceImpl implements TimeService {
   }
 
   public Date getDateAfter(int days) {
-    return new Date(Instant.now().getEpochSecond() * 1000 * 24 * 60 * 60 * days);
+    return new Date(Instant.now().getEpochSecond() * 1000 + 1000L * 60 * 60 * 24 * days);
   }
 }

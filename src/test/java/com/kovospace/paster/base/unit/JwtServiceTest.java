@@ -1,19 +1,17 @@
 package com.kovospace.paster.base.unit;
 
-import com.kovospace.paster.base.exceptions.jwtTokenException.InvalidJwtTokenException;
+import com.kovospace.paster.base.exceptions.jwtException.InvalidJwtTokenException;
 import com.kovospace.paster.base.services.JwtService;
 import com.kovospace.paster.base.services.JwtServiceImpl;
 import com.kovospace.paster.base.services.TimeService;
 import com.kovospace.paster.user.models.User;
-import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;
 import java.nio.charset.StandardCharsets;
-import java.time.Instant;
-import java.util.Date;
 import javax.crypto.SecretKey;
 import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
@@ -91,7 +89,7 @@ public class JwtServiceTest {
   @Order(4)
   public void tokenBearerPrefixIsMissing() {
     Assertions.assertThrows(
-        InvalidJwtTokenException.class,
+        JwtException.class,
         () -> jwtService.parse(jwtToken.replace("bearer ", ""))
     );
   }
@@ -121,7 +119,7 @@ public class JwtServiceTest {
   @Order(7)
   public void tokenIsMissing() {
     Assertions.assertThrows(
-        InvalidJwtTokenException.class,
+        JwtException.class,
         () -> jwtService.parse("")
     );
   }
@@ -130,7 +128,7 @@ public class JwtServiceTest {
   @Order(8)
   public void tokenIsMissing2() {
     Assertions.assertThrows(
-        InvalidJwtTokenException.class,
+        JwtException.class,
         () -> jwtService.parse("bearer")
     );
   }
@@ -139,7 +137,7 @@ public class JwtServiceTest {
   @Order(9)
   public void tokenIsMissing3() {
     Assertions.assertThrows(
-        InvalidJwtTokenException.class,
+        JwtException.class,
         () -> jwtService.parse("bearer ")
     );
   }

@@ -1,10 +1,10 @@
-package com.kovospace.paster.board.controllers;
+package com.kovospace.paster.item.controllers;
 
-import com.kovospace.paster.base.exceptions.JwtTokenException;
-import com.kovospace.paster.board.controllerHelpers.ItemControllerResponder;
-import com.kovospace.paster.board.dtos.ItemRequestDTO;
-import com.kovospace.paster.board.dtos.ItemResponseDTO;
-import com.kovospace.paster.board.dtos.ItemsResponseDTO;
+import com.kovospace.paster.item.controllerHelpers.ItemControllerResponder;
+import com.kovospace.paster.item.dtos.ItemRequestDTO;
+import com.kovospace.paster.item.dtos.ItemResponseDTO;
+import com.kovospace.paster.item.dtos.ItemsResponseDTO;
+import io.jsonwebtoken.JwtException;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +31,7 @@ public class ItemController {
   @GetMapping("/items")
   public ResponseEntity<ItemsResponseDTO> getAll(
       @RequestHeader(value = "Authorization") String token
-  ) throws JwtTokenException {
+  ) throws JwtException {
     return responder.getItems(token);
   }
 
@@ -39,18 +39,19 @@ public class ItemController {
   public ResponseEntity<ItemsResponseDTO> get(
       @RequestHeader(value = "Authorization") String token,
       @PathVariable long id
-  ) throws JwtTokenException {
+  ) throws JwtException {
     //return responder.getItemsList(token);
     return null;
   }
 
   @PostMapping("/item")
-  public ResponseEntity<ItemResponseDTO> add(
+  public ResponseEntity<?> add(
       @RequestHeader(value = "Authorization") String token,
       @Valid ItemRequestDTO dto
-  ) throws JwtTokenException {
+  ) throws JwtException {
+    //System.out.println(token);
     responder.addItem(token, dto);
-    return ResponseEntity.ok(null);
+    return (ResponseEntity<?>) ResponseEntity.ok();
   }
 
   @PutMapping("/item")
@@ -62,7 +63,5 @@ public class ItemController {
   public ResponseEntity<ItemResponseDTO> delete() {
     return null;
   }
-
-
 
 }

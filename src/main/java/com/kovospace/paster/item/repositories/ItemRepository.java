@@ -1,6 +1,6 @@
-package com.kovospace.paster.board.repositories;
+package com.kovospace.paster.item.repositories;
 
-import com.kovospace.paster.board.models.Item;
+import com.kovospace.paster.item.models.Item;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
