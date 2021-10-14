@@ -11,4 +11,5 @@ import org.springframework.context.annotation.Configuration;
 @Setter
 public class BoardValues {
   private int previewLength;
+  private int previewMaxLength;
 }

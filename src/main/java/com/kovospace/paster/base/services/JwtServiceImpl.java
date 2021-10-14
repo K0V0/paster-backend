@@ -6,8 +6,6 @@ import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
-import io.jsonwebtoken.security.SignatureException;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import javax.annotation.PostConstruct;
 import javax.crypto.SecretKey;

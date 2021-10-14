@@ -23,7 +23,7 @@ public class ItemRequestDTO {
   @NotBlank(message = "Nothing pasted.", groups = SecondOrder.class)
   @Size(
       min = 1,
-      max = Integer.MAX_VALUE - 1,
+      max = 4194304,
       message = "Maximum allowed size exceeded.",
       groups = ThirdOrder.class
   )

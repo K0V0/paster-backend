@@ -5,6 +5,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kovospace.paster.base.services.JwtService;
 import com.kovospace.paster.item.dtos.ItemRequestDTO;
@@ -17,12 +18,16 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Stream.generate;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -31,6 +36,9 @@ import org.springframework.test.web.servlet.MockMvc;
 public class ItemControllerAddTest {
 
   private String token;
+
+  @Value("${board.preview-max-length}")
+  private int maxTextLength;
 
   @Autowired
   private MockMvc mockMvc;
@@ -151,8 +159,23 @@ public class ItemControllerAddTest {
         .andExpect(jsonPath("$.messages.text", is("Nothing pasted.")));
   }
 
+  @Test
+  @Order(8)
+  public void maximumSizeReached() throws Exception {
+    String tst = generate(() -> "a").limit(maxTextLength + 1).collect(joining());
+    ItemRequestDTO item = new ItemRequestDTO();
+    item.setText(tst);
 
-
-
+    mockMvc
+        .perform(
+            post("/board/item")
+                .header("Authorization", token)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsBytes(item))
+        )
+        .andExpect(status().is(400))
+        .andExpect(jsonPath("$.messages.length()", is(1)))
+        .andExpect(jsonPath("$.messages.text", is("Maximum allowed size exceeded.")));
+  }
 
 }
