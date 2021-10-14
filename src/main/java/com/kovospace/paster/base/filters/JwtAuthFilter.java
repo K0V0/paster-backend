@@ -27,7 +27,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
       FilterChain filterChain) throws ServletException, IOException {
     String header = request.getHeader("Authorization");
     String token = Optional.ofNullable(header)
-        //.map(t -> t.replace("Bearer", ""))
+        .map(t -> t.replace("Bearer", ""))
         .orElse("");
     System.out.println(token);
     long userId = 0;
@@ -35,10 +35,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
       userId = jwtService.parse(token);
       System.out.println(userId);
     } catch (JwtException e) {
-      System.out.println("jwt parse failewd");
+      // do sth
     }
-    System.out.println("jwt auth filter");
-    System.out.println("---------------------------------------");
 
     SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(
         userId, null, null

@@ -1,5 +1,6 @@
 package com.kovospace.paster.item.dtos;
 
+import com.kovospace.paster.base.dtos.OkResponseDTO;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,6 +11,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ItemsResponseDTO {
+public class ItemsResponseDTO extends OkResponseDTO {
   private List<ItemResponseDTO> items;
 }
