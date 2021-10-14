@@ -1,6 +1,5 @@
 package com.kovospace.paster.base.unit;
 
-import com.kovospace.paster.base.exceptions.jwtException.InvalidJwtTokenException;
 import com.kovospace.paster.base.services.JwtService;
 import com.kovospace.paster.base.services.JwtServiceImpl;
 import com.kovospace.paster.base.services.TimeService;
@@ -61,7 +60,7 @@ public class JwtServiceTest {
 
   @Test
   @Order(2)
-  public void hasValidData() throws InvalidJwtTokenException {
+  public void hasValidData() {
     long userIdFromToken = jwtService.parse(jwtToken);
     /*Claims claims = jwtParser
         .parseClaimsJws(jwtToken.replace("bearer ", ""))

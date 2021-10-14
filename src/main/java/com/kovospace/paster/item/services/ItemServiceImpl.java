@@ -50,7 +50,7 @@ public class ItemServiceImpl implements ItemService {
 
   public void addItem(long userId, String text) {
     User user = userRepo.getById(userId);
-    // exception ak nenajdeny user
+    // TODO exception ak nenajdeny user
     Item item = new Item();
     item.setUser(user);
     item.setText(text);
