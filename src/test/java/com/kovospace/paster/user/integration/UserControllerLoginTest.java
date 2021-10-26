@@ -37,6 +37,8 @@ import org.springframework.test.web.servlet.MvcResult;
 @TestMethodOrder(OrderAnnotation.class)
 public class UserControllerLoginTest {
 
+  private String apiPrefix = "/api/v1";
+
   @Autowired
   private MockMvc mockMvc;
 
@@ -63,7 +65,7 @@ public class UserControllerLoginTest {
        // .getForEntity("http://0.0.0.0:4004/user/logi", ErrorResponseDTO.class);
     //System.out.println(Objects.requireNonNull(errorResponse.getBody()).getMessage());
     MvcResult res = mockMvc
-        .perform(post("/user/logi"))
+        .perform(post( apiPrefix + "/user/logi"))
         .andDo(print())
         .andExpect(status().is(404))
         .andReturn();
@@ -74,7 +76,7 @@ public class UserControllerLoginTest {
   @Order(2)
   public void getRequestNotAllowed() throws Exception {
     mockMvc
-        .perform(get("/user/login"))
+        .perform(get(apiPrefix + "/user/login"))
         .andExpect(status().is(405))
         .andExpect(jsonPath("$.message", is("Wrong HTTP method used.")));
   }
@@ -83,7 +85,7 @@ public class UserControllerLoginTest {
   @Order(3)
   public void requestBodyEmpty() throws Exception {
     mockMvc
-        .perform(post("/user/login"))
+        .perform(post(apiPrefix + "/user/login"))
         .andExpect(status().is(400))
         .andExpect(jsonPath("$.message", is("Request body malformed or missing.")));
   }
@@ -93,7 +95,7 @@ public class UserControllerLoginTest {
   public void requestBodyMalformed() throws Exception {
     mockMvc
         .perform(
-            post("/user/login")
+            post(apiPrefix + "/user/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{kjhmbn}")
         )
@@ -106,7 +108,7 @@ public class UserControllerLoginTest {
   public void requestBodyWrongMediaType() throws Exception {
     mockMvc
         .perform(
-            post("/user/login")
+            post(apiPrefix + "/user/login")
                 .content("{\"name\":\"comrade Testovic\",\"pass\":\"AZ-5\"}")
         )
         .andExpect(status().is(415));
@@ -118,7 +120,7 @@ public class UserControllerLoginTest {
   public void requestJsonEmpty() throws Exception {
     mockMvc
         .perform(
-            post("/user/login")
+            post(apiPrefix + "/user/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{}")
         )
@@ -135,7 +137,7 @@ public class UserControllerLoginTest {
 
     mockMvc
         .perform(
-            post("/user/login")
+            post(apiPrefix + "/user/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsBytes(user))
         )
@@ -154,7 +156,7 @@ public class UserControllerLoginTest {
 
     mockMvc
         .perform(
-            post("/user/login")
+            post(apiPrefix + "/user/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsBytes(user))
         )
@@ -172,7 +174,7 @@ public class UserControllerLoginTest {
 
     mockMvc
         .perform(
-            post("/user/login")
+            post(apiPrefix + "/user/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsBytes(user))
         )
@@ -190,7 +192,7 @@ public class UserControllerLoginTest {
 
     mockMvc
         .perform(
-            post("/user/login")
+            post(apiPrefix + "/user/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsBytes(user))
         )
@@ -207,7 +209,7 @@ public class UserControllerLoginTest {
 
     mockMvc
         .perform(
-            post("/user/login")
+            post(apiPrefix + "/user/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsBytes(user))
         )
@@ -225,7 +227,7 @@ public class UserControllerLoginTest {
 
     mockMvc
         .perform(
-            post("/user/login")
+            post(apiPrefix + "/user/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsBytes(user))
         )
@@ -243,7 +245,7 @@ public class UserControllerLoginTest {
 
     mockMvc
         .perform(
-            post("/user/login")
+            post(apiPrefix + "/user/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsBytes(user))
         )
@@ -261,7 +263,7 @@ public class UserControllerLoginTest {
 
     mockMvc
         .perform(
-            post("/user/login")
+            post(apiPrefix + "/user/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsBytes(user))
         )
@@ -278,7 +280,7 @@ public class UserControllerLoginTest {
 
     mockMvc
         .perform(
-            post("/user/login")
+            post(apiPrefix + "/user/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsBytes(user))
         )
@@ -297,7 +299,7 @@ public class UserControllerLoginTest {
 
     mockMvc
         .perform(
-            post("/user/login")
+            post(apiPrefix + "/user/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsBytes(user))
         )
@@ -315,7 +317,7 @@ public class UserControllerLoginTest {
 
     mockMvc
         .perform(
-            post("/user/login")
+            post(apiPrefix + "/user/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsBytes(user))
         )
@@ -333,7 +335,7 @@ public class UserControllerLoginTest {
 
     mockMvc
         .perform(
-            post("/user/login")
+            post(apiPrefix + "/user/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsBytes(user))
         )
@@ -351,7 +353,7 @@ public class UserControllerLoginTest {
 
     mockMvc
         .perform(
-            post("/user/login")
+            post(apiPrefix + "/user/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsBytes(user))
         )
@@ -373,7 +375,7 @@ public class UserControllerLoginTest {
 
     mockMvc
         .perform(
-            post("/user/login")
+            post(apiPrefix + "/user/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsBytes(user))
         )
@@ -401,7 +403,7 @@ public class UserControllerLoginTest {
 
     mockMvc
         .perform(
-            post("/user/login")
+            post(apiPrefix + "/user/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsBytes(user))
         )

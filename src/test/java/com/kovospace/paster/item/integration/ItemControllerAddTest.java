@@ -40,6 +40,9 @@ public class ItemControllerAddTest {
   @Value("${board.preview-max-length}")
   private int maxTextLength;
 
+  @Value("${jwt.prefix}")
+  private String prefix;
+
   @Autowired
   private MockMvc mockMvc;
 
@@ -176,6 +179,23 @@ public class ItemControllerAddTest {
         .andExpect(status().is(400))
         .andExpect(jsonPath("$.messages.length()", is(1)))
         .andExpect(jsonPath("$.messages.text", is("Maximum allowed size exceeded.")));
+  }
+
+  @Test
+  @Order(9)
+  public void itemSaved() throws Exception {
+    String tst = generate(() -> "a").limit(maxTextLength - 1).collect(joining());
+    ItemRequestDTO item = new ItemRequestDTO();
+    item.setText(tst);
+
+    mockMvc
+        .perform(
+            post("/board/item")
+                .header("Authorization", prefix + " " + token)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsBytes(item))
+        )
+        .andExpect(status().is(201));
   }
 
 }
