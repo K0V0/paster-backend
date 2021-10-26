@@ -29,11 +29,11 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     String token = Optional.ofNullable(header)
         .map(t -> t.replace("Bearer", ""))
         .orElse("");
-    System.out.println(token);
+    //System.out.println(token);
     long userId = 0;
     try {
       userId = jwtService.parse(token);
-      System.out.println(userId);
+      //System.out.println(userId);
     } catch (JwtException e) {
       // do sth
     }

@@ -57,8 +57,8 @@ public class JwtServiceImpl implements JwtService {
 
   @Override
   public long parse(String jwtToken) throws JwtException {
-    System.out.println(privateKey);
-    System.out.println("================================");
+    //System.out.println(privateKey);
+    //System.out.println("================================");
     if (jwtToken != null) {
       if (jwtToken.startsWith(prefix)) {
         if (jwtToken.replace(prefix, "").trim().length() == 0) {

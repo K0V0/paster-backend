@@ -2,6 +2,7 @@ package com.kovospace.paster.item.models;
 
 import com.kovospace.paster.user.models.User;
 import java.util.Date;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -24,6 +25,7 @@ public class Item {
   @ManyToOne
   private User user;
 
+  @Column(length = 4194304)
   private String text;
 
   @CreationTimestamp

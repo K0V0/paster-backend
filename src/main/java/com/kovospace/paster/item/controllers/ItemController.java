@@ -52,7 +52,7 @@ public class ItemController {
       @Valid @RequestBody ItemRequestDTO dto
   ) throws JwtException {
     responder.addItem(token, dto);
-    return new ResponseEntity<>(HttpStatus.OK);
+    return new ResponseEntity<>(HttpStatus.CREATED);
   }
 
   @PutMapping("/item")
