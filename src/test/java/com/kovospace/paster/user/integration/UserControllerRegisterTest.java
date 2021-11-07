@@ -35,6 +35,8 @@ import org.springframework.test.web.servlet.MockMvc;
 @TestMethodOrder(OrderAnnotation.class)
 public class UserControllerRegisterTest {
 
+  private String apiPrefix = "/api/v1";
+
   @Autowired
   private MockMvc mockMvc;
 
@@ -54,7 +56,7 @@ public class UserControllerRegisterTest {
   @Order(1)
   public void endpointFound() throws Exception {
     mockMvc
-        .perform(post("/user/register"))
+        .perform(post(apiPrefix + "/user/register"))
         .andExpect(status().is(400));
   }
 
@@ -62,7 +64,7 @@ public class UserControllerRegisterTest {
   @Order(2)
   public void getRequestNotAllowed() throws Exception {
     mockMvc
-        .perform(get("/user/register"))
+        .perform(get(apiPrefix + "/user/register"))
         .andExpect(status().is(405))
         .andExpect(jsonPath("$.message", is("Wrong HTTP method used.")));
   }
@@ -71,7 +73,7 @@ public class UserControllerRegisterTest {
   @Order(3)
   public void requestBodyEmpty() throws Exception {
     mockMvc
-        .perform(post("/user/register"))
+        .perform(post(apiPrefix + "/user/register"))
         .andExpect(status().is(400))
         .andExpect(jsonPath("$.message", is("Request body malformed or missing.")));
   }
@@ -81,7 +83,7 @@ public class UserControllerRegisterTest {
   public void requestBodyMalformed() throws Exception {
     mockMvc
         .perform(
-            post("/user/register")
+            post(apiPrefix + "/user/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{kjhmbn}")
         )
@@ -94,7 +96,7 @@ public class UserControllerRegisterTest {
   public void requestBodyWrongMediaType() throws Exception {
     mockMvc
         .perform(
-            post("/user/register")
+            post(apiPrefix + "/user/register")
                 .content("{\"name\":\"comrade Testovic\",\"pass\":\"AZ-5\",\"pass2\":\"AZ-5\"}")
         )
         .andExpect(status().is(415));
@@ -106,7 +108,7 @@ public class UserControllerRegisterTest {
   public void requestJsonEmpty() throws Exception {
     mockMvc
         .perform(
-            post("/user/register")
+            post(apiPrefix + "/user/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{}")
         )
@@ -124,7 +126,7 @@ public class UserControllerRegisterTest {
 
     mockMvc
         .perform(
-            post("/user/register")
+            post(apiPrefix + "/user/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsBytes(user))
         )
@@ -145,7 +147,7 @@ public class UserControllerRegisterTest {
 
     mockMvc
         .perform(
-            post("/user/register")
+            post(apiPrefix + "/user/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsBytes(user))
         )
@@ -165,7 +167,7 @@ public class UserControllerRegisterTest {
 
     mockMvc
         .perform(
-            post("/user/register")
+            post(apiPrefix + "/user/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsBytes(user))
         )
@@ -184,7 +186,7 @@ public class UserControllerRegisterTest {
 
     mockMvc
         .perform(
-            post("/user/register")
+            post(apiPrefix + "/user/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsBytes(user))
         )
@@ -202,7 +204,7 @@ public class UserControllerRegisterTest {
 
     mockMvc
         .perform(
-            post("/user/register")
+            post(apiPrefix + "/user/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsBytes(user))
         )
@@ -221,7 +223,7 @@ public class UserControllerRegisterTest {
 
     mockMvc
         .perform(
-            post("/user/register")
+            post(apiPrefix + "/user/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsBytes(user))
         )
@@ -239,7 +241,7 @@ public class UserControllerRegisterTest {
 
     mockMvc
         .perform(
-            post("/user/register")
+            post(apiPrefix + "/user/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsBytes(user))
         )
@@ -258,7 +260,7 @@ public class UserControllerRegisterTest {
 
     mockMvc
         .perform(
-            post("/user/register")
+            post(apiPrefix + "/user/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsBytes(user))
         )
@@ -277,7 +279,7 @@ public class UserControllerRegisterTest {
 
     mockMvc
         .perform(
-            post("/user/register")
+            post(apiPrefix + "/user/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsBytes(user))
         )
@@ -296,7 +298,7 @@ public class UserControllerRegisterTest {
 
     mockMvc
         .perform(
-            post("/user/register")
+            post(apiPrefix + "/user/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsBytes(user))
         )
@@ -315,7 +317,7 @@ public class UserControllerRegisterTest {
 
     mockMvc
         .perform(
-            post("/user/register")
+            post(apiPrefix + "/user/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsBytes(user))
         )
@@ -334,7 +336,7 @@ public class UserControllerRegisterTest {
 
     mockMvc
         .perform(
-            post("/user/register")
+            post(apiPrefix + "/user/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsBytes(user))
         )
@@ -353,7 +355,7 @@ public class UserControllerRegisterTest {
 
     mockMvc
         .perform(
-            post("/user/register")
+            post(apiPrefix + "/user/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsBytes(user))
         )
@@ -372,7 +374,7 @@ public class UserControllerRegisterTest {
 
     mockMvc
         .perform(
-            post("/user/register")
+            post(apiPrefix + "/user/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsBytes(user))
         )
@@ -391,7 +393,7 @@ public class UserControllerRegisterTest {
 
     mockMvc
         .perform(
-            post("/user/register")
+            post(apiPrefix + "/user/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsBytes(user))
         )
@@ -411,7 +413,7 @@ public class UserControllerRegisterTest {
 
     mockMvc
         .perform(
-            post("/user/register")
+            post(apiPrefix + "/user/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsBytes(user))
         )
@@ -430,7 +432,7 @@ public class UserControllerRegisterTest {
 
     mockMvc
         .perform(
-            post("/user/register")
+            post(apiPrefix + "/user/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsBytes(user))
         )
@@ -449,7 +451,7 @@ public class UserControllerRegisterTest {
 
     mockMvc
         .perform(
-            post("/user/register")
+            post(apiPrefix + "/user/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsBytes(user))
         )
@@ -468,7 +470,7 @@ public class UserControllerRegisterTest {
 
     mockMvc
         .perform(
-            post("/user/register")
+            post(apiPrefix + "/user/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsBytes(user))
         )
@@ -491,7 +493,7 @@ public class UserControllerRegisterTest {
 
     mockMvc
         .perform(
-            post("/user/register")
+            post(apiPrefix + "/user/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsBytes(user))
         )
@@ -514,7 +516,7 @@ public class UserControllerRegisterTest {
 
     mockMvc
         .perform(
-            post("/user/register")
+            post(apiPrefix + "/user/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsBytes(user))
         )
