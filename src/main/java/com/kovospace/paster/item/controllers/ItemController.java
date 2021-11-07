@@ -1,5 +1,6 @@
 package com.kovospace.paster.item.controllers;
 
+import com.kovospace.paster.base.controllers.BaseController;
 import com.kovospace.paster.item.controllerHelpers.ItemControllerResponder;
 import com.kovospace.paster.item.dtos.ItemRequestDTO;
 import com.kovospace.paster.item.dtos.ItemResponseDTO;
@@ -21,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/v1/board")
-public class ItemController {
+public class ItemController extends BaseController {
 
   private ItemControllerResponder responder;
 
