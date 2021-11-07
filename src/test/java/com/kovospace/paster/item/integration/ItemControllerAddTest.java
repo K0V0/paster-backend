@@ -5,7 +5,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kovospace.paster.base.services.JwtService;
 import com.kovospace.paster.item.dtos.ItemRequestDTO;
@@ -35,6 +34,7 @@ import static java.util.stream.Stream.generate;
 @TestMethodOrder(OrderAnnotation.class)
 public class ItemControllerAddTest {
 
+  private String apiPrefix = "/api/v1";
   private String token;
 
   @Value("${board.preview-max-length}")
@@ -73,7 +73,7 @@ public class ItemControllerAddTest {
   @Order(1)
   public void unauthorizedRequestNotOK() throws Exception {
     mockMvc
-        .perform(post("/board/item"))
+        .perform(post(apiPrefix + "/board/item"))
         .andExpect(status().is(401))
         .andExpect(jsonPath("$.status", is("error")))
         .andExpect(jsonPath("$.message", is("Missing Authentication header.")));
@@ -83,7 +83,7 @@ public class ItemControllerAddTest {
   @Order(2)
   public void requestBodyEmpty() throws Exception {
     mockMvc
-        .perform(post("/board/item")
+        .perform(post(apiPrefix + "/board/item")
             .header("Authorization", token))
         .andExpect(status().is(400))
         .andExpect(jsonPath("$.message", is("Request body malformed or missing.")));
@@ -93,7 +93,7 @@ public class ItemControllerAddTest {
   @Order(3)
   public void requestBodyMalformed() throws Exception {
     mockMvc
-        .perform(post("/board/item")
+        .perform(post(apiPrefix + "/board/item")
             .header("Authorization", token)
             .contentType(MediaType.APPLICATION_JSON)
             .content("{kjhmbn}"))
@@ -106,7 +106,7 @@ public class ItemControllerAddTest {
   public void requestBodyWrongMediaType() throws Exception {
     mockMvc
         .perform(
-            post("/board/item")
+            post(apiPrefix + "/board/item")
                 .header("Authorization", token)
                 .content("{\"text\":\"bla bla bla\"}"))
         .andExpect(status().is(415));
@@ -118,7 +118,7 @@ public class ItemControllerAddTest {
   public void requestJsonEmpty() throws Exception {
     mockMvc
         .perform(
-            post("/board/item")
+            post(apiPrefix + "/board/item")
                 .header("Authorization", token)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{}"))
@@ -134,7 +134,7 @@ public class ItemControllerAddTest {
 
     mockMvc
         .perform(
-            post("/board/item")
+            post(apiPrefix + "/board/item")
                 .header("Authorization", token)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsBytes(item))
@@ -152,7 +152,7 @@ public class ItemControllerAddTest {
 
     mockMvc
         .perform(
-            post("/board/item")
+            post(apiPrefix + "/board/item")
                 .header("Authorization", token)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsBytes(item))
@@ -171,7 +171,7 @@ public class ItemControllerAddTest {
 
     mockMvc
         .perform(
-            post("/board/item")
+            post(apiPrefix + "/board/item")
                 .header("Authorization", token)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsBytes(item))
@@ -190,7 +190,7 @@ public class ItemControllerAddTest {
 
     mockMvc
         .perform(
-            post("/board/item")
+            post(apiPrefix + "/board/item")
                 .header("Authorization", prefix + " " + token)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsBytes(item))
