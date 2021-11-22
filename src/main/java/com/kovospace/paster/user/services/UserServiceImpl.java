@@ -40,12 +40,13 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public User register(String name, String pass, String pass2) throws UserException {
+  public User register(String name, String pass, String pass2, String email) throws UserException {
     if (!(pass.equals(pass2))) { throw new UserRegisterPasswordsNotMatchException(); }
     if (repo.findFirstByName(name).isPresent()) { throw new UserRegisterAlreadyOccupiedException(); }
     User user = new User();
     user.setName(name);
     user.setPasword(encoder.encode(pass));
+    user.setEmail(email);
     repo.save(user);
     user.setJwtToken(jwtService.generate(user));
     return user;

@@ -26,6 +26,8 @@ public class User {
 
   private String pasword;
 
+  private String email;
+
   @OneToMany(mappedBy = "user")
   private List<Item> items;
 

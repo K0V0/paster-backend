@@ -39,7 +39,7 @@ public class UserControllerResponderImpl implements UserControllerResponder {
       throws UserException {
     return new ResponseEntity<>(
         modelMapper.map(
-            userService.register(dto.getName(), dto.getPass(), dto.getPass2()),
+            userService.register(dto.getName(), dto.getPass(), dto.getPass2(), dto.getEmail()),
             UserLoginResponseDTO.class
         ),
         HttpStatus.CREATED

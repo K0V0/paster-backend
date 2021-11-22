@@ -526,4 +526,6 @@ public class UserControllerRegisterTest {
     userRepository.deleteAll();
   }
 
+  //TODO testy pre e-mail adresy
+
 }
