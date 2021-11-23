@@ -113,15 +113,16 @@ public class UserControllerRegisterTest {
                 .content("{}")
         )
         .andExpect(status().is(400))
-        .andExpect(jsonPath("$.messages.length()", is(3)))
+        .andExpect(jsonPath("$.messages.length()", is(4)))
         .andExpect(jsonPath("$.messages.name", is("Username is required.")))
         .andExpect(jsonPath("$.messages.pass", is("Password is required.")))
-        .andExpect(jsonPath("$.messages.pass2", is("Password confirmation is required.")));
+        .andExpect(jsonPath("$.messages.pass2", is("Password confirmation is required.")))
+        .andExpect(jsonPath("$.messages.email", is("E-mail is required.")));
   }
 
   @Test
   @Order(7)
-  public void usernameAndPasswordsNull() throws Exception {
+  public void usernameAndPasswordsAndEmailNull() throws Exception {
     UserRegisterRequestDTO user = new UserRegisterRequestDTO();
 
     mockMvc
@@ -131,19 +132,21 @@ public class UserControllerRegisterTest {
                 .content(objectMapper.writeValueAsBytes(user))
         )
         .andExpect(status().is(400))
-        .andExpect(jsonPath("$.messages.length()", is(3)))
+        .andExpect(jsonPath("$.messages.length()", is(4)))
         .andExpect(jsonPath("$.messages.name", is("Username is required.")))
         .andExpect(jsonPath("$.messages.pass", is("Password is required.")))
-        .andExpect(jsonPath("$.messages.pass2", is("Password confirmation is required.")));
+        .andExpect(jsonPath("$.messages.pass2", is("Password confirmation is required.")))
+        .andExpect(jsonPath("$.messages.email", is("E-mail is required.")));
   }
 
   @Test
   @Order(8)
-  public void usernameAndPasswordsEmpty() throws Exception {
+  public void usernameAndPasswordsAndEmailEmpty() throws Exception {
     UserRegisterRequestDTO user = new UserRegisterRequestDTO();
     user.setName("");
     user.setPass("");
     user.setPass2("");
+    user.setEmail("");
 
     mockMvc
         .perform(
@@ -152,10 +155,11 @@ public class UserControllerRegisterTest {
                 .content(objectMapper.writeValueAsBytes(user))
         )
         .andExpect(status().is(400))
-        .andExpect(jsonPath("$.messages.length()", is(3)))
+        .andExpect(jsonPath("$.messages.length()", is(4)))
         .andExpect(jsonPath("$.messages.name", is("Username field is empty.")))
         .andExpect(jsonPath("$.messages.pass", is("Password field is empty.")))
-        .andExpect(jsonPath("$.messages.pass2", is("Password confirmation field is empty.")));
+        .andExpect(jsonPath("$.messages.pass2", is("Password confirmation field is empty.")))
+        .andExpect(jsonPath("$.messages.email", is("E-mail field is empty.")));
   }
 
   @Test
@@ -164,6 +168,7 @@ public class UserControllerRegisterTest {
     UserRegisterRequestDTO user = new UserRegisterRequestDTO();
     user.setPass("12345678");
     user.setPass2("12345678");
+    user.setEmail("comrade.testovic@dym.bar");
 
     mockMvc
         .perform(
@@ -183,6 +188,7 @@ public class UserControllerRegisterTest {
     user.setName("");
     user.setPass("12345678");
     user.setPass2("12345678");
+    user.setEmail("comrade.testovic@dym.bar");
 
     mockMvc
         .perform(
@@ -201,6 +207,7 @@ public class UserControllerRegisterTest {
     UserRegisterRequestDTO user = new UserRegisterRequestDTO();
     user.setName("comrade_testovic");
     user.setPass2("12345678");
+    user.setEmail("comrade.testovic@dym.bar");
 
     mockMvc
         .perform(
@@ -220,6 +227,7 @@ public class UserControllerRegisterTest {
     user.setName("comrade_testovic");
     user.setPass("");
     user.setPass2("12345678");
+    user.setEmail("comrade.testovic@dym.bar");
 
     mockMvc
         .perform(
@@ -238,6 +246,7 @@ public class UserControllerRegisterTest {
     UserRegisterRequestDTO user = new UserRegisterRequestDTO();
     user.setName("comrade_testovic");
     user.setPass("12345678");
+    user.setEmail("comrade.testovic@dym.bar");
 
     mockMvc
         .perform(
@@ -257,6 +266,7 @@ public class UserControllerRegisterTest {
     user.setName("comrade_testovic");
     user.setPass("12345678");
     user.setPass2("");
+    user.setEmail("comrade.testovic@dym.bar");
 
     mockMvc
         .perform(
@@ -276,6 +286,7 @@ public class UserControllerRegisterTest {
     user.setName("       ");
     user.setPass("12345678");
     user.setPass2("12345678");
+    user.setEmail("comrade.testovic@dym.bar");
 
     mockMvc
         .perform(
@@ -295,6 +306,7 @@ public class UserControllerRegisterTest {
     user.setName("comrade_testovic");
     user.setPass("       ");
     user.setPass2("12345678");
+    user.setEmail("comrade.testovic@dym.bar");
 
     mockMvc
         .perform(
@@ -314,6 +326,7 @@ public class UserControllerRegisterTest {
     user.setName("comrade_testovic");
     user.setPass("12345678");
     user.setPass2("       ");
+    user.setEmail("comrade.testovic@dym.bar");
 
     mockMvc
         .perform(
@@ -333,6 +346,7 @@ public class UserControllerRegisterTest {
     user.setName(" comrade_testovic");
     user.setPass("12345678");
     user.setPass2("12345678");
+    user.setEmail("comrade.testovic@dym.bar");
 
     mockMvc
         .perform(
@@ -352,6 +366,7 @@ public class UserControllerRegisterTest {
     user.setName("comrade testovic");
     user.setPass("12345678");
     user.setPass2("12345678");
+    user.setEmail("comrade.testovic@dym.bar");
 
     mockMvc
         .perform(
@@ -371,6 +386,7 @@ public class UserControllerRegisterTest {
     user.setName("comrade_testovic ");
     user.setPass("12345678");
     user.setPass2("12345678");
+    user.setEmail("comrade.testovic@dym.bar");
 
     mockMvc
         .perform(
@@ -390,6 +406,7 @@ public class UserControllerRegisterTest {
     user.setName("com#rade_te/sto?vic");
     user.setPass("12345678");
     user.setPass2("12345678");
+    user.setEmail("comrade.testovic@dym.bar");
 
     mockMvc
         .perform(
@@ -410,6 +427,7 @@ public class UserControllerRegisterTest {
     user.setName("comrade_testovic");
     user.setPass("1234567");
     user.setPass2("1234567");
+    user.setEmail("comrade.testovic@dym.bar");
 
     mockMvc
         .perform(
@@ -429,6 +447,7 @@ public class UserControllerRegisterTest {
     user.setName("comrade_testovic");
     user.setPass(" 1234567");
     user.setPass2(" 1234567");
+    user.setEmail("comrade.testovic@dym.bar");
 
     mockMvc
         .perform(
@@ -448,6 +467,7 @@ public class UserControllerRegisterTest {
     user.setName("comrade_testovic");
     user.setPass("1234567 ");
     user.setPass2("1234567 ");
+    user.setEmail("comrade.testovic@dym.bar");
 
     mockMvc
         .perform(
@@ -467,6 +487,7 @@ public class UserControllerRegisterTest {
     user.setName("comrade_testovic");
     user.setPass("12345678");
     user.setPass2("12345679");
+    user.setEmail("comrade.testovic@dym.bar");
 
     mockMvc
         .perform(
@@ -485,6 +506,7 @@ public class UserControllerRegisterTest {
     user.setName("comrade_testovic");
     user.setPass("12345678");
     user.setPass2("12345678");
+    user.setEmail("comrade.testovic@dym.bar");
 
     User dbUser = new User();
     dbUser.setName("comrade_testovic");
@@ -510,6 +532,7 @@ public class UserControllerRegisterTest {
     user.setName("comrade_testovic");
     user.setPass("12345678");
     user.setPass2("12345678");
+    user.setEmail("comrade.testovic@dym.bar");
     String jwtToken = "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjJ9.Puh4y7UM2bdCuqyQOK-iyOwloMGPOskNwfjjKZ2jDQ8";
 
     Mockito.when(timeService.getTime()).thenReturn(1234567890L);

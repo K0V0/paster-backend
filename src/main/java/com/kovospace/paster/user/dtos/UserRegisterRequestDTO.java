@@ -52,7 +52,7 @@ public class UserRegisterRequestDTO {
   @NotBlank(message = "Password confirmation field is empty.", groups = SecondOrder.class)
   private String pass2;
 
-  @NotNull(message = "E-mail is required", groups = FirstOrder.class)
+  @NotNull(message = "E-mail is required.", groups = FirstOrder.class)
   @NotBlank(message = "E-mail field is empty.", groups = SecondOrder.class)
   @Pattern(
       regexp = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$",
