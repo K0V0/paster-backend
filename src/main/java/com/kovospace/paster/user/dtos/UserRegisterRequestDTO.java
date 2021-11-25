@@ -62,3 +62,5 @@ public class UserRegisterRequestDTO {
   private String email;
 
 }
+
+//TODO najst sposob kde dat stringy, pripadne s I18n
