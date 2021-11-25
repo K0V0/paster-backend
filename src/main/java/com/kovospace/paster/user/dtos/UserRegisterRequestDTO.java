@@ -7,6 +7,7 @@ import com.kovospace.paster.base.dtoHelpers.SecondOrder;
 import com.kovospace.paster.base.dtoHelpers.SeventhOrder;
 import com.kovospace.paster.base.dtoHelpers.SixthOrder;
 import com.kovospace.paster.base.dtoHelpers.ThirdOrder;
+import com.kovospace.paster.base.dtos.RequestDTO;
 import javax.validation.GroupSequence;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -15,8 +16,8 @@ import javax.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
-@Setter
+/*@Getter
+@Setter*/
 @GroupSequence({
     UserRegisterRequestDTO.class,
     FirstOrder.class,
@@ -27,7 +28,7 @@ import lombok.Setter;
     SixthOrder.class,
     SeventhOrder.class
 })
-public class UserRegisterRequestDTO {
+public class UserRegisterRequestDTO extends RequestDTO {
 
   @NotNull(message = "Username is required.", groups = FirstOrder.class)
   @NotBlank(message = "Username field is empty.", groups = SecondOrder.class)
@@ -61,4 +62,37 @@ public class UserRegisterRequestDTO {
   )
   private String email;
 
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public String getPass() {
+    return pass;
+  }
+
+  public void setPass(String pass) {
+    this.pass = pass;
+  }
+
+  public String getPass2() {
+    return pass2;
+  }
+
+  public void setPass2(String pass2) {
+    this.pass2 = pass2;
+  }
+
+  public String getEmail() {
+    return email;
+  }
+
+  public void setEmail(String email) {
+    this.email = email;
+  }
 }
+
+//TODO najst sposob kde dat stringy, pripadne s I18n
