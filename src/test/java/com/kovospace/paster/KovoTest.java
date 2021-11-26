@@ -4,9 +4,11 @@ import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.util.StringUtils.capitalize;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kovospace.paster.user.dtos.UserRegisterRequestDTO;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.function.Function;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.TestMethodOrder;
@@ -43,10 +45,45 @@ public abstract class KovoTest {
   protected abstract String getEndpoint();
   protected abstract String getApiPrefix();
 
-  protected abstract class DtoPreparer implements Function<String, Object> {
-    protected Object dto;
-    public DtoPreparer() { this.dto = new Object(); }
-    public abstract String getFieldName();
+  protected abstract class DtoPreparer<T> implements Function<String, T> {
+    protected T dto;
+    protected String field;
+
+    private DtoPreparer() {
+      // TODO find out how to create instance here
+    }
+
+    public DtoPreparer(String field) {
+      this();
+      this.field = field;
+    }
+
+    /*private T createInstance(Class<T> klazz) {
+      try {
+        return klazz.newInstance();
+      } catch (InstantiationException | IllegalAccessException e) {
+        e.printStackTrace();
+      }
+      return null;
+    }*/
+
+    protected abstract void modify(T dto);
+
+    @Override
+    public T apply(String s) {
+      modify(dto);
+      try {
+        Method method = dto.getClass().getMethod("set" + capitalize(field), String.class);
+        method.invoke(dto, s);
+      } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+        e.printStackTrace();
+      }
+      return dto;
+    }
+
+    public String getField() {
+      return field;
+    }
   }
 
   protected void assertFieldErrorMsg(
@@ -59,7 +96,7 @@ public abstract class KovoTest {
         )
         .andExpect(status().is(400))
         .andExpect(jsonPath("$.messages.length()", is(1)))
-        .andExpect(jsonPath("$.messages." + dtoPreparer.getFieldName(), is(message)));
+        .andExpect(jsonPath("$.messages." + dtoPreparer.getField(), is(message)));
   }
 
 }

@@ -21,6 +21,24 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 public class UserControllerRegisterTest extends KovoTest {
 
+  private class UserRegisterDtoPreparer extends DtoPreparer<UserRegisterRequestDTO> {
+    public UserRegisterDtoPreparer(String field) {
+      super(field);
+      dto = new UserRegisterRequestDTO();
+      dto.setName("Comrade_Testovic");
+      dto.setPass("12345678");
+      dto.setPass2("12345678");
+      dto.setEmail("comrade.testovic@dym.bar");
+    }
+    @Override
+    protected void modify(UserRegisterRequestDTO dto) {
+      // doing nothing, just wasted to not inherit it into childrens
+    }
+  }
+
+  private final UserRegisterDtoPreparer emailDtoPreparer = new UserRegisterDtoPreparer("email");
+  private final UserRegisterDtoPreparer nameDtoPreparer = new UserRegisterDtoPreparer("name");
+
   @Override
   protected String getEndpoint() {
     return "/user/register";
@@ -29,29 +47,6 @@ public class UserControllerRegisterTest extends KovoTest {
   @Override
   protected String getApiPrefix() {
     return "/api/v1";
-  }
-
-  private abstract class UserRegisterDtoPreparer extends DtoPreparer {
-    protected UserRegisterRequestDTO dto;
-    public UserRegisterDtoPreparer() {
-      dto = new UserRegisterRequestDTO();
-      dto.setName("Comrade_Testovic");
-      dto.setPass("12345678");
-      dto.setPass2("12345678");
-      dto.setEmail("comrade.testovic@dym.bar");
-    }
-  }
-
-  private class EmailDtoPreparer extends UserRegisterDtoPreparer {
-    @Override
-    public UserRegisterRequestDTO apply(String s) {
-      this.dto.setEmail(s);
-      return this.dto;
-    }
-    @Override
-    public String getFieldName() {
-      return "email";
-    }
   }
 
   @Autowired
@@ -176,40 +171,13 @@ public class UserControllerRegisterTest extends KovoTest {
   @Test
   @Order(9)
   public void usernameNull() throws Exception {
-    UserRegisterRequestDTO user = new UserRegisterRequestDTO();
-    user.setPass("12345678");
-    user.setPass2("12345678");
-    user.setEmail("comrade.testovic@dym.bar");
-
-    mockMvc
-        .perform(
-            post(API_PREFIX + "/user/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsBytes(user))
-        )
-        .andExpect(status().is(400))
-        .andExpect(jsonPath("$.messages.length()", is(1)))
-        .andExpect(jsonPath("$.messages.name", is("Username is required.")));
+    assertFieldErrorMsg(null, "Username is required.", nameDtoPreparer);
   }
 
   @Test
   @Order(10)
   public void usernameEmpty() throws Exception {
-    UserRegisterRequestDTO user = new UserRegisterRequestDTO();
-    user.setName("");
-    user.setPass("12345678");
-    user.setPass2("12345678");
-    user.setEmail("comrade.testovic@dym.bar");
-
-    mockMvc
-        .perform(
-            post(API_PREFIX + "/user/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsBytes(user))
-        )
-        .andExpect(status().is(400))
-        .andExpect(jsonPath("$.messages.length()", is(1)))
-        .andExpect(jsonPath("$.messages.name", is("Username field is empty.")));
+    assertFieldErrorMsg("", "Username field is empty.", nameDtoPreparer);
   }
 
   @Test
@@ -293,21 +261,7 @@ public class UserControllerRegisterTest extends KovoTest {
   @Test
   @Order(15)
   public void usernameIsJustSpaces() throws Exception {
-    UserRegisterRequestDTO user = new UserRegisterRequestDTO();
-    user.setName("       ");
-    user.setPass("12345678");
-    user.setPass2("12345678");
-    user.setEmail("comrade.testovic@dym.bar");
-
-    mockMvc
-        .perform(
-            post(API_PREFIX + "/user/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsBytes(user))
-        )
-        .andExpect(status().is(400))
-        .andExpect(jsonPath("$.messages.length()", is(1)))
-        .andExpect(jsonPath("$.messages.name", is("Username field is empty.")));
+    assertFieldErrorMsg("     ", "Username field is empty.", nameDtoPreparer);
   }
 
   @Test
@@ -353,21 +307,7 @@ public class UserControllerRegisterTest extends KovoTest {
   @Test
   @Order(18)
   public void usernameBeginWithSpace() throws Exception {
-    UserRegisterRequestDTO user = new UserRegisterRequestDTO();
-    user.setName(" comrade_testovic");
-    user.setPass("12345678");
-    user.setPass2("12345678");
-    user.setEmail("comrade.testovic@dym.bar");
-
-    mockMvc
-        .perform(
-            post(API_PREFIX + "/user/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsBytes(user))
-        )
-        .andExpect(status().is(400))
-        .andExpect(jsonPath("$.messages.length()", is(1)))
-        .andExpect(jsonPath("$.messages.name", is("Your username begins with space.")));
+    assertFieldErrorMsg(" comrade_testovic", "Your username begins with space.", nameDtoPreparer);
   }
 
   @Test
@@ -571,8 +511,6 @@ public class UserControllerRegisterTest extends KovoTest {
   public void userEmailEmpty() throws Exception {
     assertFieldErrorMsg("", "E-mail field is empty.", emailDtoPreparer);
   }
-
-  private final EmailDtoPreparer emailDtoPreparer = new EmailDtoPreparer();
 
   @Test
   @Order(30)

@@ -4,6 +4,7 @@ import com.kovospace.paster.base.dtoHelpers.FirstOrder;
 import com.kovospace.paster.base.dtoHelpers.FourthOrder;
 import com.kovospace.paster.base.dtoHelpers.SecondOrder;
 import com.kovospace.paster.base.dtoHelpers.ThirdOrder;
+import com.kovospace.paster.base.dtos.RequestDTO;
 import javax.validation.GroupSequence;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -21,7 +22,7 @@ import lombok.Setter;
     ThirdOrder.class,
     FourthOrder.class
 })
-public class UserLoginRequestDTO {
+public class UserLoginRequestDTO extends RequestDTO {
 
   @NotNull(message = "Username is required.", groups = FirstOrder.class)
   @NotBlank(message = "Username field is empty.", groups = SecondOrder.class)
