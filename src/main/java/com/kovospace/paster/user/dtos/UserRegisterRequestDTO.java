@@ -16,8 +16,8 @@ import javax.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
-/*@Getter
-@Setter*/
+@Getter
+@Setter
 @GroupSequence({
     UserRegisterRequestDTO.class,
     FirstOrder.class,
@@ -32,6 +32,7 @@ public class UserRegisterRequestDTO extends RequestDTO {
 
   @NotNull(message = "Username is required.", groups = FirstOrder.class)
   @NotBlank(message = "Username field is empty.", groups = SecondOrder.class)
+  @Pattern(regexp = "(^\\S+.+)|(.+\\S+$)", message = "Your username is surrounded with space(s).", groups = ThirdOrder.class)
   @Pattern(regexp = "^\\S+.+", message = "Your username begins with space.", groups = FourthOrder.class)
   @Pattern(regexp = ".+\\S+$", message = "Your username ends with space.", groups = FifthOrder.class)
   @Pattern(regexp = "^\\S+$", message = "Your username contains space(s).", groups = SixthOrder.class)
@@ -62,37 +63,6 @@ public class UserRegisterRequestDTO extends RequestDTO {
   )
   private String email;
 
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public String getPass() {
-    return pass;
-  }
-
-  public void setPass(String pass) {
-    this.pass = pass;
-  }
-
-  public String getPass2() {
-    return pass2;
-  }
-
-  public void setPass2(String pass2) {
-    this.pass2 = pass2;
-  }
-
-  public String getEmail() {
-    return email;
-  }
-
-  public void setEmail(String email) {
-    this.email = email;
-  }
 }
 
 //TODO najst sposob kde dat stringy, pripadne s I18n

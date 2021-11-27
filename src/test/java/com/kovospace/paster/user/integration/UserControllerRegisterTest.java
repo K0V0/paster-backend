@@ -38,6 +38,8 @@ public class UserControllerRegisterTest extends KovoTest {
 
   private final UserRegisterDtoPreparer emailDtoPreparer = new UserRegisterDtoPreparer("email");
   private final UserRegisterDtoPreparer nameDtoPreparer = new UserRegisterDtoPreparer("name");
+  private final UserRegisterDtoPreparer passDtoPreparer = new UserRegisterDtoPreparer("pass");
+  private final UserRegisterDtoPreparer pass2DtoPreparer = new UserRegisterDtoPreparer("pass2");
 
   @Override
   protected String getEndpoint() {
@@ -183,79 +185,25 @@ public class UserControllerRegisterTest extends KovoTest {
   @Test
   @Order(11)
   public void passwordNull() throws Exception {
-    UserRegisterRequestDTO user = new UserRegisterRequestDTO();
-    user.setName("comrade_testovic");
-    user.setPass2("12345678");
-    user.setEmail("comrade.testovic@dym.bar");
-
-    mockMvc
-        .perform(
-            post(API_PREFIX + "/user/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsBytes(user))
-        )
-        .andExpect(status().is(400))
-        .andExpect(jsonPath("$.messages.length()", is(1)))
-        .andExpect(jsonPath("$.messages.pass", is("Password is required.")));
+    assertFieldErrorMsg(null, "Password is required.", passDtoPreparer);
   }
 
   @Test
   @Order(12)
   public void passwordEmpty() throws Exception {
-    UserRegisterRequestDTO user = new UserRegisterRequestDTO();
-    user.setName("comrade_testovic");
-    user.setPass("");
-    user.setPass2("12345678");
-    user.setEmail("comrade.testovic@dym.bar");
-
-    mockMvc
-        .perform(
-            post(API_PREFIX + "/user/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsBytes(user))
-        )
-        .andExpect(status().is(400))
-        .andExpect(jsonPath("$.messages.length()", is(1)))
-        .andExpect(jsonPath("$.messages.pass", is("Password field is empty.")));
+    assertFieldErrorMsg("", "Password field is empty.", passDtoPreparer);
   }
 
   @Test
   @Order(13)
   public void passwordConfirmationNull() throws Exception {
-    UserRegisterRequestDTO user = new UserRegisterRequestDTO();
-    user.setName("comrade_testovic");
-    user.setPass("12345678");
-    user.setEmail("comrade.testovic@dym.bar");
-
-    mockMvc
-        .perform(
-            post(API_PREFIX + "/user/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsBytes(user))
-        )
-        .andExpect(status().is(400))
-        .andExpect(jsonPath("$.messages.length()", is(1)))
-        .andExpect(jsonPath("$.messages.pass2", is("Password confirmation is required.")));
+    assertFieldErrorMsg(null, "Password confirmation is required.", pass2DtoPreparer);
   }
 
   @Test
   @Order(14)
   public void passwordConfirmationEmpty() throws Exception {
-    UserRegisterRequestDTO user = new UserRegisterRequestDTO();
-    user.setName("comrade_testovic");
-    user.setPass("12345678");
-    user.setPass2("");
-    user.setEmail("comrade.testovic@dym.bar");
-
-    mockMvc
-        .perform(
-            post(API_PREFIX + "/user/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsBytes(user))
-        )
-        .andExpect(status().is(400))
-        .andExpect(jsonPath("$.messages.length()", is(1)))
-        .andExpect(jsonPath("$.messages.pass2", is("Password confirmation field is empty.")));
+    assertFieldErrorMsg("", "Password confirmation field is empty.", pass2DtoPreparer);
   }
 
   @Test
@@ -267,172 +215,56 @@ public class UserControllerRegisterTest extends KovoTest {
   @Test
   @Order(16)
   public void passwordIsJustSpaces() throws Exception {
-    UserRegisterRequestDTO user = new UserRegisterRequestDTO();
-    user.setName("comrade_testovic");
-    user.setPass("       ");
-    user.setPass2("12345678");
-    user.setEmail("comrade.testovic@dym.bar");
-
-    mockMvc
-        .perform(
-            post(API_PREFIX + "/user/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsBytes(user))
-        )
-        .andExpect(status().is(400))
-        .andExpect(jsonPath("$.messages.length()", is(1)))
-        .andExpect(jsonPath("$.messages.pass", is("Password field is empty.")));
+    assertFieldErrorMsg("     ", "Password field is empty.", passDtoPreparer);
   }
 
   @Test
   @Order(17)
   public void passwordConfirmationIsJustSpaces() throws Exception {
-    UserRegisterRequestDTO user = new UserRegisterRequestDTO();
-    user.setName("comrade_testovic");
-    user.setPass("12345678");
-    user.setPass2("       ");
-    user.setEmail("comrade.testovic@dym.bar");
-
-    mockMvc
-        .perform(
-            post(API_PREFIX + "/user/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsBytes(user))
-        )
-        .andExpect(status().is(400))
-        .andExpect(jsonPath("$.messages.length()", is(1)))
-        .andExpect(jsonPath("$.messages.pass2", is("Password confirmation field is empty.")));
+    assertFieldErrorMsg("     ", "Password confirmation field is empty.", pass2DtoPreparer);
   }
 
   @Test
   @Order(18)
-  public void usernameBeginWithSpace() throws Exception {
+  public void usernameStartOrEndsWithSpace() throws Exception {
     assertFieldErrorMsg(" comrade_testovic", "Your username begins with space.", nameDtoPreparer);
+    assertFieldErrorMsg("  comrade_testovic", "Your username begins with space.", nameDtoPreparer);
+    assertFieldErrorMsg("comrade_testovic ", "Your username ends with space.", nameDtoPreparer);
+    assertFieldErrorMsg("comrade_testovic  ", "Your username ends with space.", nameDtoPreparer);
+    assertFieldErrorMsg(" comrade_testovic ", "Your username is surrounded with space(s).", nameDtoPreparer);
   }
 
   @Test
   @Order(19)
   public void usernameWithSpace() throws Exception {
-    UserRegisterRequestDTO user = new UserRegisterRequestDTO();
-    user.setName("comrade testovic");
-    user.setPass("12345678");
-    user.setPass2("12345678");
-    user.setEmail("comrade.testovic@dym.bar");
-
-    mockMvc
-        .perform(
-            post(API_PREFIX + "/user/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsBytes(user))
-        )
-        .andExpect(status().is(400))
-        .andExpect(jsonPath("$.messages.length()", is(1)))
-        .andExpect(jsonPath("$.messages.name", is("Your username contains space(s).")));
+    assertFieldErrorMsg("comrade testovic", "Your username contains space(s).", nameDtoPreparer);
   }
 
   @Test
   @Order(20)
-  public void usernameEndsWithSpace() throws Exception {
-    UserRegisterRequestDTO user = new UserRegisterRequestDTO();
-    user.setName("comrade_testovic ");
-    user.setPass("12345678");
-    user.setPass2("12345678");
-    user.setEmail("comrade.testovic@dym.bar");
-
-    mockMvc
-        .perform(
-            post(API_PREFIX + "/user/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsBytes(user))
-        )
-        .andExpect(status().is(400))
-        .andExpect(jsonPath("$.messages.length()", is(1)))
-        .andExpect(jsonPath("$.messages.name", is("Your username ends with space.")));
+  public void usernameContainsNotAllowedChars() throws Exception {
+    assertFieldErrorMsg("com#rade_te/sto?vic", "Your username contains not allowed characters.\n"
+        + "Allowed characters are letters, numbers, underscores, dashes and dots.", nameDtoPreparer);
   }
 
   @Test
   @Order(21)
-  public void usernameContainsNotAllowedChars() throws Exception {
-    UserRegisterRequestDTO user = new UserRegisterRequestDTO();
-    user.setName("com#rade_te/sto?vic");
-    user.setPass("12345678");
-    user.setPass2("12345678");
-    user.setEmail("comrade.testovic@dym.bar");
-
-    mockMvc
-        .perform(
-            post(API_PREFIX + "/user/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsBytes(user))
-        )
-        .andExpect(status().is(400))
-        .andExpect(jsonPath("$.messages.length()", is(1)))
-        .andExpect(jsonPath("$.messages.name", is("Your username contains not allowed characters.\n"
-            + "Allowed characters are letters, numbers, underscores, dashes and dots.")));
+  public void passwordShort() throws Exception {
+    assertFieldErrorMsg("1234567", "Password must have at least 8 characters.", passDtoPreparer);
   }
 
   @Test
   @Order(22)
-  public void passwordShort() throws Exception {
-    UserRegisterRequestDTO user = new UserRegisterRequestDTO();
-    user.setName("comrade_testovic");
-    user.setPass("1234567");
-    user.setPass2("1234567");
-    user.setEmail("comrade.testovic@dym.bar");
-
-    mockMvc
-        .perform(
-            post(API_PREFIX + "/user/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsBytes(user))
-        )
-        .andExpect(status().is(400))
-        .andExpect(jsonPath("$.messages.length()", is(1)))
-        .andExpect(jsonPath("$.messages.pass", is("Password must have at least 8 characters.")));
+  public void passwordStartsOrEndsWithSpace() throws Exception {
+    assertFieldErrorMsg(" 1234567", "Your password is starting or ending with space(s).", passDtoPreparer);
+    assertFieldErrorMsg("  1234567", "Your password is starting or ending with space(s).", passDtoPreparer);
+    assertFieldErrorMsg("1234567 ", "Your password is starting or ending with space(s).", passDtoPreparer);
+    assertFieldErrorMsg("1234567  ", "Your password is starting or ending with space(s).", passDtoPreparer);
+    assertFieldErrorMsg(" 1234567 ", "Your password is starting or ending with space(s).", passDtoPreparer);
   }
 
   @Test
   @Order(23)
-  public void passwordStartsOrEndsWithSpace() throws Exception {
-    UserRegisterRequestDTO user = new UserRegisterRequestDTO();
-    user.setName("comrade_testovic");
-    user.setPass(" 1234567");
-    user.setPass2(" 1234567");
-    user.setEmail("comrade.testovic@dym.bar");
-
-    mockMvc
-        .perform(
-            post(API_PREFIX + "/user/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsBytes(user))
-        )
-        .andExpect(status().is(400))
-        .andExpect(jsonPath("$.messages.length()", is(1)))
-        .andExpect(jsonPath("$.messages.pass", is("Your password is starting or ending with space(s).")));
-  }
-
-  @Test
-  @Order(24)
-  public void passwordStartsOrEndsWithSpace2() throws Exception {
-    UserRegisterRequestDTO user = new UserRegisterRequestDTO();
-    user.setName("comrade_testovic");
-    user.setPass("1234567 ");
-    user.setPass2("1234567 ");
-    user.setEmail("comrade.testovic@dym.bar");
-
-    mockMvc
-        .perform(
-            post(API_PREFIX + "/user/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsBytes(user))
-        )
-        .andExpect(status().is(400))
-        .andExpect(jsonPath("$.messages.length()", is(1)))
-        .andExpect(jsonPath("$.messages.pass", is("Your password is starting or ending with space(s).")));
-  }
-
-  @Test
-  @Order(25)
   public void passwordAndConfirmationDidNotMatch() throws Exception {
     UserRegisterRequestDTO user = new UserRegisterRequestDTO();
     user.setName("comrade_testovic");
@@ -451,7 +283,7 @@ public class UserControllerRegisterTest extends KovoTest {
   }
 
   @Test
-  @Order(26)
+  @Order(24)
   public void usernameAlreadyTaken() throws Exception {
     UserRegisterRequestDTO user = new UserRegisterRequestDTO();
     user.setName("comrade_testovic");
@@ -477,7 +309,7 @@ public class UserControllerRegisterTest extends KovoTest {
   }
 
   @Test
-  @Order(27)
+  @Order(25)
   public void userCreatedTokenObtained() throws Exception {
     UserRegisterRequestDTO user = new UserRegisterRequestDTO();
     user.setName("comrade_testovic");
@@ -501,40 +333,38 @@ public class UserControllerRegisterTest extends KovoTest {
   }
 
   @Test
-  @Order(28)
+  @Order(26)
   public void userEmailNull() throws Exception {
     assertFieldErrorMsg(null, "E-mail is required.", emailDtoPreparer);
   }
 
   @Test
-  @Order(29)
+  @Order(27)
   public void userEmailEmpty() throws Exception {
     assertFieldErrorMsg("", "E-mail field is empty.", emailDtoPreparer);
   }
 
   @Test
-  @Order(30)
+  @Order(28)
   public void emailTests() throws Exception {
     assertFieldErrorMsg("hello", "E-mail address is not valid.", emailDtoPreparer);
-    /*assertEmailError("hello", "E-mail address is not valid.");
-    assertEmailError("hello@", "E-mail address is not valid.");
-    assertEmailError("hello@world", "E-mail address is not valid.");
-    assertEmailError("hello@world.", "E-mail address is not valid.");
-    assertEmailError(".hello@world.net", "E-mail address is not valid.");
-    assertEmailError("hello.@world.net", "E-mail address is not valid.");
-    assertEmailError("he..llo@world.net", "E-mail address is not valid.");
-    assertEmailError("hello!+2020@example.com", "E-mail address is not valid.");
-    assertEmailError("hello@example.a", "E-mail address is not valid.");
-    assertEmailError("hello@example..com", "E-mail address is not valid.");
-    assertEmailError("hello@.com", "E-mail address is not valid.");
-    assertEmailError("hello@.example.", "E-mail address is not valid.");
-    assertEmailError("hello@-example.com", "E-mail address is not valid.");
-    assertEmailError("hello@example.com-", "E-mail address is not valid.");
-    assertEmailError("hello@example_example.com", "E-mail address is not valid.");
-    assertEmailError("1234567890123456789012345678901234567890123456789012345678901234xx@example.com", "E-mail address is not valid.");*/
+    assertFieldErrorMsg("hello@", "E-mail address is not valid.", emailDtoPreparer);
+    assertFieldErrorMsg("hello@world", "E-mail address is not valid.", emailDtoPreparer);
+    assertFieldErrorMsg(".hello@world.net", "E-mail address is not valid.", emailDtoPreparer);
+    assertFieldErrorMsg("hello.@world.net", "E-mail address is not valid.", emailDtoPreparer);
+    assertFieldErrorMsg("he..llo@world.net", "E-mail address is not valid.", emailDtoPreparer);
+    assertFieldErrorMsg("hello!+2020@example.com", "E-mail address is not valid.", emailDtoPreparer);
+    assertFieldErrorMsg("hello@example.a", "E-mail address is not valid.", emailDtoPreparer);
+    assertFieldErrorMsg("hello@example..com", "E-mail address is not valid.", emailDtoPreparer);
+    assertFieldErrorMsg("hello@.com", "E-mail address is not valid.", emailDtoPreparer);
+    assertFieldErrorMsg("hello@.example.", "E-mail address is not valid.", emailDtoPreparer);
+    assertFieldErrorMsg("hello@-example.com", "E-mail address is not valid.", emailDtoPreparer);
+    assertFieldErrorMsg("hello@example.com-", "E-mail address is not valid.", emailDtoPreparer);
+    assertFieldErrorMsg("hello@example_example.com", "E-mail address is not valid.", emailDtoPreparer);
+    assertFieldErrorMsg("1234567890123456789012345678901234567890123456789012345678901234xx@example.com",
+        "E-mail address is not valid.", emailDtoPreparer);
   }
 
   //TODO testy pre e-mail adresy
-  //TODO refaktor DRY
 
 }
