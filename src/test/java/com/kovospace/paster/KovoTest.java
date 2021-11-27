@@ -58,15 +58,6 @@ public abstract class KovoTest {
       this.field = field;
     }
 
-    /*private T createInstance(Class<T> klazz) {
-      try {
-        return klazz.newInstance();
-      } catch (InstantiationException | IllegalAccessException e) {
-        e.printStackTrace();
-      }
-      return null;
-    }*/
-
     protected abstract void modify(T dto);
 
     @Override
