@@ -45,6 +45,10 @@ public abstract class KovoTest {
   protected abstract String getEndpoint();
   protected abstract String getApiPrefix();
 
+  protected interface DtoModifier<T> {
+    void modIt(T obj);
+  }
+
   protected abstract class DtoPreparer<T> implements Function<String, T> {
     protected T dto;
     protected String field;
@@ -58,11 +62,16 @@ public abstract class KovoTest {
       this.field = field;
     }
 
-    protected abstract void modify(T dto);
+    public void modify(DtoModifier<T> dtoModifier) {
+      dtoModifier.modIt(dto);
+    }
+
+    public T getDto() {
+      return dto;
+    }
 
     @Override
     public T apply(String s) {
-      modify(dto);
       try {
         Method method = dto.getClass().getMethod("set" + capitalize(field), String.class);
         method.invoke(dto, s);
@@ -78,16 +87,38 @@ public abstract class KovoTest {
   }
 
   protected void assertFieldErrorMsg(
-      String input, String message, DtoPreparer dtoPreparer) throws Exception {
+      String input, String message, DtoPreparer dtoPreparer, int httpStatus) throws Exception {
     mockMvc
         .perform(
             post(API_PREFIX + ENDPOINT)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsBytes(dtoPreparer.apply(input)))
         )
-        .andExpect(status().is(400))
+        .andExpect(status().is(httpStatus))
         .andExpect(jsonPath("$.messages.length()", is(1)))
         .andExpect(jsonPath("$.messages." + dtoPreparer.getField(), is(message)));
+  }
+
+  protected void assertFieldErrorMsg(
+      String input, String message, DtoPreparer dtoPreparer) throws Exception {
+    assertFieldErrorMsg(input, message, dtoPreparer, 400);
+  }
+
+  protected void assertFormErrorMsg(
+      String input, String message, DtoPreparer dtoPreparer, int httpStatus) throws Exception {
+    mockMvc
+        .perform(
+            post(API_PREFIX + ENDPOINT)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsBytes(dtoPreparer.apply(input)))
+        )
+        .andExpect(status().is(httpStatus))
+        .andExpect(jsonPath("$.message", is(message)));
+  }
+
+  protected void assertFormErrorMsg(
+      String input, String message, DtoPreparer dtoPreparer) throws Exception {
+    assertFormErrorMsg(input, message, dtoPreparer, 400);
   }
 
 }

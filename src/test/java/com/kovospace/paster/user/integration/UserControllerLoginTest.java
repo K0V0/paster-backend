@@ -8,42 +8,35 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kovospace.paster.KovoTest;
 import com.kovospace.paster.base.services.JwtService;
 import com.kovospace.paster.base.services.TimeService;
 import com.kovospace.paster.user.dtos.UserLoginRequestDTO;
 import com.kovospace.paster.user.models.User;
 import com.kovospace.paster.user.repositories.UserRepository;
-import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
-import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
-@AutoConfigureMockMvc
-@AutoConfigureTestDatabase
-@TestMethodOrder(OrderAnnotation.class)
-public class UserControllerLoginTest {
+public class UserControllerLoginTest extends KovoTest {
 
-  private String apiPrefix = "/api/v1";
+  private static User user;
 
   @Autowired
   private MockMvc mockMvc;
 
   @Autowired
   private ObjectMapper objectMapper;
+
+  @Autowired
+  private ModelMapper modelMapper;
 
   @Autowired
   private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -57,6 +50,23 @@ public class UserControllerLoginTest {
   @MockBean
   private TimeService timeService;
 
+  private final UserLoginDtoPreparer namePreparer = new UserLoginDtoPreparer("name");
+
+  private final UserLoginDtoPreparer passPreparer = new UserLoginDtoPreparer("pass");
+
+  private class UserLoginDtoPreparer extends DtoPreparer<UserLoginRequestDTO> {
+    public UserLoginDtoPreparer(String field) {
+      super(field);
+      dto = new UserLoginRequestDTO();
+      dto.setName("Comrade_Testovic");
+      dto.setPass("12345678");
+    }
+  }
+
+  protected String getEndpoint() { return "/user/login"; }
+
+  protected String getApiPrefix() { return "/api/v1"; }
+
   @Test
   @Order(1)
   public void endpointNotFound() throws Exception {
@@ -65,7 +75,7 @@ public class UserControllerLoginTest {
        // .getForEntity("http://0.0.0.0:4004/user/logi", ErrorResponseDTO.class);
     //System.out.println(Objects.requireNonNull(errorResponse.getBody()).getMessage());
     MvcResult res = mockMvc
-        .perform(post( apiPrefix + "/user/logi"))
+        .perform(post( getApiPrefix() + "/user/logi"))
         .andDo(print())
         .andExpect(status().is(404))
         .andReturn();
@@ -76,7 +86,7 @@ public class UserControllerLoginTest {
   @Order(2)
   public void getRequestNotAllowed() throws Exception {
     mockMvc
-        .perform(get(apiPrefix + "/user/login"))
+        .perform(get(getApiPrefix() + getEndpoint()))
         .andExpect(status().is(405))
         .andExpect(jsonPath("$.message", is("Wrong HTTP method used.")));
   }
@@ -85,7 +95,7 @@ public class UserControllerLoginTest {
   @Order(3)
   public void requestBodyEmpty() throws Exception {
     mockMvc
-        .perform(post(apiPrefix + "/user/login"))
+        .perform(post(getApiPrefix() + getEndpoint()))
         .andExpect(status().is(400))
         .andExpect(jsonPath("$.message", is("Request body malformed or missing.")));
   }
@@ -95,7 +105,7 @@ public class UserControllerLoginTest {
   public void requestBodyMalformed() throws Exception {
     mockMvc
         .perform(
-            post(apiPrefix + "/user/login")
+            post(getApiPrefix() + getEndpoint())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{kjhmbn}")
         )
@@ -108,7 +118,7 @@ public class UserControllerLoginTest {
   public void requestBodyWrongMediaType() throws Exception {
     mockMvc
         .perform(
-            post(apiPrefix + "/user/login")
+            post(getApiPrefix() + getEndpoint())
                 .content("{\"name\":\"comrade Testovic\",\"pass\":\"AZ-5\"}")
         )
         .andExpect(status().is(415));
@@ -120,7 +130,7 @@ public class UserControllerLoginTest {
   public void requestJsonEmpty() throws Exception {
     mockMvc
         .perform(
-            post(apiPrefix + "/user/login")
+            post(getApiPrefix() + getEndpoint())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{}")
         )
@@ -137,7 +147,7 @@ public class UserControllerLoginTest {
 
     mockMvc
         .perform(
-            post(apiPrefix + "/user/login")
+            post(getApiPrefix() + getEndpoint())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsBytes(user))
         )
@@ -156,7 +166,7 @@ public class UserControllerLoginTest {
 
     mockMvc
         .perform(
-            post(apiPrefix + "/user/login")
+            post(getApiPrefix() + getEndpoint())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsBytes(user))
         )
@@ -169,247 +179,101 @@ public class UserControllerLoginTest {
   @Test
   @Order(9)
   public void usernameNull() throws Exception {
-    UserLoginRequestDTO user = new UserLoginRequestDTO();
-    user.setPass("12345678");
-
-    mockMvc
-        .perform(
-            post(apiPrefix + "/user/login")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsBytes(user))
-        )
-        .andExpect(status().is(400))
-        .andExpect(jsonPath("$.messages.length()", is(1)))
-        .andExpect(jsonPath("$.messages.name", is("Username is required.")));
+    assertFieldErrorMsg(null, "Username is required.", namePreparer);
   }
 
   @Test
   @Order(10)
   public void usernameEmpty() throws Exception {
-    UserLoginRequestDTO user = new UserLoginRequestDTO();
-    user.setName("");
-    user.setPass("12345678");
-
-    mockMvc
-        .perform(
-            post(apiPrefix + "/user/login")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsBytes(user))
-        )
-        .andExpect(status().is(400))
-        .andExpect(jsonPath("$.messages.length()", is(1)))
-        .andExpect(jsonPath("$.messages.name", is("Username field is empty.")));
+    assertFieldErrorMsg("", "Username field is empty.", namePreparer);
   }
 
   @Test
   @Order(11)
   public void passwordNull() throws Exception {
-    UserLoginRequestDTO user = new UserLoginRequestDTO();
-    user.setName("comrade Testovic");
-
-    mockMvc
-        .perform(
-            post(apiPrefix + "/user/login")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsBytes(user))
-        )
-        .andExpect(status().is(400))
-        .andExpect(jsonPath("$.messages.length()", is(1)))
-        .andExpect(jsonPath("$.messages.pass", is("Password is required.")));
+    assertFieldErrorMsg(null, "Password is required.", passPreparer);
   }
 
   @Test
   @Order(12)
   public void passwordEmpty() throws Exception {
-    UserLoginRequestDTO user = new UserLoginRequestDTO();
-    user.setName("comrade Testovic");
-    user.setPass("");
-
-    mockMvc
-        .perform(
-            post(apiPrefix + "/user/login")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsBytes(user))
-        )
-        .andExpect(status().is(400))
-        .andExpect(jsonPath("$.messages.length()", is(1)))
-        .andExpect(jsonPath("$.messages.pass", is("Password field is empty.")));
+    assertFieldErrorMsg("", "Password field is empty.", passPreparer);
   }
 
   @Test
   @Order(13)
   public void passwordShort() throws Exception {
-    UserLoginRequestDTO user = new UserLoginRequestDTO();
-    user.setName("comrade Testovic");
-    user.setPass("1234567");
-
-    mockMvc
-        .perform(
-            post(apiPrefix + "/user/login")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsBytes(user))
-        )
-        .andExpect(status().is(400))
-        .andExpect(jsonPath("$.messages.length()", is(1)))
-        .andExpect(jsonPath("$.messages.pass", is("Password must have at least 8 characters.")));
+    assertFieldErrorMsg("1234567", "Password must have at least 8 characters.", passPreparer);
   }
 
   @Test
   @Order(14)
   public void usernameAreSpaces() throws Exception {
-    UserLoginRequestDTO user = new UserLoginRequestDTO();
-    user.setName("     ");
-    user.setPass("12345678");
-
-    mockMvc
-        .perform(
-            post(apiPrefix + "/user/login")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsBytes(user))
-        )
-        .andExpect(status().is(400))
-        .andExpect(jsonPath("$.messages.name", is("Username field is empty.")));
+    assertFieldErrorMsg("     ", "Username field is empty.", namePreparer);
   }
 
   @Test
   @Order(15)
   public void passwordAreSpaces() throws Exception {
-    UserLoginRequestDTO user = new UserLoginRequestDTO();
-    user.setName("comrade Testovic");
-    user.setPass("       ");
-
-    mockMvc
-        .perform(
-            post(apiPrefix + "/user/login")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsBytes(user))
-        )
-        .andExpect(status().is(400))
-        .andExpect(jsonPath("$.messages.length()", is(1)))
-        .andExpect(jsonPath("$.messages.length()", is(1)))
-        .andExpect(jsonPath("$.messages.pass", is("Password field is empty.")));
+    assertFieldErrorMsg("     ", "Password field is empty.", passPreparer);
   }
 
   @Test
   @Order(16)
   public void usernameBeginWithSpace() throws Exception {
-    UserLoginRequestDTO user = new UserLoginRequestDTO();
-    user.setName(" comrade_Testovic");
-    user.setPass("12345678");
-
-    mockMvc
-        .perform(
-            post(apiPrefix + "/user/login")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsBytes(user))
-        )
-        .andExpect(status().is(400))
-        .andExpect(jsonPath("$.messages.length()", is(1)))
-        .andExpect(jsonPath("$.messages.name", is("Whitespaces not allowed anywhere.")));
+    assertFieldErrorMsg(" comrade_Testovic", "Whitespaces not allowed anywhere.", namePreparer);
   }
 
   @Test
   @Order(17)
   public void usernameWithSpace() throws Exception {
-    UserLoginRequestDTO user = new UserLoginRequestDTO();
-    user.setName("comrade Testovic");
-    user.setPass("12345678");
-
-    mockMvc
-        .perform(
-            post(apiPrefix + "/user/login")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsBytes(user))
-        )
-        .andExpect(status().is(400))
-        .andExpect(jsonPath("$.messages.length()", is(1)))
-        .andExpect(jsonPath("$.messages.name", is("Whitespaces not allowed anywhere.")));
+    assertFieldErrorMsg("comrade Testovic", "Whitespaces not allowed anywhere.", namePreparer);
   }
 
   @Test
   @Order(18)
   public void usernameEndsWithSpace() throws Exception {
-    UserLoginRequestDTO user = new UserLoginRequestDTO();
-    user.setName("comrade_Testovic ");
-    user.setPass("12345678");
-
-    mockMvc
-        .perform(
-            post(apiPrefix + "/user/login")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsBytes(user))
-        )
-        .andExpect(status().is(400))
-        .andExpect(jsonPath("$.messages.length()", is(1)))
-        .andExpect(jsonPath("$.messages.name", is("Whitespaces not allowed anywhere.")));
+    assertFieldErrorMsg("comrade_Testovic ", "Whitespaces not allowed anywhere.", namePreparer);
   }
 
   @Test
   @Order(19)
   public void userNotFound() throws Exception {
-    UserLoginRequestDTO user = new UserLoginRequestDTO();
-    user.setName("comrade_nonexistent");
-    user.setPass("12345678");
-
-    mockMvc
-        .perform(
-            post(apiPrefix + "/user/login")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsBytes(user))
-        )
-        .andExpect(status().is(401))
-        .andExpect(jsonPath("$.message", is("Wrong username or password.")));
+    assertFormErrorMsg("comrade_nonexistent", "Wrong username or password.", namePreparer, 401);
   }
 
   @Test
   @Order(20)
   public void usersPasswordWrong() throws Exception {
-    UserLoginRequestDTO user = new UserLoginRequestDTO();
-    user.setName("comrade_dubmo_forgetto");
-    user.setPass("neviemNepametam");
-
-    User dbUser = new User();
-    dbUser.setName("comrade_dumbo_forgetto");
-    dbUser.setPasword(bCryptPasswordEncoder.encode("12345678"));
-    userRepository.save(dbUser);
-
-    mockMvc
-        .perform(
-            post(apiPrefix + "/user/login")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsBytes(user))
-        )
-        .andExpect(status().is(401))
-        .andExpect(jsonPath("$.message", is("Wrong username or password.")));
-
-    userRepository.deleteAll();
+    loadUser();
+    assertFormErrorMsg("neviemNepametam", "Wrong username or password.", passPreparer, 401);
   }
 
   @Test
   @Order(21)
   public void userLoginOK() throws Exception {
-    UserLoginRequestDTO user = new UserLoginRequestDTO();
-    user.setName("comrade_testovic");
-    user.setPass("12345678");
-
-    User dbUser = new User();
-    dbUser.setName("comrade_testovic");
-    dbUser.setPasword(bCryptPasswordEncoder.encode("12345678"));
-    userRepository.save(dbUser);
-
     Mockito.when(timeService.getTime()).thenReturn(1234567890L);
-
-    String jwtToken = jwtService.generate(dbUser);
+    String jwtToken = jwtService.generate(user);
 
     mockMvc
         .perform(
-            post(apiPrefix + "/user/login")
+            post(getApiPrefix() + getEndpoint())
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsBytes(user))
+                .content(objectMapper.writeValueAsBytes(namePreparer.getDto()))
         )
         .andExpect(status().is(200))
         .andExpect(jsonPath("$.jwtToken", is(jwtToken)));
 
+    destroyUser();
+  }
+
+  private void loadUser() {
+    user = modelMapper.map(namePreparer.getDto(), User.class);
+    user.setPasword(bCryptPasswordEncoder.encode( namePreparer.getDto().getPass() ));
+    userRepository.save(user);
+  }
+
+  private void destroyUser() {
     userRepository.deleteAll();
   }
 
