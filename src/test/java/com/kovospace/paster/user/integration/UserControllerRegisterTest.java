@@ -30,10 +30,6 @@ public class UserControllerRegisterTest extends KovoTest {
       dto.setPass2("12345678");
       dto.setEmail("comrade.testovic@dym.bar");
     }
-    @Override
-    protected void modify(UserRegisterRequestDTO dto) {
-      // doing nothing, just wasted to not inherit it into childrens
-    }
   }
 
   private final UserRegisterDtoPreparer emailDtoPreparer = new UserRegisterDtoPreparer("email");
