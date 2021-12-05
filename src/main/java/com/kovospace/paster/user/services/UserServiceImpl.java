@@ -52,4 +52,9 @@ public class UserServiceImpl implements UserService {
     return user;
   }
 
+  @Override
+  public boolean exist(long userId) {
+    return repo.findById(userId).isPresent();
+  }
+
 }
