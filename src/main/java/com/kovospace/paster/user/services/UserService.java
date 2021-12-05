@@ -10,4 +10,6 @@ public interface UserService {
 
   User register(String name, String pass, String pass2, String email) throws UserException;
 
+  boolean exist(long userId);
+
 }
