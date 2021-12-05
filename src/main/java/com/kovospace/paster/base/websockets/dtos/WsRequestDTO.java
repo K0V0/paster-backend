@@ -6,10 +6,12 @@ import lombok.Setter;
 @Getter
 @Setter
 public class WsRequestDTO {
-  private String jwtToken;
+  private String message;
 
   @Override
   public String toString() {
-    return "jwtToken: " + this.jwtToken;
+    return "ws message: " + this.message;
   }
 }
+
+// javascript: ws.send(JSON.stringify({ "message": "frontend" }))

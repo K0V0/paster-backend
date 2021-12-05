@@ -5,6 +5,7 @@ import com.kovospace.paster.item.models.Item;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -32,7 +33,7 @@ public class User {
   @OneToMany(mappedBy = "user")
   private List<Item> items;
 
-  @OneToMany(mappedBy = "user")
+  @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
   private List<UserSession> userSessions;
 
   @Transient

@@ -1,6 +1,7 @@
 package com.kovospace.paster.base.configurations;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,5 +21,8 @@ public class Config {
 
   @Bean
   public BCryptPasswordEncoder encoder() { return new BCryptPasswordEncoder(); }
+
+  @Bean
+  public Gson gson() { return new Gson(); }
 
 }

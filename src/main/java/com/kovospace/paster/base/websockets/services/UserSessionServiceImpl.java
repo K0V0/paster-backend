@@ -6,7 +6,10 @@ import com.kovospace.paster.base.websockets.models.UserSession;
 import com.kovospace.paster.base.websockets.repositories.UserSessionRepository;
 import com.kovospace.paster.user.models.User;
 import com.kovospace.paster.user.repositories.UserRepository;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,7 +40,21 @@ public class UserSessionServiceImpl implements UserSessionService {
 
   @Override
   public void detach(String sessionId) {
-    sessionRepo.deleteAllBySessionId(sessionId);
+    // musi byt takto lebo inak noEntityManager for current thread error
+    sessionRepo
+        .findAllBySessionIdEquals(sessionId)
+        .forEach(userSession -> sessionRepo.delete(userSession));
+  }
+
+  @Override
+  public List<String> getAllUserSessions(long userId) {
+    return userRepo
+        .findById(userId)
+        .map(User::getUserSessions)
+        .orElse(new ArrayList<>())
+        .stream()
+        .map(UserSession::getSessionId)
+        .collect(Collectors.toList());
   }
 
 }
