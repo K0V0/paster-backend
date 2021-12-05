@@ -1,6 +1,7 @@
 package com.kovospace.paster.item.controllerHelpers;
 
 import com.kovospace.paster.base.services.JwtService;
+import com.kovospace.paster.base.services.WebsocketService;
 import com.kovospace.paster.item.dtos.ItemRequestDTO;
 import com.kovospace.paster.item.dtos.ItemResponseDTO;
 import com.kovospace.paster.item.dtos.ItemsResponseDTO;
@@ -20,16 +21,19 @@ public class ItemControllerResponderImpl implements ItemControllerResponder {
   private ItemService itemService;
   private JwtService jwtService;
   private ModelMapper modelMapper;
+  private WebsocketService websocketService;
 
   @Autowired
   public ItemControllerResponderImpl(
       ItemService itemService,
       JwtService jwtService,
-      ModelMapper modelMapper
+      ModelMapper modelMapper,
+      WebsocketService websocketService
   ) {
     this.itemService = itemService;
     this.jwtService = jwtService;
     this.modelMapper = modelMapper;
+    this.websocketService = websocketService;
   }
 
   @Override
@@ -65,5 +69,6 @@ public class ItemControllerResponderImpl implements ItemControllerResponder {
   public void addItem(String token, ItemRequestDTO dto) throws JwtException {
     long userId = jwtService.parse(token);
     itemService.addItem(userId, dto.getText());
+    websocketService.notifyForChanges(userId);
   }
 }

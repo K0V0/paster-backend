@@ -6,7 +6,7 @@ import org.springframework.beans.factory.BeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
-public class CustomSpringConfigurator
+public class WsServerSpringConfigurator
     extends ServerEndpointConfig.Configurator
     implements ApplicationContextAware {
 
@@ -19,6 +19,6 @@ public class CustomSpringConfigurator
 
   @Override
   public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-    CustomSpringConfigurator.context = applicationContext;
+    WsServerSpringConfigurator.context = applicationContext;
   }
 }

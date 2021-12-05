@@ -1,6 +1,5 @@
 package com.kovospace.paster.user.models;
 
-import com.kovospace.paster.base.websockets.models.UserSession;
 import com.kovospace.paster.item.models.Item;
 import java.util.List;
 import javax.persistence.Column;
@@ -32,8 +31,8 @@ public class User {
   @OneToMany(mappedBy = "user")
   private List<Item> items;
 
-  @OneToMany(mappedBy = "user")
-  private List<UserSession> userSessions;
+  //@OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+  //private List<WsSession> wsSessions;
 
   @Transient
   private String jwtToken;
