@@ -2,8 +2,8 @@ package com.kovospace.paster.base.websockets.services;
 
 import com.kovospace.paster.base.websockets.exceptions.UserNotFoundException;
 import com.kovospace.paster.base.websockets.exceptions.WsException;
-import com.kovospace.paster.base.websockets.models.UserSession;
-import com.kovospace.paster.base.websockets.repositories.UserSessionRepository;
+import com.kovospace.paster.base.websockets.models.WsSession;
+import com.kovospace.paster.base.websockets.repositories.WsSessionRepository;
 import com.kovospace.paster.user.models.User;
 import com.kovospace.paster.user.repositories.UserRepository;
 import java.util.ArrayList;
@@ -14,16 +14,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserSessionServiceImpl implements UserSessionService {
+public class WsSessionServiceImpl implements WsSessionService {
   private UserRepository userRepo;
-  private UserSessionRepository sessionRepo;
+  //private WsSessionRepository sessionRepo;
 
   @Autowired
-  public UserSessionServiceImpl(
-      UserRepository userRepo,
-      UserSessionRepository sessionRepo
+  public WsSessionServiceImpl(
+      UserRepository userRepo//,
+      //WsSessionRepository sessionRepo
   ) {
-    this.sessionRepo = sessionRepo;
+    //this.sessionRepo = sessionRepo;
     this.userRepo = userRepo;
   }
 
@@ -31,9 +31,9 @@ public class UserSessionServiceImpl implements UserSessionService {
   public void store(long userId, String sessionId) throws WsException {
     Optional<User> userOptional = userRepo.findById(userId);
     if (userOptional.isEmpty()) { throw new UserNotFoundException(); }
-    sessionRepo
+    /*sessionRepo
         .findByUserAndAndSessionId(userOptional.get(), sessionId)
-        .orElse(sessionRepo.save(new UserSession(userOptional.get(), sessionId)));
+        .orElse(sessionRepo.save(new WsSession(userOptional.get(), sessionId)));*/
     // TODO zistit ci nemozno poriesit neukladanie not unique user a session na urovni modelu
     //  (okrem validacie ktora vypluje vynimku) ?
   }
@@ -41,19 +41,19 @@ public class UserSessionServiceImpl implements UserSessionService {
   @Override
   public void detach(String sessionId) {
     // musi byt takto lebo inak noEntityManager for current thread error
-    sessionRepo
+    /*sessionRepo
         .findAllBySessionIdEquals(sessionId)
-        .forEach(userSession -> sessionRepo.delete(userSession));
+        .forEach(wsSession -> sessionRepo.delete(wsSession));*/
   }
 
   @Override
   public List<String> getAllUserSessions(long userId) {
     return userRepo
         .findById(userId)
-        .map(User::getUserSessions)
+        .map(User::getWsSessions)
         .orElse(new ArrayList<>())
         .stream()
-        .map(UserSession::getSessionId)
+        .map(WsSession::getSessionId)
         .collect(Collectors.toList());
   }
 

@@ -14,7 +14,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class UserSession {
+public class WsSession {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,7 +25,7 @@ public class UserSession {
   @ManyToOne
   private User user;
 
-  public UserSession(User user, String sessionId) {
+  public WsSession(User user, String sessionId) {
     this.sessionId = sessionId;
     this.user = user;
   }
