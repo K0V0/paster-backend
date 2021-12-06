@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class WsSessionHandlerImpl implements WsSessionHandler {
 
-  // TODO concurrent hashmap editing set if safe
+  // TODO concurrent hashmap editing set<> read if is safe
   private static final ConcurrentHashMap<Long, Set<Session>> WS_SESSIONS = new ConcurrentHashMap<>();
 
   @Override
