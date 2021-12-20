@@ -5,8 +5,9 @@ import com.kovospace.paster.item.models.Item;
 import com.kovospace.paster.item.repositories.ItemRepository;
 import com.kovospace.paster.user.models.User;
 import com.kovospace.paster.user.repositories.UserRepository;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -25,27 +26,34 @@ public class ItemServiceImpl implements ItemService {
   }
 
   public List<Item> getAllOfUser(long userId) {
-    List<Item> items = itemRepo.findAllByUser(userId);
-    for (int i = 0; i < items.size(); i++) {
-      Item item = items.get(i);
-      if (item.getText().length() >= previewLength) {
-        item.setPreview(item.getText().substring(0, previewLength) + "...");
-        item.setLarge(true);
-      } else {
-        item.setPreview(items.get(i).getText());
-      }
-      item.setText("");
-    }
-    return items;
+    // TODO exception ak predsalen user z jwt tokenu neexistuje
+    return userRepo.findById(userId)
+        .map(User::getItems)
+        .map(itemsList -> itemsList
+            .stream()
+            .map(item -> {
+              if (item.getText().length() >= previewLength) {
+                item.setPreview(item.getText().substring(0, previewLength) + "...");
+                item.setLarge(true);
+              } else {
+                item.setPreview(item.getText());
+              }
+              //item.setText(""); // povodna logika WTF ??
+              return item; })
+            .collect(Collectors.toList()))
+        //.orElseThrow(() -> new Exception("trorlolo"));
+        .orElse(new ArrayList<>());
   }
 
   @Override
   public Item getItemOfUser(long userId, long itemId) throws ItemNotFoundException {
-    Optional<Item> item = itemRepo.findFirstByUserAndId(userId, itemId);
-    if (item.isPresent()) {
-      return item.get();
-    }
-    throw new ItemNotFoundException();
+    // TODO test situacie ak pozadovana items id pre usera neexistuje
+    // TODO exception in that case
+    return userRepo
+        .findById(userId)
+        .flatMap(user -> itemRepo
+            .findFirstByUserAndId(user, itemId))
+        .orElseThrow(ItemNotFoundException::new);
   }
 
   public void addItem(long userId, String text) {
