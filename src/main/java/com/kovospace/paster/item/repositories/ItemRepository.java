@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ItemRepository extends JpaRepository<Item, Long> {
 
-  public List<Item> findAllByUser(User user);
+  List<Item> findAllByUser(User user);
 
-  public Optional<Item> findFirstByUserAndId(User user, long id);
+  Optional<Item> findFirstByUserAndId(User user, long id);
 }
