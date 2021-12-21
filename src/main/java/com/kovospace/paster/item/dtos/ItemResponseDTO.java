@@ -7,8 +7,9 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ItemResponseDTO extends OkResponseDTO {
+  private long id;
   private String text;
   private String preview;
-  private String date;
+  private long timestamp;
   private boolean isLarge;
 }

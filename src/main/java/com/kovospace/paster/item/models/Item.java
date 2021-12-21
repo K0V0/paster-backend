@@ -1,7 +1,7 @@
 package com.kovospace.paster.item.models;
 
 import com.kovospace.paster.user.models.User;
-import java.util.Date;
+import java.sql.Timestamp;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -29,7 +29,7 @@ public class Item {
   private String text;
 
   @CreationTimestamp
-  private Date createdAt;
+  private Timestamp createdAt;
 
   @Transient
   private String preview;

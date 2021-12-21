@@ -2,6 +2,7 @@ package com.kovospace.paster.item.controllerHelpers;
 
 import com.kovospace.paster.base.services.JwtService;
 import com.kovospace.paster.base.services.WebsocketService;
+import com.kovospace.paster.item.converters.itemResponseDTOConverter.ItemResponseDTOPropertyMap;
 import com.kovospace.paster.item.dtos.ItemRequestDTO;
 import com.kovospace.paster.item.dtos.ItemResponseDTO;
 import com.kovospace.paster.item.dtos.ItemsResponseDTO;
@@ -34,6 +35,12 @@ public class ItemControllerResponderImpl implements ItemControllerResponder {
     this.jwtService = jwtService;
     this.modelMapper = modelMapper;
     this.websocketService = websocketService;
+    this.initMappings();
+  }
+
+  private void initMappings() {
+    // TODO WARNING: An illegal reflective access operation has occurred
+    this.modelMapper.addMappings(new ItemResponseDTOPropertyMap());
   }
 
   @Override
