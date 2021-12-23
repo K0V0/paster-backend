@@ -78,4 +78,10 @@ public class ItemControllerResponderImpl implements ItemControllerResponder {
     itemService.addItem(userId, dto.getText());
     websocketService.notifyForChanges(userId);
   }
+
+  @Override
+  public void deleteItem(String token, long itemId) throws JwtException {
+    long userId = jwtService.parse(token);
+    itemService.deleteItem(userId, itemId);
+  }
 }
