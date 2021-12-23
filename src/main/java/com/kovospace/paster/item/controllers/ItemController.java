@@ -3,7 +3,6 @@ package com.kovospace.paster.item.controllers;
 import com.kovospace.paster.base.controllers.BaseController;
 import com.kovospace.paster.item.controllerHelpers.ItemControllerResponder;
 import com.kovospace.paster.item.dtos.ItemRequestDTO;
-import com.kovospace.paster.item.dtos.ItemResponseDTO;
 import com.kovospace.paster.item.dtos.ItemsResponseDTO;
 import io.jsonwebtoken.JwtException;
 import javax.validation.Valid;
@@ -70,8 +69,7 @@ public class ItemController extends BaseController {
       @PathVariable long id
   ) {
     responder.deleteItem(token, id);
-    //return null;
-    return ResponseEntity.noContent().build();
+    return new ResponseEntity<>(HttpStatus.ACCEPTED);
   }
 
 }
