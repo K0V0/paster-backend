@@ -16,4 +16,6 @@ public interface ItemControllerResponder {
 
   void addItem(String token, ItemRequestDTO dto) throws JwtException;
 
+  void deleteItem(String token, long itemId) throws JwtException;
+
 }

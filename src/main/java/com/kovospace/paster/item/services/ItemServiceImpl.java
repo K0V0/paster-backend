@@ -7,6 +7,7 @@ import com.kovospace.paster.user.models.User;
 import com.kovospace.paster.user.repositories.UserRepository;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,7 @@ public class ItemServiceImpl implements ItemService {
     this.itemRepo = itemRepo;
   }
 
+  // TODO unit/integracny test
   public List<Item> getAllOfUser(long userId) {
     // TODO exception ak predsalen user z jwt tokenu neexistuje
     return userRepo.findById(userId)
@@ -45,6 +47,7 @@ public class ItemServiceImpl implements ItemService {
         .orElse(new ArrayList<>());
   }
 
+  // TODO unit/integracny test
   @Override
   public Item getItemOfUser(long userId, long itemId) throws ItemNotFoundException {
     // TODO test situacie ak pozadovana items id pre usera neexistuje
@@ -63,6 +66,14 @@ public class ItemServiceImpl implements ItemService {
     item.setUser(user);
     item.setText(text);
     itemRepo.save(item);
+  }
+
+  // TODO unit/integracny test
+  @Override
+  public void deleteItem(long userId, long itemId) {
+    User user = userRepo.getById(userId);
+    // TODO exception throw and catch if not found
+    itemRepo.deleteByUserAndId(user, itemId);
   }
 
 }

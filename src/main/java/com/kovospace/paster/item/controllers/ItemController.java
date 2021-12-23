@@ -56,14 +56,22 @@ public class ItemController extends BaseController {
     return new ResponseEntity<>(HttpStatus.CREATED);
   }
 
-  @PutMapping("/item")
-  public ResponseEntity<ItemResponseDTO> update() {
+  @PutMapping("/item/{id}")
+  public ResponseEntity<Void> update(
+      @RequestHeader(value = "Authorization") String token,
+      @PathVariable long id
+  ) {
     return null;
   }
 
-  @DeleteMapping("/item")
-  public ResponseEntity<ItemResponseDTO> delete() {
-    return null;
+  @DeleteMapping("/item/{id}")
+  public ResponseEntity<Void> delete(
+      @RequestHeader(value = "Authorization") String token,
+      @PathVariable long id
+  ) {
+    responder.deleteItem(token, id);
+    //return null;
+    return ResponseEntity.noContent().build();
   }
 
 }

@@ -12,4 +12,6 @@ public interface ItemService {
 
   void addItem(long userId, String text);
 
+  void deleteItem(long userId, long itemId);
+
 }
