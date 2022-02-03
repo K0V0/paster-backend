@@ -83,5 +83,6 @@ public class ItemControllerResponderImpl implements ItemControllerResponder {
   public void deleteItem(String token, long itemId) throws JwtException {
     long userId = jwtService.parse(token);
     itemService.deleteItem(userId, itemId);
+    websocketService.notifyForChanges(userId);
   }
 }

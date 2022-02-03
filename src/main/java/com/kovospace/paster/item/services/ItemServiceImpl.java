@@ -7,10 +7,10 @@ import com.kovospace.paster.user.models.User;
 import com.kovospace.paster.user.repositories.UserRepository;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ItemServiceImpl implements ItemService {
@@ -70,6 +70,7 @@ public class ItemServiceImpl implements ItemService {
 
   // TODO unit/integracny test
   @Override
+  @Transactional
   public void deleteItem(long userId, long itemId) {
     User user = userRepo.getById(userId);
     // TODO exception throw and catch if not found
