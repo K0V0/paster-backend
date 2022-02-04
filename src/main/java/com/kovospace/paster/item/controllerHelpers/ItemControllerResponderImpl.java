@@ -7,6 +7,7 @@ import com.kovospace.paster.item.dtos.ItemRequestDTO;
 import com.kovospace.paster.item.dtos.ItemResponseDTO;
 import com.kovospace.paster.item.dtos.ItemsResponseDTO;
 import com.kovospace.paster.item.exceptions.ItemNotFoundException;
+import com.kovospace.paster.item.exceptions.UserNotFoundException;
 import com.kovospace.paster.item.services.ItemService;
 import io.jsonwebtoken.JwtException;
 import java.util.stream.Collectors;
@@ -45,7 +46,7 @@ public class ItemControllerResponderImpl implements ItemControllerResponder {
 
   @Override
   public ResponseEntity<ItemsResponseDTO> getItems(String token)
-      throws JwtException {
+          throws JwtException, UserNotFoundException {
     long userId = jwtService.parse(token);
     return new ResponseEntity<ItemsResponseDTO>(
         new ItemsResponseDTO(
@@ -73,7 +74,7 @@ public class ItemControllerResponderImpl implements ItemControllerResponder {
   }
 
   @Override
-  public void addItem(String token, ItemRequestDTO dto) throws JwtException {
+  public void addItem(String token, ItemRequestDTO dto) throws JwtException, UserNotFoundException {
     long userId = jwtService.parse(token);
     itemService.addItem(userId, dto.getText());
     websocketService.notifyForChanges(userId);
