@@ -5,12 +5,25 @@ import com.kovospace.paster.user.models.User;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+
+import javax.transaction.Transactional;
 
 public interface ItemRepository extends JpaRepository<Item, Long> {
 
-  List<Item> findAllByUser(User user);
+  List<Item> findAllByUserOrderByCreatedAtDesc(User user);
 
   Optional<Item> findFirstByUserAndId(User user, long id);
 
   void deleteByUserAndId(User user, long id);
+
+  // TODO vratit sa k tomuto a vyskusat spravit mazanie nad 20 poloziek per user na jednu SQL query
+  // TODO skusit pouzit JPQl
+  // JPQL priamo nepodporuje limit a offset, paginacia sa robi cez objekty ktore JPA poskytuje
+  @Transactional
+  @Modifying
+  @Query(value = "SELECT * FROM paster.item WHERE user_id=:userId ORDER BY created_at DESC LIMIT 99999 OFFSET 20",
+          nativeQuery = true)
+  List<Item> findUserItemsAbove20(long userId);
 }
