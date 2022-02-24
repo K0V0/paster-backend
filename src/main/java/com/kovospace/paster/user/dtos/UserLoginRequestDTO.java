@@ -24,9 +24,9 @@ import lombok.Setter;
 })
 public class UserLoginRequestDTO extends RequestDTO {
 
-  @NotNull(message = "Username is required.", groups = FirstOrder.class)
-  @NotBlank(message = "Username field is empty.", groups = SecondOrder.class)
-  @Pattern(regexp = "^\\S+$", message = "Whitespaces not allowed anywhere.", groups = FourthOrder.class)
+  @NotNull(message = "user.login.username.required", groups = FirstOrder.class)
+  @NotBlank(message = "user.login.username.empty", groups = SecondOrder.class)
+  @Pattern(regexp = "^\\S+$", message = "user.login.username.whitespacesNotAllowed", groups = FourthOrder.class)
   private String name;
 
   @NotNull(message = "Password is required.", groups = FirstOrder.class)

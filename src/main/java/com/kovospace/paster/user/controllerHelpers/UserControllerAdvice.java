@@ -29,7 +29,7 @@ public class UserControllerAdvice extends ControllerAdvice {
   @ResponseStatus(HttpStatus.UNAUTHORIZED)
   @ExceptionHandler(UserLoginBadCredentialsException.class)
   public ErrorResponseDTO wrongUserOrPass() {
-    return new ErrorResponseDTO("Wrong username or password.");
+    return new ErrorResponseDTO("user.login.credentials.wrong");
   }
 
 }

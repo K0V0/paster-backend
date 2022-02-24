@@ -1,0 +1,7 @@
+user.login.username.required = "Username is required."
+user.login.username.empty = "Username field is empty."
+user.login.username.whitespacesNotAllowed = "Whitespaces not allowed anywhere in username."
+user.login.credentials.wrong = "Username or password is wrong."
+
+
+
