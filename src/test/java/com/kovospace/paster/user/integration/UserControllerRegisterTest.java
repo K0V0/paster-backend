@@ -1,5 +1,6 @@
 package com.kovospace.paster.user.integration;
 
+import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -118,10 +119,10 @@ public class UserControllerRegisterTest extends KovoTest {
         )
         .andExpect(status().is(400))
         .andExpect(jsonPath("$.messages.length()", is(4)))
-        .andExpect(jsonPath("$.messages.name", is("Username is required.")))
-        .andExpect(jsonPath("$.messages.pass", is("Password is required.")))
-        .andExpect(jsonPath("$.messages.pass2", is("Password confirmation is required.")))
-        .andExpect(jsonPath("$.messages.email", is("E-mail is required.")));
+        .andExpect(jsonPath("$.messages.name.*", hasItem("Username is required.")))
+        .andExpect(jsonPath("$.messages.pass.*", hasItem("Password is required.")))
+        .andExpect(jsonPath("$.messages.pass2.*", hasItem("Password confirmation is required.")))
+        .andExpect(jsonPath("$.messages.email.*", hasItem("E-mail is required.")));
   }
 
   @Test
@@ -137,10 +138,10 @@ public class UserControllerRegisterTest extends KovoTest {
         )
         .andExpect(status().is(400))
         .andExpect(jsonPath("$.messages.length()", is(4)))
-        .andExpect(jsonPath("$.messages.name", is("Username is required.")))
-        .andExpect(jsonPath("$.messages.pass", is("Password is required.")))
-        .andExpect(jsonPath("$.messages.pass2", is("Password confirmation is required.")))
-        .andExpect(jsonPath("$.messages.email", is("E-mail is required.")));
+        .andExpect(jsonPath("$.messages.name.*", hasItem("Username is required.")))
+        .andExpect(jsonPath("$.messages.pass.*", hasItem("Password is required.")))
+        .andExpect(jsonPath("$.messages.pass2.*", hasItem("Password confirmation is required.")))
+        .andExpect(jsonPath("$.messages.email.*", hasItem("E-mail is required.")));
   }
 
   @Test
@@ -160,10 +161,10 @@ public class UserControllerRegisterTest extends KovoTest {
         )
         .andExpect(status().is(400))
         .andExpect(jsonPath("$.messages.length()", is(4)))
-        .andExpect(jsonPath("$.messages.name", is("Username field is empty.")))
-        .andExpect(jsonPath("$.messages.pass", is("Password field is empty.")))
-        .andExpect(jsonPath("$.messages.pass2", is("Password confirmation field is empty.")))
-        .andExpect(jsonPath("$.messages.email", is("E-mail field is empty.")));
+        .andExpect(jsonPath("$.messages.name.*", hasItem("Username field is empty.")))
+        .andExpect(jsonPath("$.messages.pass.*", hasItem("Password field is empty.")))
+        .andExpect(jsonPath("$.messages.pass2.*", hasItem("Password confirmation field is empty.")))
+        .andExpect(jsonPath("$.messages.email.*", hasItem("E-mail field is empty.")));
   }
 
   @Test
@@ -232,25 +233,31 @@ public class UserControllerRegisterTest extends KovoTest {
 
   @Test
   @Order(19)
+  public void usernameWithOnlySpaces() throws Exception {
+    assertFieldErrorMsg("   ", "Username field is empty.", nameDtoPreparer);
+  }
+
+  @Test
+  @Order(20)
   public void usernameWithSpace() throws Exception {
     assertFieldErrorMsg("comrade testovic", "Your username contains space(s).", nameDtoPreparer);
   }
 
   @Test
-  @Order(20)
+  @Order(21)
   public void usernameContainsNotAllowedChars() throws Exception {
-    assertFieldErrorMsg("com#rade_te/sto?vic", "Your username contains not allowed characters.\n"
+    assertFieldErrorMsg("com#rade_te/sto?vic", "Your username contains not allowed characters. "
         + "Allowed characters are letters, numbers, underscores, dashes and dots.", nameDtoPreparer);
   }
 
   @Test
-  @Order(21)
+  @Order(22)
   public void passwordShort() throws Exception {
     assertFieldErrorMsg("1234567", "Password must have at least 8 characters.", passDtoPreparer);
   }
 
   @Test
-  @Order(22)
+  @Order(23)
   public void passwordStartsOrEndsWithSpace() throws Exception {
     assertFieldErrorMsg(" 1234567", "Your password is starting or ending with space(s).", passDtoPreparer);
     assertFieldErrorMsg("  1234567", "Your password is starting or ending with space(s).", passDtoPreparer);
@@ -260,7 +267,7 @@ public class UserControllerRegisterTest extends KovoTest {
   }
 
   @Test
-  @Order(23)
+  @Order(24)
   public void passwordAndConfirmationDidNotMatch() throws Exception {
     UserRegisterRequestDTO user = new UserRegisterRequestDTO();
     user.setName("comrade_testovic");
@@ -279,7 +286,7 @@ public class UserControllerRegisterTest extends KovoTest {
   }
 
   @Test
-  @Order(24)
+  @Order(25)
   public void usernameAlreadyTaken() throws Exception {
     UserRegisterRequestDTO user = new UserRegisterRequestDTO();
     user.setName("comrade_testovic");
@@ -305,7 +312,7 @@ public class UserControllerRegisterTest extends KovoTest {
   }
 
   @Test
-  @Order(25)
+  @Order(26)
   public void userCreatedTokenObtained() throws Exception {
     UserRegisterRequestDTO user = new UserRegisterRequestDTO();
     user.setName("comrade_testovic");
@@ -329,19 +336,19 @@ public class UserControllerRegisterTest extends KovoTest {
   }
 
   @Test
-  @Order(26)
+  @Order(27)
   public void userEmailNull() throws Exception {
     assertFieldErrorMsg(null, "E-mail is required.", emailDtoPreparer);
   }
 
   @Test
-  @Order(27)
+  @Order(28)
   public void userEmailEmpty() throws Exception {
     assertFieldErrorMsg("", "E-mail field is empty.", emailDtoPreparer);
   }
 
   @Test
-  @Order(28)
+  @Order(29)
   public void emailTests() throws Exception {
     assertFieldErrorMsg("hello", "E-mail address is not valid.", emailDtoPreparer);
     assertFieldErrorMsg("hello@", "E-mail address is not valid.", emailDtoPreparer);
@@ -360,7 +367,5 @@ public class UserControllerRegisterTest extends KovoTest {
     assertFieldErrorMsg("1234567890123456789012345678901234567890123456789012345678901234xx@example.com",
         "E-mail address is not valid.", emailDtoPreparer);
   }
-
-  //TODO testy pre e-mail adresy
 
 }

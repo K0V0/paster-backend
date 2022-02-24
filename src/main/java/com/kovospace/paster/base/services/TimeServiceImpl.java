@@ -24,10 +24,10 @@ public class TimeServiceImpl implements TimeService {
       if (res <= Integer.MAX_VALUE) {
         return (int) res;
       } else {
-        throw new ArithmeticException("Result too long");
+        throw new ArithmeticException("general.services.time.arithmetic.length");
       }
     } else {
-      throw new IllegalArgumentException("Value of 'from' must be less than 'to'");
+      throw new IllegalArgumentException("general.services.time.arithmetic.entrophy");
     }
   }
 

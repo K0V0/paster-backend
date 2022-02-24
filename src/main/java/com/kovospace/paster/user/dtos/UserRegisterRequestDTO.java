@@ -30,39 +30,33 @@ import lombok.Setter;
 })
 public class UserRegisterRequestDTO extends RequestDTO {
 
-  @NotNull(message = "Username is required.", groups = FirstOrder.class)
-  @NotBlank(message = "Username field is empty.", groups = SecondOrder.class)
-  @Pattern(regexp = "(^\\S+.+)|(.+\\S+$)", message = "Your username is surrounded with space(s).", groups = ThirdOrder.class)
-  @Pattern(regexp = "^\\S+.+", message = "Your username begins with space.", groups = FourthOrder.class)
-  @Pattern(regexp = ".+\\S+$", message = "Your username ends with space.", groups = FifthOrder.class)
-  @Pattern(regexp = "^\\S+$", message = "Your username contains space(s).", groups = SixthOrder.class)
-  @Pattern(
-      regexp = "^[a-zA-Z0-9-_\\.]+$",
-      message = "Your username contains not allowed characters.\n"
-          + "Allowed characters are letters, numbers, underscores, dashes and dots.",
-      groups = SeventhOrder.class
-  )
+  @NotNull(message = "user.register.username.required", groups = FirstOrder.class)
+  @NotBlank(message = "user.register.username.empty", groups = SecondOrder.class)
+  @Pattern(regexp = "(^\\S+.+)|(.+\\S+$)", message = "user.register.username.format.whitespaces.around.denied", groups = ThirdOrder.class)
+  @Pattern(regexp = "^\\S+.+", message = "user.register.username.format.whitespaces.beginning.denied", groups = FourthOrder.class)
+  @Pattern(regexp = ".+\\S+$", message = "user.register.username.format.whitespaces.end.denied", groups = FifthOrder.class)
+  @Pattern(regexp = "^\\S+$", message = "user.register.username.format.whitespaces.denied", groups = SixthOrder.class)
+  @Pattern(regexp = "^[a-zA-Z0-9-_.]+$", message = "user.register.username.format.characters.denied", groups = SeventhOrder.class)
   private String name;
 
-  @NotNull(message = "Password is required.", groups = FirstOrder.class)
-  @NotBlank(message = "Password field is empty.", groups = SecondOrder.class)
-  @Pattern(regexp = "^\\S+.+\\S+$", message = "Your password is starting or ending with space(s).", groups = ThirdOrder.class)
-  @Size(min = 8, message = "Password must have at least 8 characters.", groups = FourthOrder.class)
+  @NotNull(message = "user.register.password.required", groups = FirstOrder.class)
+  @NotBlank(message = "user.register.password.empty", groups = SecondOrder.class)
+  @Pattern(regexp = "^\\S+.+\\S+$", message = "user.register.password.format.whitespaces.around.denied", groups = ThirdOrder.class)
+  @Size(min = 8, message = "user.register.password.format.length.short", groups = FourthOrder.class)
+  @Size(max = 32, message = "user.register.password.format.length.long", groups = FifthOrder.class)
   private String pass;
 
-  @NotNull(message = "Password confirmation is required.", groups = FirstOrder.class)
-  @NotBlank(message = "Password confirmation field is empty.", groups = SecondOrder.class)
+  @NotNull(message = "user.register.passwordConfirmation.required", groups = FirstOrder.class)
+  @NotBlank(message = "user.register.passwordConfirmation.empty", groups = SecondOrder.class)
   private String pass2;
 
-  @NotNull(message = "E-mail is required.", groups = FirstOrder.class)
-  @NotBlank(message = "E-mail field is empty.", groups = SecondOrder.class)
+  @NotNull(message = "user.register.email.required", groups = FirstOrder.class)
+  @NotBlank(message = "user.register.email.empty", groups = SecondOrder.class)
   @Pattern(
       regexp = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$",
-      message = "E-mail address is not valid.",
+      message = "user.register.email.format.wrong",
       groups = ThirdOrder.class
   )
   private String email;
 
 }
-
-//TODO najst sposob kde dat stringy, pripadne s I18n
