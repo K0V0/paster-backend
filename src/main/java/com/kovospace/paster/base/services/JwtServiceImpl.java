@@ -46,32 +46,32 @@ public class JwtServiceImpl implements JwtService {
   public String generate(User user) {
     Claims claims = Jwts.claims();
     claims.put("userId", user.getId());
-    String token = Jwts.builder()
+    return Jwts.builder()
         .setClaims(claims)
         .setIssuedAt(timeService.getDate())
         .setExpiration(timeService.getDateAfter(validDays))
         .signWith(secretKey)
         .compact();
-    return token;
   }
 
   @Override
   public long parse(String jwtToken) throws JwtException {
-    //System.out.println(privateKey);
-    //System.out.println("================================");
     if (jwtToken != null) {
-      if (jwtToken.startsWith(prefix)) {
-        if (jwtToken.replace(prefix, "").trim().length() == 0) {
-          throw new JwtException("JWT Token is missing.");
-        }
-        Claims claims = jwtParser
-            .parseClaimsJws(jwtToken.replace(prefix, "").trim())
-            .getBody();
-        return Long.parseLong(claims.get("userId").toString());
+      if (prefix != null && !prefix.equals("")) {
+        if (jwtToken.startsWith(prefix)) {
+          if (jwtToken.replace(prefix, "").trim().length() == 0) {
+            throw new JwtException("general.endpoint.authentication.jwt.missing");
+          }
+          Claims claims = jwtParser
+                  .parseClaimsJws(jwtToken.replace(prefix, "").trim())
+                  .getBody();
+          return Long.parseLong(claims.get("userId").toString());
 
+        }
+        throw new JwtException("general.endpoint.authentication.jwt.prefix.wrong");
       }
-      throw new JwtException("Token prefix invalid or missing.");
+      throw new JwtException("general.endpoint.authentication.jwt.prefix.missing");
     }
-    throw new JwtException("JWT Token is missing.");
+    throw new JwtException("general.endpoint.authentication.jwt.missing");
   }
 }

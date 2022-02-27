@@ -26,12 +26,12 @@ public class UserLoginRequestDTO extends RequestDTO {
 
   @NotNull(message = "user.login.username.required", groups = FirstOrder.class)
   @NotBlank(message = "user.login.username.empty", groups = SecondOrder.class)
-  @Pattern(regexp = "^\\S+$", message = "user.login.username.whitespacesNotAllowed", groups = FourthOrder.class)
+  @Pattern(regexp = "^\\S+$", message = "user.login.username.format.whitespaces.denied", groups = FourthOrder.class)
   private String name;
 
-  @NotNull(message = "Password is required.", groups = FirstOrder.class)
-  @NotBlank(message = "Password field is empty.", groups = SecondOrder.class)
-  @Size(min = 8, message = "Password must have at least 8 characters.", groups = ThirdOrder.class)
+  @NotNull(message = "user.login.password.required", groups = FirstOrder.class)
+  @NotBlank(message = "user.login.password.empty", groups = SecondOrder.class)
+  @Size(min = 8, max = 32, message = "user.login.credentials.wrong", groups = ThirdOrder.class)
   private String pass;
 
 }

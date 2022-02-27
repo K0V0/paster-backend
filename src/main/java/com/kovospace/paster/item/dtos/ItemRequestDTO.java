@@ -19,12 +19,12 @@ import lombok.Setter;
     ThirdOrder.class
 })
 public class ItemRequestDTO {
-  @NotNull(message = "Item not presented.", groups = FirstOrder.class)
-  @NotBlank(message = "Nothing pasted.", groups = SecondOrder.class)
+  @NotNull(message = "item.request.missing", groups = FirstOrder.class)
+  @NotBlank(message = "item.request.empty", groups = SecondOrder.class)
   @Size(
       min = 1,
       max = 4194304,
-      message = "Maximum allowed size exceeded.",
+      message = "item.request.maxsize.reached",
       groups = ThirdOrder.class
   )
   private String text;

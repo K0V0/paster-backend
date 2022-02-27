@@ -1,5 +1,6 @@
 package com.kovospace.paster.user.integration;
 
+import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -136,8 +137,8 @@ public class UserControllerLoginTest extends KovoTest {
         )
         .andExpect(status().is(400))
         .andExpect(jsonPath("$.messages.length()", is(2)))
-        .andExpect(jsonPath("$.messages.name", is("Username is required.")))
-        .andExpect(jsonPath("$.messages.pass", is("Password is required.")));
+        .andExpect(jsonPath("$.messages.name.*", hasItem("Username is required.")))
+        .andExpect(jsonPath("$.messages.pass.*", hasItem("Password is required.")));
   }
 
   @Test
@@ -153,8 +154,8 @@ public class UserControllerLoginTest extends KovoTest {
         )
         .andExpect(status().is(400))
         .andExpect(jsonPath("$.messages.length()", is(2)))
-        .andExpect(jsonPath("$.messages.name", is("Username is required.")))
-        .andExpect(jsonPath("$.messages.pass", is("Password is required.")));
+        .andExpect(jsonPath("$.messages.name.*", hasItem("Username is required.")))
+        .andExpect(jsonPath("$.messages.pass.*", hasItem("Password is required.")));
   }
 
   @Test
@@ -172,8 +173,8 @@ public class UserControllerLoginTest extends KovoTest {
         )
         .andExpect(status().is(400))
         .andExpect(jsonPath("$.messages.length()", is(2)))
-        .andExpect(jsonPath("$.messages.name", is("Username field is empty.")))
-        .andExpect(jsonPath("$.messages.pass", is("Password field is empty.")));
+        .andExpect(jsonPath("$.messages.name.*", hasItem("Username field is empty.")))
+        .andExpect(jsonPath("$.messages.pass.*", hasItem("Password field is empty.")));
   }
 
   @Test
@@ -203,7 +204,7 @@ public class UserControllerLoginTest extends KovoTest {
   @Test
   @Order(13)
   public void passwordShort() throws Exception {
-    assertFieldErrorMsg("1234567", "Password must have at least 8 characters.", passPreparer);
+    assertFieldErrorMsg("1234567", "Username or password is wrong.", passPreparer);
   }
 
   @Test
@@ -221,32 +222,32 @@ public class UserControllerLoginTest extends KovoTest {
   @Test
   @Order(16)
   public void usernameBeginWithSpace() throws Exception {
-    assertFieldErrorMsg(" comrade_Testovic", "Whitespaces not allowed anywhere.", namePreparer);
+    assertFieldErrorMsg(" comrade_Testovic", "Whitespaces not allowed anywhere in username.", namePreparer);
   }
 
   @Test
   @Order(17)
   public void usernameWithSpace() throws Exception {
-    assertFieldErrorMsg("comrade Testovic", "Whitespaces not allowed anywhere.", namePreparer);
+    assertFieldErrorMsg("comrade Testovic", "Whitespaces not allowed anywhere in username.", namePreparer);
   }
 
   @Test
   @Order(18)
   public void usernameEndsWithSpace() throws Exception {
-    assertFieldErrorMsg("comrade_Testovic ", "Whitespaces not allowed anywhere.", namePreparer);
+    assertFieldErrorMsg("comrade_Testovic ", "Whitespaces not allowed anywhere in username.", namePreparer);
   }
 
   @Test
   @Order(19)
   public void userNotFound() throws Exception {
-    assertFormErrorMsg("comrade_nonexistent", "Wrong username or password.", namePreparer, 401);
+    assertFormErrorMsg("comrade_nonexistent", "Username or password is wrong.", namePreparer, 401);
   }
 
   @Test
   @Order(20)
   public void usersPasswordWrong() throws Exception {
     loadUser();
-    assertFormErrorMsg("neviemNepametam", "Wrong username or password.", passPreparer, 401);
+    assertFormErrorMsg("neviemNepametam", "Username or password is wrong.", passPreparer, 401);
   }
 
   @Test

@@ -55,7 +55,7 @@ public class TimeServiceTest {
     var to = from - diff;
     var exception = Assertions
         .assertThrows(IllegalArgumentException.class, () -> timeService.getTimeBetween(from, to));
-    Assertions.assertEquals("Value of 'from' must be less than 'to'", exception.getMessage());
+    Assertions.assertEquals("general.services.time.arithmetic.entrophy", exception.getMessage());
   }
 
   @Test
@@ -66,7 +66,7 @@ public class TimeServiceTest {
     var to = from + diff;
     var exception = Assertions
         .assertThrows(ArithmeticException.class, () -> timeService.getTimeBetween(from, to));
-    Assertions.assertEquals("Result too long", exception.getMessage());
+    Assertions.assertEquals("general.services.time.arithmetic.length", exception.getMessage());
   }
 
   @Test

@@ -15,7 +15,8 @@ import java.util.stream.Stream;
 // todo unit test
 public class Strings {
     private static final String FILE_PATH = "strings.strings";
-    private static final Pattern pattern = Pattern.compile("^\\s*([\\w\\.]+)\\s*\\=\\s*\\\"([\\w\\.\\s]+)\\\"\\s*$");
+    private static final Pattern pattern = Pattern
+            .compile("^\\s*([a-zA-Z0-9.]+)\\s*=\\s*\"([^\"]+)\"\\s*$");
     private static final Map<String, String> values = new HashMap<>();
     private static Matcher matcher;
 
@@ -29,7 +30,7 @@ public class Strings {
                 Charset.defaultCharset()))
         {
             values.putAll(lines
-                    .filter(line -> line.trim().equals(""))
+                    .filter(line -> !line.trim().equals(""))
                     .map(pattern::matcher)
                     .filter(Matcher::find)
                     .collect(Collectors.toMap(
@@ -43,8 +44,8 @@ public class Strings {
     }
 
     public static String s(String key) {
-        if (values.containsKey(key)) {
-            return values.get(key);
+        if (values.containsKey(key.toLowerCase())) {
+            return values.get(key.toLowerCase());
         }
         return key;
     }

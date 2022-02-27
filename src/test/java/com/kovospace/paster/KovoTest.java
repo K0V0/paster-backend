@@ -1,5 +1,6 @@
 package com.kovospace.paster;
 
+import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -10,23 +11,31 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.function.Function;
+
+import com.kovospace.paster.base.configurations.strings.Strings;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 @RunWith(SpringRunner.class)
-@AutoConfigureMockMvc
-@AutoConfigureTestDatabase
 @TestMethodOrder(OrderAnnotation.class)
+@AutoConfigureMockMvc
+// database and persistence
+//@DataJpaTest
+//@ActiveProfiles("test")
+@AutoConfigureTestDatabase/*(replace = AutoConfigureTestDatabase.Replace.NONE)*/
 // because websockets
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -100,7 +109,7 @@ public abstract class KovoTest {
         )
         .andExpect(status().is(httpStatus))
         .andExpect(jsonPath("$.messages.length()", is(1)))
-        .andExpect(jsonPath("$.messages." + dtoPreparer.getField(), is(message)));
+        .andExpect(jsonPath("$.messages." + dtoPreparer.getField() + ".*", hasItem(Strings.s(message))));
   }
 
   protected void assertFieldErrorMsg(
@@ -117,7 +126,7 @@ public abstract class KovoTest {
                 .content(objectMapper.writeValueAsBytes(dtoPreparer.apply(input)))
         )
         .andExpect(status().is(httpStatus))
-        .andExpect(jsonPath("$.message", is(message)));
+        .andExpect(jsonPath("$.message", is(Strings.s(message))));
   }
 
   protected void assertFormErrorMsg(
