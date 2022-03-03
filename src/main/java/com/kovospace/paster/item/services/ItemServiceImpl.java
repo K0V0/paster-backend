@@ -64,8 +64,11 @@ public class ItemServiceImpl implements ItemService {
     item.setUser(user);
     item.setText(text);
     itemRepo.save(item);
-    // TODO v buducnosti neobmedzene polozky pre premium usera
-    itemRepo.deleteAll(itemRepo.findUserItemsAbove20(userId));
+    // TODO v buducnosti neobmedzene polozky pre premium useraň
+    // TODO SQL OFFET nefunguje ako ocakavane, ak ma user menej ako 20 itemov tak vracia tie
+    if (itemRepo.findAllByUserOrderByCreatedAtDesc(user).size() > 20) {
+      itemRepo.deleteAll(itemRepo.findUserItemsAbove20(userId));
+    }
   }
 
   // TODO unit/integracny test
