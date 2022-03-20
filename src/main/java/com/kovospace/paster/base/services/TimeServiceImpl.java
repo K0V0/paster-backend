@@ -20,7 +20,7 @@ public class TimeServiceImpl implements TimeService {
   @Override
   public int getTimeBetween(long from, long to) {
     if (from <= to) {
-      var res = to - from;
+      long res = to - from;
       if (res <= Integer.MAX_VALUE) {
         return (int) res;
       } else {

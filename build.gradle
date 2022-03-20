@@ -4,9 +4,13 @@ plugins {
     id 'java'
 }
 
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
 group = 'com.kovospace'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
 
 configurations {
     compileOnly {

@@ -24,7 +24,7 @@ public class WsSessionHandlerImpl implements WsSessionHandler {
   public void addUserSession(long userId, Session session) {
     session.getUserProperties().put("userId", userId);
     if (!WS_SESSIONS.containsKey(userId)) {
-      WS_SESSIONS.put(userId, new HashSet<>() {{ add(session); }});
+      WS_SESSIONS.put(userId, new HashSet<Session>() {{ add(session); }});
     } else {
       // vraj zbytocny check TODO precitat nieco
       //if (!WS_SESSIONS.get(userId).contains(session)) {
