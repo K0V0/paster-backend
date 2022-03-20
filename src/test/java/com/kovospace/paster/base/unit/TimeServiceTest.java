@@ -17,7 +17,7 @@ public class TimeServiceTest {
   private TimeService timeService = new TimeServiceImpl();
 
   private void waitIfNeeded() throws InterruptedException {
-    var currentMillis = Instant.now().get(ChronoField.MILLI_OF_SECOND);
+    int currentMillis = Instant.now().get(ChronoField.MILLI_OF_SECOND);
     if (currentMillis > 500) {
       Thread.sleep(1000 - currentMillis);
     }
@@ -34,26 +34,26 @@ public class TimeServiceTest {
   @Order(2)
   public void getTimeAfterOk() throws InterruptedException {
     waitIfNeeded();
-    var diff = 5457;
+    int diff = 5457;
     Assertions.assertEquals(Instant.now().getEpochSecond() + diff, timeService.getTimeAfter(diff));
   }
 
   @Test
   @Order(3)
   public void getTimeBetweenOk() {
-    var from = 1622742573L;
-    var diff = 5457;
-    var to = from + diff;
+    long from = 1622742573L;
+    long diff = 5457;
+    long to = from + diff;
     Assertions.assertEquals(diff, timeService.getTimeBetween(from, to));
   }
 
   @Test
   @Order(4)
   public void getTimeBetweenWrongOrder() {
-    var from = 1622742573L;
-    var diff = 5457;
-    var to = from - diff;
-    var exception = Assertions
+    long from = 1622742573L;
+    long diff = 5457;
+    long to = from - diff;
+    Exception exception = Assertions
         .assertThrows(IllegalArgumentException.class, () -> timeService.getTimeBetween(from, to));
     Assertions.assertEquals("general.services.time.arithmetic.entrophy", exception.getMessage());
   }
@@ -61,10 +61,10 @@ public class TimeServiceTest {
   @Test
   @Order(5)
   public void getTimeBetweenDifferenceTooBig() {
-    var from = 1622742573L;
-    var diff = 1L + Integer.MAX_VALUE;
-    var to = from + diff;
-    var exception = Assertions
+    long from = 1622742573L;
+    long diff = 1L + Integer.MAX_VALUE;
+    long to = from + diff;
+    Exception exception = Assertions
         .assertThrows(ArithmeticException.class, () -> timeService.getTimeBetween(from, to));
     Assertions.assertEquals("general.services.time.arithmetic.length", exception.getMessage());
   }
