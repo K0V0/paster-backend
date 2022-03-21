@@ -188,7 +188,7 @@ public class ItemControllerAddTest extends KovoTest {
 
   // org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException: Porušenie jedinečnosti (unique) indexu alebo primárneho kľúča:
   // v prod ale funguje
-  @Ignore
+  /*@Ignore
   @Test
   @Order(9)
   @Transactional
@@ -204,11 +204,11 @@ public class ItemControllerAddTest extends KovoTest {
                             .content(objectMapper.writeValueAsBytes(item))
             )
             .andExpect(status().is(201));
-  }
+  }*/
 
   // org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException: Porušenie jedinečnosti (unique) indexu alebo primárneho kľúča:
   // v prod ale funguje
-  @Ignore
+  /*@Ignore
   @Test
   @Order(10)
   @Transactional
@@ -225,6 +225,6 @@ public class ItemControllerAddTest extends KovoTest {
                 .content(objectMapper.writeValueAsBytes(item))
         )
         .andExpect(status().is(201));
-  }
+  }*/
 
 }
