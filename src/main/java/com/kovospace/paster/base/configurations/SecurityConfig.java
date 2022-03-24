@@ -56,7 +56,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   public CorsConfigurationSource corsConfigurationSource() {
     CorsConfiguration configuration = new CorsConfiguration();
     // TODO ulozit allowed origins niekde do configu
-    configuration.setAllowedOrigins(Arrays.asList("http://0.0.0.0:4200"));
+    configuration.setAllowedOrigins(Arrays.asList(
+            "http://0.0.0.0:4200",
+            "http://kovo.space:6060",
+            "http://localhost:4200",
+            "http://localhost:6060",
+            "http://0.0.0.0:6060"
+    ));
     configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
     configuration.setAllowedHeaders(Arrays.asList("authorization", "content-type", "x-auth-token"));
     configuration.setExposedHeaders(Arrays.asList("x-auth-token"));
