@@ -9,7 +9,9 @@ import com.kovospace.paster.base.dtoHelpers.SixthOrder;
 import com.kovospace.paster.base.dtoHelpers.ThirdOrder;
 import com.kovospace.paster.base.dtos.RequestDTO;
 import javax.validation.GroupSequence;
+import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -58,5 +60,10 @@ public class UserRegisterRequestDTO extends RequestDTO {
       groups = ThirdOrder.class
   )
   private String email;
+
+  @NotNull(message = "user.register.gdpr.required", groups = FirstOrder.class)
+  //@NotEmpty(message = "user.register.gdpr.required", groups = SecondOrder.class)
+  @AssertTrue(message = "user.register.gdpr.denied", groups = SecondOrder.class)
+  private Boolean gdpr;
 
 }

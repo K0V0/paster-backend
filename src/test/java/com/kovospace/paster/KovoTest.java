@@ -10,6 +10,7 @@ import static org.springframework.util.StringUtils.capitalize;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
 import java.util.function.Function;
 
 import com.kovospace.paster.base.configurations.strings.Strings;
@@ -18,6 +19,7 @@ import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
+import org.junitpioneer.jupiter.StdOut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -62,7 +64,7 @@ public abstract class KovoTest {
     void modIt(T obj);
   }
 
-  protected abstract class DtoPreparer<T> implements Function<String, T> {
+  protected abstract class DtoPreparer<K, T> implements Function<K, T> {
     protected T dto;
     protected String field;
 
@@ -84,12 +86,15 @@ public abstract class KovoTest {
     }
 
     @Override
-    public T apply(String s) {
+    public T apply(K s) {
       try {
-        Method method = dto.getClass().getMethod("set" + capitalize(field), String.class);
+        Class klazz = dto.getClass().getDeclaredField(field).getType();
+        Method method = dto.getClass().getMethod("set" + capitalize(field), klazz);
         method.invoke(dto, s);
       } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
         e.printStackTrace();
+      } catch (NoSuchFieldException e) {
+        throw new RuntimeException(e);
       }
       return dto;
     }
@@ -100,7 +105,7 @@ public abstract class KovoTest {
   }
 
   protected void assertFieldErrorMsg(
-      String input, String message, DtoPreparer dtoPreparer, int httpStatus) throws Exception {
+      Object input, String message, DtoPreparer dtoPreparer, int httpStatus) throws Exception {
     mockMvc
         .perform(
             post(API_PREFIX + ENDPOINT)
@@ -114,6 +119,11 @@ public abstract class KovoTest {
 
   protected void assertFieldErrorMsg(
       String input, String message, DtoPreparer dtoPreparer) throws Exception {
+    assertFieldErrorMsg(input, message, dtoPreparer, 400);
+  }
+
+  protected void assertFieldErrorMsg(
+          Boolean input, String message, DtoPreparer dtoPreparer) throws Exception {
     assertFieldErrorMsg(input, message, dtoPreparer, 400);
   }
 

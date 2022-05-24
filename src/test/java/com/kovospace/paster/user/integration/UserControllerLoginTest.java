@@ -55,7 +55,7 @@ public class UserControllerLoginTest extends KovoTest {
 
   private final UserLoginDtoPreparer passPreparer = new UserLoginDtoPreparer("pass");
 
-  private class UserLoginDtoPreparer extends DtoPreparer<UserLoginRequestDTO> {
+  private class UserLoginDtoPreparer extends DtoPreparer<String, UserLoginRequestDTO> {
     public UserLoginDtoPreparer(String field) {
       super(field);
       dto = new UserLoginRequestDTO();
@@ -180,7 +180,7 @@ public class UserControllerLoginTest extends KovoTest {
   @Test
   @Order(9)
   public void usernameNull() throws Exception {
-    assertFieldErrorMsg(null, "Username is required.", namePreparer);
+    assertFieldErrorMsg((String) null, "Username is required.", namePreparer);
   }
 
   @Test
@@ -192,7 +192,7 @@ public class UserControllerLoginTest extends KovoTest {
   @Test
   @Order(11)
   public void passwordNull() throws Exception {
-    assertFieldErrorMsg(null, "Password is required.", passPreparer);
+    assertFieldErrorMsg((String) null, "Password is required.", passPreparer);
   }
 
   @Test
