@@ -22,7 +22,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 public class UserControllerRegisterTest extends KovoTest {
 
-  private class UserRegisterDtoPreparer extends DtoPreparer<UserRegisterRequestDTO> {
+  private class UserRegisterDtoPreparer<T> extends DtoPreparer<T, UserRegisterRequestDTO> {
     public UserRegisterDtoPreparer(String field) {
       super(field);
       dto = new UserRegisterRequestDTO();
@@ -30,13 +30,15 @@ public class UserControllerRegisterTest extends KovoTest {
       dto.setPass("12345678");
       dto.setPass2("12345678");
       dto.setEmail("comrade.testovic@dym.bar");
+      dto.setGdpr(true);
     }
   }
 
-  private final UserRegisterDtoPreparer emailDtoPreparer = new UserRegisterDtoPreparer("email");
-  private final UserRegisterDtoPreparer nameDtoPreparer = new UserRegisterDtoPreparer("name");
-  private final UserRegisterDtoPreparer passDtoPreparer = new UserRegisterDtoPreparer("pass");
-  private final UserRegisterDtoPreparer pass2DtoPreparer = new UserRegisterDtoPreparer("pass2");
+  private final UserRegisterDtoPreparer emailDtoPreparer = new UserRegisterDtoPreparer<String>("email");
+  private final UserRegisterDtoPreparer nameDtoPreparer = new UserRegisterDtoPreparer<String>("name");
+  private final UserRegisterDtoPreparer passDtoPreparer = new UserRegisterDtoPreparer<String>("pass");
+  private final UserRegisterDtoPreparer pass2DtoPreparer = new UserRegisterDtoPreparer<String>("pass2");
+  private final UserRegisterDtoPreparer gdprDtoPreparer = new UserRegisterDtoPreparer<Boolean>("gdpr");
 
   @Override
   protected String getEndpoint() {
@@ -118,7 +120,7 @@ public class UserControllerRegisterTest extends KovoTest {
                 .content("{}")
         )
         .andExpect(status().is(400))
-        .andExpect(jsonPath("$.messages.length()", is(4)))
+        .andExpect(jsonPath("$.messages.length()", is(5)))
         .andExpect(jsonPath("$.messages.name.*", hasItem("Username is required.")))
         .andExpect(jsonPath("$.messages.pass.*", hasItem("Password is required.")))
         .andExpect(jsonPath("$.messages.pass2.*", hasItem("Password confirmation is required.")))
@@ -127,7 +129,7 @@ public class UserControllerRegisterTest extends KovoTest {
 
   @Test
   @Order(7)
-  public void usernameAndPasswordsAndEmailNull() throws Exception {
+  public void usernameAndPasswordsAndEmailAndGdprNull() throws Exception {
     UserRegisterRequestDTO user = new UserRegisterRequestDTO();
 
     mockMvc
@@ -137,21 +139,23 @@ public class UserControllerRegisterTest extends KovoTest {
                 .content(objectMapper.writeValueAsBytes(user))
         )
         .andExpect(status().is(400))
-        .andExpect(jsonPath("$.messages.length()", is(4)))
+        .andExpect(jsonPath("$.messages.length()", is(5)))
         .andExpect(jsonPath("$.messages.name.*", hasItem("Username is required.")))
         .andExpect(jsonPath("$.messages.pass.*", hasItem("Password is required.")))
         .andExpect(jsonPath("$.messages.pass2.*", hasItem("Password confirmation is required.")))
+        .andExpect(jsonPath("$.messages.gdpr.*", hasItem("GDPR accept field is empty.")))
         .andExpect(jsonPath("$.messages.email.*", hasItem("E-mail is required.")));
   }
 
   @Test
   @Order(8)
-  public void usernameAndPasswordsAndEmailEmpty() throws Exception {
+  public void usernameAndPasswordsAndEmailEmptyAndGdprFalse() throws Exception {
     UserRegisterRequestDTO user = new UserRegisterRequestDTO();
     user.setName("");
     user.setPass("");
     user.setPass2("");
     user.setEmail("");
+    user.setGdpr(false);
 
     mockMvc
         .perform(
@@ -160,17 +164,18 @@ public class UserControllerRegisterTest extends KovoTest {
                 .content(objectMapper.writeValueAsBytes(user))
         )
         .andExpect(status().is(400))
-        .andExpect(jsonPath("$.messages.length()", is(4)))
+        .andExpect(jsonPath("$.messages.length()", is(5)))
         .andExpect(jsonPath("$.messages.name.*", hasItem("Username field is empty.")))
         .andExpect(jsonPath("$.messages.pass.*", hasItem("Password field is empty.")))
         .andExpect(jsonPath("$.messages.pass2.*", hasItem("Password confirmation field is empty.")))
+        .andExpect(jsonPath("$.messages.gdpr.*", hasItem("GDPR consent must be accepted.")))
         .andExpect(jsonPath("$.messages.email.*", hasItem("E-mail field is empty.")));
   }
 
   @Test
   @Order(9)
   public void usernameNull() throws Exception {
-    assertFieldErrorMsg(null, "Username is required.", nameDtoPreparer);
+    assertFieldErrorMsg((String) null, "Username is required.", nameDtoPreparer);
   }
 
   @Test
@@ -182,7 +187,7 @@ public class UserControllerRegisterTest extends KovoTest {
   @Test
   @Order(11)
   public void passwordNull() throws Exception {
-    assertFieldErrorMsg(null, "Password is required.", passDtoPreparer);
+    assertFieldErrorMsg((String) null, "Password is required.", passDtoPreparer);
   }
 
   @Test
@@ -194,7 +199,7 @@ public class UserControllerRegisterTest extends KovoTest {
   @Test
   @Order(13)
   public void passwordConfirmationNull() throws Exception {
-    assertFieldErrorMsg(null, "Password confirmation is required.", pass2DtoPreparer);
+    assertFieldErrorMsg((String) null, "Password confirmation is required.", pass2DtoPreparer);
   }
 
   @Test
@@ -274,6 +279,7 @@ public class UserControllerRegisterTest extends KovoTest {
     user.setPass("12345678");
     user.setPass2("12345679");
     user.setEmail("comrade.testovic@dym.bar");
+    user.setGdpr(true);
 
     mockMvc
         .perform(
@@ -293,6 +299,7 @@ public class UserControllerRegisterTest extends KovoTest {
     user.setPass("12345678");
     user.setPass2("12345678");
     user.setEmail("comrade.testovic@dym.bar");
+    user.setGdpr(true);
 
     User dbUser = new User();
     dbUser.setName("comrade_testovic");
@@ -319,6 +326,7 @@ public class UserControllerRegisterTest extends KovoTest {
     user.setPass("12345678");
     user.setPass2("12345678");
     user.setEmail("comrade.testovic@dym.bar");
+    user.setGdpr(true);
     String jwtToken = "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjJ9.Puh4y7UM2bdCuqyQOK-iyOwloMGPOskNwfjjKZ2jDQ8";
 
     Mockito.when(timeService.getTime()).thenReturn(1234567890L);
@@ -338,7 +346,7 @@ public class UserControllerRegisterTest extends KovoTest {
   @Test
   @Order(27)
   public void userEmailNull() throws Exception {
-    assertFieldErrorMsg(null, "E-mail is required.", emailDtoPreparer);
+    assertFieldErrorMsg((String) null, "E-mail is required.", emailDtoPreparer);
   }
 
   @Test
@@ -366,6 +374,19 @@ public class UserControllerRegisterTest extends KovoTest {
     assertFieldErrorMsg("hello@example_example.com", "E-mail address is not valid.", emailDtoPreparer);
     assertFieldErrorMsg("1234567890123456789012345678901234567890123456789012345678901234xx@example.com",
         "E-mail address is not valid.", emailDtoPreparer);
+  }
+
+  //TODO poriesit typy a generika v KovoTest pre pripad null (teraz bere ako String)
+  @Test
+  @Order(30)
+  public void gdprIsNull() throws Exception {
+    assertFieldErrorMsg((Boolean) null, "GDPR accept field is empty.", gdprDtoPreparer);
+  }
+
+  @Test
+  @Order(30)
+  public void gdprNotAccepted() throws Exception {
+    assertFieldErrorMsg(false, "GDPR consent must be accepted.", gdprDtoPreparer);
   }
 
 }

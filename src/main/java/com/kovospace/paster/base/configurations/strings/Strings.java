@@ -5,6 +5,7 @@ import org.springframework.core.io.ClassPathResource;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -17,19 +18,16 @@ public class Strings {
     private static final String FILE_PATH = "strings.strings";
     private static final Pattern pattern = Pattern
             .compile("^\\s*([a-zA-Z0-9.]+)\\s*=\\s*\"([^\"]+)\"\\s*$");
-    private static final Map<String, String> values = new HashMap<>();
+    private static final Map<String, String> values;
     private static Matcher matcher;
 
     static {
-        readFile();
-    }
-
-    private static void readFile() {
+        Map<String, String> v = new HashMap<>();
         try (Stream<String> lines = Files.lines(
                 new ClassPathResource(FILE_PATH).getFile().toPath(),
                 Charset.defaultCharset()))
         {
-            values.putAll(lines
+            v.putAll(lines
                     .filter(line -> !line.trim().equals(""))
                     .map(pattern::matcher)
                     .filter(Matcher::find)
@@ -41,6 +39,7 @@ public class Strings {
         } catch (IOException e) {
             // todo zalogovat
         }
+        values = Collections.unmodifiableMap(v);
     }
 
     public static String s(String key) {

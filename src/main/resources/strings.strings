@@ -39,6 +39,9 @@ user.register.passwordConfirmation.nomatch = "Password and its confirmation did 
 user.register.email.required = "E-mail is required."
 user.register.email.empty = "E-mail field is empty."
 user.register.email.format.wrong = "E-mail address is not valid."
+user.register.gdpr.required = "GDPR accept field is empty."
+user.register.gdpr.empty = "GDPR accept field is empty."
+user.register.gdpr.denied = "GDPR consent must be accepted."
 
 item.request.missing = "Item not presented."
 item.request.empty = "Nothing pasted."

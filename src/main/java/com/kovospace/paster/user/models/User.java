@@ -28,6 +28,8 @@ public class User {
 
   private String email;
 
+  private Boolean gdpr;
+
   @OneToMany(mappedBy = "user")
   private List<Item> items;
 
