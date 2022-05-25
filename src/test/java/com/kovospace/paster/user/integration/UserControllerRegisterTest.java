@@ -78,21 +78,27 @@ public class UserControllerRegisterTest extends KovoTest {
   @Order(3)
   public void requestBodyEmpty() throws Exception {
     postRequest().run()
-        .andExpect(status().is(400))
-        .andExpect(jsonPath("$.message", is("Request body malformed or missing.")));
+            .andExpect(status().is(400))
+            .andExpect(jsonPath("$.message", is("Request body malformed or missing.")));
   }
 
   @Test
   @Order(4)
   public void requestBodyMalformed() throws Exception {
-    mockMvc
+    postRequest()
+            .withMediaType(MediaType.APPLICATION_JSON)
+            .withMediaContent("{kjhmbn}")
+            .run()
+            .andExpect(status().is(400))
+            .andExpect(jsonPath("$.message", is("Request body malformed or missing.")));
+    /*mockMvc
         .perform(
             post(API_PREFIX + "/user/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{kjhmbn}")
         )
         .andExpect(status().is(400))
-        .andExpect(jsonPath("$.message", is("Request body malformed or missing.")));
+        .andExpect(jsonPath("$.message", is("Request body malformed or missing.")));*/
   }
 
   @Test
