@@ -22,8 +22,6 @@ import java.util.function.Function;
 
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.is;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.util.StringUtils.capitalize;
@@ -101,47 +99,48 @@ public abstract class KovoTest {
     }
   }
 
-  protected void assertFieldErrorMsg(
-      Object input, String message, DtoPreparer dtoPreparer, int httpStatus) throws Exception {
-    mockMvc
-        .perform(
-            post(API_PREFIX + ENDPOINT)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsBytes(dtoPreparer.apply(input)))
-        )
-        .andExpect(status().is(httpStatus))
-        .andExpect(jsonPath("$.messages.length()", is(1)))
-        .andExpect(jsonPath("$.messages." + dtoPreparer.getField() + ".*", hasItem(Strings.s(message))));
+  protected void assertFieldErrorMsg(Object input, String message, DtoPreparer dtoPreparer, int httpStatus)
+            throws Exception
+  {
+    postRequest()
+            .withMediaType(MediaType.APPLICATION_JSON)
+            .withMediaContent(objectMapper.writeValueAsBytes(dtoPreparer.apply(input)))
+            .run()
+            .andExpect(status().is(httpStatus))
+            .andExpect(jsonPath("$.messages.length()", is(1)))
+            .andExpect(jsonPath("$.messages." + dtoPreparer.getField() + ".*", hasItem(Strings.s(message))));
   }
 
-  protected void assertFieldErrorMsg(
-      String input, String message, DtoPreparer dtoPreparer) throws Exception {
+  protected void assertFieldErrorMsg(String input, String message, DtoPreparer dtoPreparer)
+            throws Exception
+  {
     assertFieldErrorMsg(input, message, dtoPreparer, 400);
   }
 
-  protected void assertFieldErrorMsg(
-          Boolean input, String message, DtoPreparer dtoPreparer) throws Exception {
+  protected void assertFieldErrorMsg(Boolean input, String message, DtoPreparer dtoPreparer)
+            throws Exception
+  {
     assertFieldErrorMsg(input, message, dtoPreparer, 400);
   }
 
-  protected void assertFormErrorMsg(
-      String input, String message, DtoPreparer dtoPreparer, int httpStatus) throws Exception {
-    mockMvc
-        .perform(
-            post(API_PREFIX + ENDPOINT)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsBytes(dtoPreparer.apply(input)))
-        )
-        .andExpect(status().is(httpStatus))
-        .andExpect(jsonPath("$.message", is(Strings.s(message))));
+  protected void assertFormErrorMsg(String input, String message, DtoPreparer dtoPreparer, int httpStatus)
+            throws Exception
+  {
+    postRequest()
+            .withMediaType(MediaType.APPLICATION_JSON)
+            .withMediaContent(objectMapper.writeValueAsBytes(dtoPreparer.apply(input)))
+            .run()
+            .andExpect(status().is(httpStatus))
+            .andExpect(jsonPath("$.message", is(Strings.s(message))));
   }
 
-  protected void assertFormErrorMsg(
-      String input, String message, DtoPreparer dtoPreparer) throws Exception {
+  protected void assertFormErrorMsg(String input, String message, DtoPreparer dtoPreparer)
+            throws Exception
+  {
     assertFormErrorMsg(input, message, dtoPreparer, 400);
   }
 
-  protected MockMvcSarcophagus postRequest() throws Exception {
+  protected MockMvcSarcophagus postRequest() {
     return new MockMvcSarcophagus(mockMvc)
             .withHttpMethod(HttpMethod.POST)
             .withUrl(API_PREFIX + ENDPOINT)

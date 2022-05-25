@@ -15,8 +15,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.is;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -78,50 +76,44 @@ public class UserControllerRegisterTest extends KovoTest {
   @Order(3)
   public void requestBodyEmpty() throws Exception {
     postRequest().run()
-        .andExpect(status().is(400))
-        .andExpect(jsonPath("$.message", is("Request body malformed or missing.")));
+            .andExpect(status().is(400))
+            .andExpect(jsonPath("$.message", is("Request body malformed or missing.")));
   }
 
   @Test
   @Order(4)
   public void requestBodyMalformed() throws Exception {
-    mockMvc
-        .perform(
-            post(API_PREFIX + "/user/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{kjhmbn}")
-        )
-        .andExpect(status().is(400))
-        .andExpect(jsonPath("$.message", is("Request body malformed or missing.")));
+    postRequest()
+            .withMediaType(MediaType.APPLICATION_JSON)
+            .withMediaContent("{kjhmbn}")
+            .run()
+            .andExpect(status().is(400))
+            .andExpect(jsonPath("$.message", is("Request body malformed or missing.")));
   }
 
   @Test
   @Order(5)
   public void requestBodyWrongMediaType() throws Exception {
-    mockMvc
-        .perform(
-            post(API_PREFIX + "/user/register")
-                .content("{\"name\":\"comrade Testovic\",\"pass\":\"AZ-5\",\"pass2\":\"AZ-5\"}")
-        )
-        .andExpect(status().is(415));
-    //.andExpect(jsonPath("$.message", is("Wrong request media type.")));
+    postRequest()
+            .withMediaContent("{\"name\":\"comrade Testovic\",\"pass\":\"AZ-5\",\"pass2\":\"AZ-5\"}")
+            .run()
+            .andExpect(status().is(415));
+            //.andExpect(jsonPath("$.message", is("Wrong request media type.")));
   }
 
   @Test
   @Order(6)
   public void requestJsonEmpty() throws Exception {
-    mockMvc
-        .perform(
-            post(API_PREFIX + "/user/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{}")
-        )
-        .andExpect(status().is(400))
-        .andExpect(jsonPath("$.messages.length()", is(5)))
-        .andExpect(jsonPath("$.messages.name.*", hasItem("Username is required.")))
-        .andExpect(jsonPath("$.messages.pass.*", hasItem("Password is required.")))
-        .andExpect(jsonPath("$.messages.pass2.*", hasItem("Password confirmation is required.")))
-        .andExpect(jsonPath("$.messages.email.*", hasItem("E-mail is required.")));
+    postRequest()
+            .withMediaType(MediaType.APPLICATION_JSON)
+            .withMediaContent("{}")
+            .run()
+            .andExpect(status().is(400))
+            .andExpect(jsonPath("$.messages.length()", is(5)))
+            .andExpect(jsonPath("$.messages.name.*", hasItem("Username is required.")))
+            .andExpect(jsonPath("$.messages.pass.*", hasItem("Password is required.")))
+            .andExpect(jsonPath("$.messages.pass2.*", hasItem("Password confirmation is required.")))
+            .andExpect(jsonPath("$.messages.email.*", hasItem("E-mail is required.")));
   }
 
   @Test
@@ -129,19 +121,17 @@ public class UserControllerRegisterTest extends KovoTest {
   public void usernameAndPasswordsAndEmailAndGdprNull() throws Exception {
     UserRegisterRequestDTO user = new UserRegisterRequestDTO();
 
-    mockMvc
-        .perform(
-            post(API_PREFIX + "/user/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsBytes(user))
-        )
-        .andExpect(status().is(400))
-        .andExpect(jsonPath("$.messages.length()", is(5)))
-        .andExpect(jsonPath("$.messages.name.*", hasItem("Username is required.")))
-        .andExpect(jsonPath("$.messages.pass.*", hasItem("Password is required.")))
-        .andExpect(jsonPath("$.messages.pass2.*", hasItem("Password confirmation is required.")))
-        .andExpect(jsonPath("$.messages.gdpr.*", hasItem("GDPR accept field is empty.")))
-        .andExpect(jsonPath("$.messages.email.*", hasItem("E-mail is required.")));
+    postRequest()
+            .withMediaType(MediaType.APPLICATION_JSON)
+            .withMediaContent(objectMapper.writeValueAsBytes(user))
+            .run()
+            .andExpect(status().is(400))
+            .andExpect(jsonPath("$.messages.length()", is(5)))
+            .andExpect(jsonPath("$.messages.name.*", hasItem("Username is required.")))
+            .andExpect(jsonPath("$.messages.pass.*", hasItem("Password is required.")))
+            .andExpect(jsonPath("$.messages.pass2.*", hasItem("Password confirmation is required.")))
+            .andExpect(jsonPath("$.messages.gdpr.*", hasItem("GDPR accept field is empty.")))
+            .andExpect(jsonPath("$.messages.email.*", hasItem("E-mail is required.")));
   }
 
   @Test
@@ -154,19 +144,17 @@ public class UserControllerRegisterTest extends KovoTest {
     user.setEmail("");
     user.setGdpr(false);
 
-    mockMvc
-        .perform(
-            post(API_PREFIX + "/user/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsBytes(user))
-        )
-        .andExpect(status().is(400))
-        .andExpect(jsonPath("$.messages.length()", is(5)))
-        .andExpect(jsonPath("$.messages.name.*", hasItem("Username field is empty.")))
-        .andExpect(jsonPath("$.messages.pass.*", hasItem("Password field is empty.")))
-        .andExpect(jsonPath("$.messages.pass2.*", hasItem("Password confirmation field is empty.")))
-        .andExpect(jsonPath("$.messages.gdpr.*", hasItem("GDPR consent must be accepted.")))
-        .andExpect(jsonPath("$.messages.email.*", hasItem("E-mail field is empty.")));
+    postRequest()
+            .withMediaType(MediaType.APPLICATION_JSON)
+            .withMediaContent(objectMapper.writeValueAsBytes(user))
+            .run()
+            .andExpect(status().is(400))
+            .andExpect(jsonPath("$.messages.length()", is(5)))
+            .andExpect(jsonPath("$.messages.name.*", hasItem("Username field is empty.")))
+            .andExpect(jsonPath("$.messages.pass.*", hasItem("Password field is empty.")))
+            .andExpect(jsonPath("$.messages.pass2.*", hasItem("Password confirmation field is empty.")))
+            .andExpect(jsonPath("$.messages.gdpr.*", hasItem("GDPR consent must be accepted.")))
+            .andExpect(jsonPath("$.messages.email.*", hasItem("E-mail field is empty.")));
   }
 
   @Test
@@ -278,14 +266,12 @@ public class UserControllerRegisterTest extends KovoTest {
     user.setEmail("comrade.testovic@dym.bar");
     user.setGdpr(true);
 
-    mockMvc
-        .perform(
-            post(API_PREFIX + "/user/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsBytes(user))
-        )
-        .andExpect(status().is(409))
-        .andExpect(jsonPath("$.message", is("Password and its confirmation did not match.")));
+    postRequest()
+            .withMediaType(MediaType.APPLICATION_JSON)
+            .withMediaContent(objectMapper.writeValueAsBytes(user))
+            .run()
+            .andExpect(status().is(409))
+            .andExpect(jsonPath("$.message", is("Password and its confirmation did not match.")));
   }
 
   @Test
@@ -303,14 +289,12 @@ public class UserControllerRegisterTest extends KovoTest {
     dbUser.setPasword(bCryptPasswordEncoder.encode("12345678"));
     userRepository.save(dbUser);
 
-    mockMvc
-        .perform(
-            post(API_PREFIX + "/user/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsBytes(user))
-        )
-        .andExpect(status().is(403))
-        .andExpect(jsonPath("$.message", is("Username is already taken.")));
+    postRequest()
+            .withMediaType(MediaType.APPLICATION_JSON)
+            .withMediaContent(objectMapper.writeValueAsBytes(user))
+            .run()
+            .andExpect(status().is(403))
+            .andExpect(jsonPath("$.message", is("Username is already taken.")));
 
     userRepository.deleteAll();
   }
@@ -328,14 +312,12 @@ public class UserControllerRegisterTest extends KovoTest {
 
     Mockito.when(timeService.getTime()).thenReturn(1234567890L);
 
-    mockMvc
-        .perform(
-            post(API_PREFIX + "/user/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsBytes(user))
-        )
-        .andExpect(status().is(201))
-        .andExpect(jsonPath("$.jwtToken", is(jwtToken)));
+    postRequest()
+            .withMediaType(MediaType.APPLICATION_JSON)
+            .withMediaContent(objectMapper.writeValueAsBytes(user))
+            .run()
+            .andExpect(status().is(201))
+            .andExpect(jsonPath("$.jwtToken", is(jwtToken)));
 
     userRepository.deleteAll();
   }
@@ -373,7 +355,6 @@ public class UserControllerRegisterTest extends KovoTest {
         "E-mail address is not valid.", emailDtoPreparer);
   }
 
-  //TODO poriesit typy a generika v KovoTest pre pripad null (teraz bere ako String)
   @Test
   @Order(30)
   public void gdprIsNull() throws Exception {
@@ -381,7 +362,7 @@ public class UserControllerRegisterTest extends KovoTest {
   }
 
   @Test
-  @Order(30)
+  @Order(31)
   public void gdprNotAccepted() throws Exception {
     assertFieldErrorMsg(false, "GDPR consent must be accepted.", gdprDtoPreparer);
   }
