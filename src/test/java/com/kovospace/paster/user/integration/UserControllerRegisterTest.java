@@ -62,25 +62,22 @@ public class UserControllerRegisterTest extends KovoTest {
   @Test
   @Order(1)
   public void endpointFound() throws Exception {
-    mockMvc
-        .perform(post(API_PREFIX + "/user/register"))
-        .andExpect(status().is(400));
+    postRequest().run()
+            .andExpect(status().is(400));
   }
 
   @Test
   @Order(2)
   public void getRequestNotAllowed() throws Exception {
-    mockMvc
-        .perform(get(API_PREFIX + "/user/register"))
-        .andExpect(status().is(405))
-        .andExpect(jsonPath("$.message", is("Wrong HTTP method used.")));
+    getRequest().run()
+            .andExpect(status().is(405))
+            .andExpect(jsonPath("$.message", is("Wrong HTTP method used.")));
   }
 
   @Test
   @Order(3)
   public void requestBodyEmpty() throws Exception {
-    mockMvc
-        .perform(post(API_PREFIX + "/user/register"))
+    postRequest().run()
         .andExpect(status().is(400))
         .andExpect(jsonPath("$.message", is("Request body malformed or missing.")));
   }

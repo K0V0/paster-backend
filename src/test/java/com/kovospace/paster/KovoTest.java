@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -21,6 +22,7 @@ import java.util.function.Function;
 
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.is;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -137,6 +139,20 @@ public abstract class KovoTest {
   protected void assertFormErrorMsg(
       String input, String message, DtoPreparer dtoPreparer) throws Exception {
     assertFormErrorMsg(input, message, dtoPreparer, 400);
+  }
+
+  protected MockMvcSarcophagus postRequest() throws Exception {
+    return new MockMvcSarcophagus(mockMvc)
+            .withHttpMethod(HttpMethod.POST)
+            .withUrl(API_PREFIX + ENDPOINT)
+            .withApiKey("dummyApiKey");
+  }
+
+  protected MockMvcSarcophagus getRequest() {
+     return new MockMvcSarcophagus(mockMvc)
+             .withHttpMethod(HttpMethod.GET)
+             .withUrl(API_PREFIX + ENDPOINT)
+             .withApiKey("dummyApiKey");
   }
 
 }

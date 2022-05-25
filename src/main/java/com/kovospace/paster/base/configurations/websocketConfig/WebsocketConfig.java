@@ -1,4 +1,4 @@
-package com.kovospace.paster.base.configurations;
+package com.kovospace.paster.base.configurations.websocketConfig;
 
 import com.kovospace.paster.base.configurations.websocketConfig.WsServerSpringConfigurator;
 import org.springframework.context.annotation.Bean;
