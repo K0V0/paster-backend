@@ -1,7 +1,7 @@
 package com.kovospace.paster.base.websockets.handlers;
 
-import java.util.Set;
 import javax.websocket.Session;
+import java.util.Set;
 
 public interface WsSessionHandler {
 

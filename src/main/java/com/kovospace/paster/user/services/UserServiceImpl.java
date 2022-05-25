@@ -7,10 +7,11 @@ import com.kovospace.paster.user.exceptions.UserRegisterAlreadyOccupiedException
 import com.kovospace.paster.user.exceptions.UserRegisterPasswordsNotMatchException;
 import com.kovospace.paster.user.models.User;
 import com.kovospace.paster.user.repositories.UserRepository;
-import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {

@@ -10,12 +10,13 @@ import com.kovospace.paster.item.exceptions.ItemNotFoundException;
 import com.kovospace.paster.item.exceptions.UserNotFoundException;
 import com.kovospace.paster.item.services.ItemService;
 import io.jsonwebtoken.JwtException;
-import java.util.stream.Collectors;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+
+import java.util.stream.Collectors;
 
 @Component
 public class ItemControllerResponderImpl implements ItemControllerResponder {
@@ -76,7 +77,7 @@ public class ItemControllerResponderImpl implements ItemControllerResponder {
   @Override
   public void addItem(String token, ItemRequestDTO dto) throws JwtException, UserNotFoundException {
     long userId = jwtService.parse(token);
-    itemService.addItem(userId, dto.getText());
+    itemService.addItem(userId, dto.getText(), dto.getPlatform());
     websocketService.notifyForChanges(userId);
   }
 

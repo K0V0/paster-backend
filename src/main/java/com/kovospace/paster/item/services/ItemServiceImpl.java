@@ -1,16 +1,18 @@
 package com.kovospace.paster.item.services;
 
+import com.kovospace.paster.item.dtos.PlatformEnum;
 import com.kovospace.paster.item.exceptions.ItemNotFoundException;
 import com.kovospace.paster.item.exceptions.UserNotFoundException;
 import com.kovospace.paster.item.models.Item;
 import com.kovospace.paster.item.repositories.ItemRepository;
 import com.kovospace.paster.user.models.User;
 import com.kovospace.paster.user.repositories.UserRepository;
-import java.util.List;
-import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ItemServiceImpl implements ItemService {
@@ -57,12 +59,13 @@ public class ItemServiceImpl implements ItemService {
 
   @Override
   @Transactional
-  public void addItem(long userId, String text) throws UserNotFoundException {
+  public void addItem(long userId, String text, String platform) throws UserNotFoundException {
     User user = userRepo.findById(userId)
             .orElseThrow(UserNotFoundException::new);
     Item item = new Item();
     item.setUser(user);
     item.setText(text);
+    item.setPlatform(PlatformEnum.getByName(platform));
     itemRepo.save(item);
     // TODO v buducnosti neobmedzene polozky pre premium useraň
     // TODO SQL OFFET nefunguje ako ocakavane, ak ma user menej ako 20 itemov tak vracia tie

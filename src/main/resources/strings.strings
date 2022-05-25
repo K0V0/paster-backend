@@ -46,6 +46,7 @@ user.register.gdpr.denied = "GDPR consent must be accepted."
 item.request.missing = "Item not presented."
 item.request.empty = "Nothing pasted."
 item.request.maxsize.reached = "Maximum allowed size exceeded."
+item.request.platform.wrong = "Wrong platform type passed."
 item.response.missing = "Item not found."
 item.response.access.denied = "User not found or You have no right to access these items."
 

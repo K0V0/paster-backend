@@ -8,11 +8,9 @@ import com.kovospace.paster.item.dtos.ItemsResponseDTO;
 import com.kovospace.paster.item.exceptions.ItemNotFoundException;
 import com.kovospace.paster.item.exceptions.UserNotFoundException;
 import io.jsonwebtoken.JwtException;
-import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.validation.Valid;
 
 @CrossOrigin
 @RestController

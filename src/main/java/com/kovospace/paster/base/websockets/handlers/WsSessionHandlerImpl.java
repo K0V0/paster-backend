@@ -1,11 +1,12 @@
 package com.kovospace.paster.base.websockets.handlers;
 
+import org.springframework.stereotype.Service;
+
+import javax.websocket.Session;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-import javax.websocket.Session;
-import org.springframework.stereotype.Service;
 
 @Service
 public class WsSessionHandlerImpl implements WsSessionHandler {

@@ -1,8 +1,9 @@
 package com.kovospace.paster.base.services;
 
+import org.springframework.stereotype.Service;
+
 import java.time.Instant;
 import java.util.Date;
-import org.springframework.stereotype.Service;
 
 @Service
 public class TimeServiceImpl implements TimeService {

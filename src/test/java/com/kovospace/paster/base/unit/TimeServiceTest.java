@@ -2,14 +2,15 @@ package com.kovospace.paster.base.unit;
 
 import com.kovospace.paster.base.services.TimeService;
 import com.kovospace.paster.base.services.TimeServiceImpl;
-import java.time.Instant;
-import java.time.temporal.ChronoField;
-import java.util.Date;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+
+import java.time.Instant;
+import java.time.temporal.ChronoField;
+import java.util.Date;
 
 @TestMethodOrder(OrderAnnotation.class)
 public class TimeServiceTest {

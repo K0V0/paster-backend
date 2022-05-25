@@ -1,14 +1,16 @@
 package com.kovospace.paster.item.dtos;
 
+import com.kovospace.paster.base.configurations.validators.EnumValidator;
 import com.kovospace.paster.base.dtoHelpers.FirstOrder;
 import com.kovospace.paster.base.dtoHelpers.SecondOrder;
 import com.kovospace.paster.base.dtoHelpers.ThirdOrder;
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.validation.GroupSequence;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import lombok.Getter;
-import lombok.Setter;
 
 @Getter
 @Setter
@@ -19,6 +21,7 @@ import lombok.Setter;
     ThirdOrder.class
 })
 public class ItemRequestDTO {
+
   @NotNull(message = "item.request.missing", groups = FirstOrder.class)
   @NotBlank(message = "item.request.empty", groups = SecondOrder.class)
   @Size(
@@ -28,4 +31,8 @@ public class ItemRequestDTO {
       groups = ThirdOrder.class
   )
   private String text;
+
+  @EnumValidator(enumClazz = PlatformEnum.class, groups = FirstOrder.class)
+  private String platform;
+
 }

@@ -10,16 +10,17 @@ import com.kovospace.paster.base.websockets.exceptions.JwtTokenNotIncludedExcept
 import com.kovospace.paster.base.websockets.exceptions.WsException;
 import com.kovospace.paster.base.websockets.handlers.WsSessionHandler;
 import io.jsonwebtoken.JwtException;
-import java.io.IOException;
-import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import java.io.IOException;
+import java.util.Optional;
 
 // TODO bacha na restart aplikacie, websocket session ids idu zase od nuly - defenzivne programovanie
 // TODO nejaky logging namiesto sout()
