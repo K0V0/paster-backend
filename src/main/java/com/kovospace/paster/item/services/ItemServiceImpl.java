@@ -65,7 +65,7 @@ public class ItemServiceImpl implements ItemService {
     Item item = new Item();
     item.setUser(user);
     item.setText(text);
-    item.setPlatform(PlatformEnum.getByName(platform));
+    item.setPlatform(PlatformEnum.valueOf(platform.toUpperCase()));
     itemRepo.save(item);
     // TODO v buducnosti neobmedzene polozky pre premium useraň
     // TODO SQL OFFET nefunguje ako ocakavane, ak ma user menej ako 20 itemov tak vracia tie

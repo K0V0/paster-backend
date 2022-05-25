@@ -27,6 +27,7 @@ import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -231,7 +232,9 @@ public class ItemControllerAddTest extends KovoTest {
   public void platformNotSet() throws Exception {
     ItemRequestDTO item = new ItemRequestDTO();
     item.setText("test");
+
     itemSaveTest(item, 201);
+    itemGetPlatformTests("UNKNOWN", PlatformEnum.UNKNOWN);
   }
 
   @Test
@@ -252,6 +255,10 @@ public class ItemControllerAddTest extends KovoTest {
             .andExpect(status().is(400))
             .andExpect(jsonPath("$.messages.length()", is(1)))
             .andExpect(jsonPath("$.messages.platform.*", hasItem("Wrong platform type passed.")));
+
+    assertNotNull(userRepository.findFirstByName(user.getName()));
+    assertNotNull(itemRepository.findAllByUserOrderByCreatedAtDesc(user));
+    assertTrue(itemRepository.findAllByUserOrderByCreatedAtDesc(user).isEmpty());
   }
 
   @Test
@@ -261,24 +268,9 @@ public class ItemControllerAddTest extends KovoTest {
     ItemRequestDTO item = new ItemRequestDTO();
     item.setText("test");
     item.setPlatform("webapp");
-    itemSaveTest(item, 201);
-    //assertEquals(PlatformEnum.WEBAPP, userRepository.getById(1L).getItems().get(0).getPlatform());
-    assertNotNull(userRepository.findFirstByName(user.getName()));
-    assertNotNull(itemRepository.findAllByUserOrderByCreatedAtDesc(user));
-    assertEquals(1, itemRepository.findAllByUserOrderByCreatedAtDesc(user).size());
-    Item i = itemRepository.findAllByUserOrderByCreatedAtDesc(user).get(0);
-    assertNotNull(i);
-    //TODO null
-    //assertEquals(PlatformEnum.WEBAPP, i.getPlatform());
 
-    mockMvc.perform(
-            get( getApiPrefix() + "/board/item/1")
-            .header("Authorization", token)
-    )
-    .andExpect(status().is(200))
-    .andExpect(jsonPath("$.text", is("test")))
-    .andExpect(jsonPath("$.platform", is("")));
-    ;
+    itemSaveTest(item, 201);
+    itemGetPlatformTests("WEBAPP", PlatformEnum.WEBAPP);
   }
 
   private void itemSaveTest(ItemRequestDTO item, int expectedStatus) throws Exception {
@@ -290,6 +282,22 @@ public class ItemControllerAddTest extends KovoTest {
                             .content(objectMapper.writeValueAsBytes(item))
             )
             .andExpect(status().is(expectedStatus));
+  }
+
+  private void itemGetPlatformTests(String platform, PlatformEnum platformEnum) throws Exception {
+    mockMvc.perform(
+            get( getApiPrefix() + "/board/item/1")
+            .header("Authorization", token)
+    )
+    .andExpect(status().is(200))
+    .andExpect(jsonPath("$.text", is("test")))
+    .andExpect(jsonPath("$.platform", is(platform)));
+
+    assertNotNull(userRepository.findFirstByName(user.getName()));
+    assertNotNull(itemRepository.findAllByUserOrderByCreatedAtDesc(user));
+    Item i = itemRepository.findAllByUserOrderByCreatedAtDesc(user).get(0);
+    assertNotNull(i);
+    assertEquals(platformEnum, i.getPlatform());
   }
 
 }

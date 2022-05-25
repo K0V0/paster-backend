@@ -28,7 +28,7 @@ public class Item {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long id;
 
-  @Enumerated(EnumType.STRING)
+  @Enumerated(EnumType.ORDINAL)
   @Convert(converter = PlatformEnumConverter.class)
   private PlatformEnum platform;
 

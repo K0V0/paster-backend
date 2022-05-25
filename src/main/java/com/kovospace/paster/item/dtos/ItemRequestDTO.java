@@ -11,6 +11,7 @@ import javax.validation.GroupSequence;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.Optional;
 
 @Getter
 @Setter
@@ -34,5 +35,11 @@ public class ItemRequestDTO {
 
   @EnumValidator(enumClazz = PlatformEnum.class, groups = FirstOrder.class)
   private String platform;
+
+  public void setPlatform(String platform) {
+    this.platform = Optional.ofNullable(platform)
+            .map(String::toUpperCase)
+            .orElse(PlatformEnum.UNKNOWN.name());
+  }
 
 }
