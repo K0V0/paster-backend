@@ -8,4 +8,6 @@ public interface JwtService {
   String generate(User user);
   long parse(String jwtToken) throws JwtException;
 
+  String getPrefix();
+
 }

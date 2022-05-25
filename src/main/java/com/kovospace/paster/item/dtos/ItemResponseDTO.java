@@ -12,4 +12,5 @@ public class ItemResponseDTO extends OkResponseDTO {
   private String preview;
   private long timestamp;
   private boolean isLarge;
+  private PlatformEnum platform;
 }

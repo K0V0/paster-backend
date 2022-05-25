@@ -3,7 +3,6 @@ package com.kovospace.paster.item.integration;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kovospace.paster.KovoTest;
 import com.kovospace.paster.base.services.JwtService;
-import com.kovospace.paster.user.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.web.servlet.MockMvc;

@@ -1,8 +1,9 @@
 package com.kovospace.paster.item.converters.itemResponseDTOConverter;
 
-import java.sql.Timestamp;
 import org.modelmapper.Converter;
 import org.modelmapper.spi.MappingContext;
+
+import java.sql.Timestamp;
 
 public class TimestampToStringConverter implements Converter<Timestamp, Long> {
 

@@ -10,8 +10,6 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;
-import java.nio.charset.StandardCharsets;
-import javax.crypto.SecretKey;
 import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,6 +19,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.mockito.Mockito;
 import org.springframework.test.util.ReflectionTestUtils;
+
+import javax.crypto.SecretKey;
+import java.nio.charset.StandardCharsets;
 
 @TestMethodOrder(OrderAnnotation.class)
 public class JwtServiceTest {

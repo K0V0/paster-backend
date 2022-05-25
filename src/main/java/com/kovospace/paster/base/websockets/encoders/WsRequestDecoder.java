@@ -2,6 +2,7 @@ package com.kovospace.paster.base.websockets.encoders;
 
 import com.google.gson.Gson;
 import com.kovospace.paster.base.websockets.dtos.WsRequestDTO;
+
 import javax.websocket.DecodeException;
 import javax.websocket.Decoder;
 import javax.websocket.EndpointConfig;

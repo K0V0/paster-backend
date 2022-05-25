@@ -1,18 +1,15 @@
 package com.kovospace.paster.item.integration;
 
-import static org.hamcrest.Matchers.hasItem;
-import static org.hamcrest.Matchers.is;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kovospace.paster.KovoTest;
 import com.kovospace.paster.base.services.JwtService;
 import com.kovospace.paster.item.dtos.ItemRequestDTO;
+import com.kovospace.paster.item.dtos.PlatformEnum;
+import com.kovospace.paster.item.models.Item;
+import com.kovospace.paster.item.repositories.ItemRepository;
 import com.kovospace.paster.user.models.User;
 import com.kovospace.paster.user.repositories.UserRepository;
-import org.junit.Ignore;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -20,11 +17,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Stream.generate;
+import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class ItemControllerAddTest extends KovoTest {
 
@@ -38,6 +45,7 @@ public class ItemControllerAddTest extends KovoTest {
     return "/api/v1";
   }
 
+  private User user;
   private String token;
 
   @Value("${board.preview-max-length}")
@@ -61,17 +69,30 @@ public class ItemControllerAddTest extends KovoTest {
   @Autowired
   private ObjectMapper objectMapper;
 
-  @BeforeEach
+  @Autowired
+  private ItemRepository itemRepository;
+
+  //@BeforeAll
+  //@Transactional
+  //
+  // @PostConstruct
   @Transactional
+  @BeforeEach
   public void init() {
     userRepository.deleteAll();
-    User user = new User();
+    user = new User();
     user.setName("Anatoli Datlov");
     user.setEmail("datlov@chnpp.cccp");
     user.setPasword(bCryptPasswordEncoder.encode("AZ-5"));
     userRepository.save(user);
     user.setJwtToken(jwtService.generate(user));
-    this.token = user.getJwtToken();
+    this.token = jwtService.getPrefix() + " " + user.getJwtToken();
+  }
+
+  @AfterEach
+  //@Transactional
+  public void databaseCleanup() {
+    //userRepository.deleteAll();
   }
 
   @Test
@@ -186,45 +207,97 @@ public class ItemControllerAddTest extends KovoTest {
         .andExpect(jsonPath("$.messages.text.*", hasItem("Maximum allowed size exceeded.")));
   }
 
-  // org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException: Porušenie jedinečnosti (unique) indexu alebo primárneho kľúča:
-  // v prod ale funguje
-  /*@Ignore
   @Test
   @Order(9)
-  @Transactional
+  @DirtiesContext
   public void itemSavedShort() throws Exception {
     ItemRequestDTO item = new ItemRequestDTO();
     item.setText("test string");
+    itemSaveTest(item, 201);
+  }
 
-    mockMvc
-            .perform(
-                    post(getApiPrefix() + getEndpoint())
-                            .header("Authorization", prefix + " " + token)
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .content(objectMapper.writeValueAsBytes(item))
-            )
-            .andExpect(status().is(201));
-  }*/
-
-  // org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException: Porušenie jedinečnosti (unique) indexu alebo primárneho kľúča:
-  // v prod ale funguje
-  /*@Ignore
   @Test
   @Order(10)
-  @Transactional
+  @DirtiesContext
   public void itemSaved() throws Exception {
     String tst = generate(() -> "a").limit(maxTextLength - 1).collect(joining());
     ItemRequestDTO item = new ItemRequestDTO();
     item.setText(tst);
+    itemSaveTest(item, 201);
+  }
+
+  @Test
+  @Order(11)
+  @DirtiesContext
+  public void platformNotSet() throws Exception {
+    ItemRequestDTO item = new ItemRequestDTO();
+    item.setText("test");
+
+    itemSaveTest(item, 201);
+    itemGetPlatformTests("UNKNOWN", PlatformEnum.UNKNOWN);
+  }
+
+  @Test
+  @Order(12)
+  @DirtiesContext
+  public void platformWrong() throws Exception {
+    ItemRequestDTO item = new ItemRequestDTO();
+    item.setText("test");
+    item.setPlatform("kokotina");
 
     mockMvc
-        .perform(
-            post(getApiPrefix() + getEndpoint())
-                .header("Authorization", prefix + " " + token)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsBytes(item))
-        )
-        .andExpect(status().is(201));
-  }*/
+            .perform(
+                    post(getApiPrefix() + getEndpoint())
+                            .header("Authorization", token)
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(objectMapper.writeValueAsBytes(item))
+            )
+            .andExpect(status().is(400))
+            .andExpect(jsonPath("$.messages.length()", is(1)))
+            .andExpect(jsonPath("$.messages.platform.*", hasItem("Wrong platform type passed.")));
+
+    assertNotNull(userRepository.findFirstByName(user.getName()));
+    assertNotNull(itemRepository.findAllByUserOrderByCreatedAtDesc(user));
+    assertTrue(itemRepository.findAllByUserOrderByCreatedAtDesc(user).isEmpty());
+  }
+
+  @Test
+  @Order(13)
+  @DirtiesContext
+  public void platformOK() throws Exception {
+    ItemRequestDTO item = new ItemRequestDTO();
+    item.setText("test");
+    item.setPlatform("webapp");
+
+    itemSaveTest(item, 201);
+    itemGetPlatformTests("WEBAPP", PlatformEnum.WEBAPP);
+  }
+
+  private void itemSaveTest(ItemRequestDTO item, int expectedStatus) throws Exception {
+    mockMvc
+            .perform(
+                    post(getApiPrefix() + getEndpoint())
+                            .header("Authorization", token)
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(objectMapper.writeValueAsBytes(item))
+            )
+            .andExpect(status().is(expectedStatus));
+  }
+
+  private void itemGetPlatformTests(String platform, PlatformEnum platformEnum) throws Exception {
+    mockMvc.perform(
+            get( getApiPrefix() + "/board/item/1")
+            .header("Authorization", token)
+    )
+    .andExpect(status().is(200))
+    .andExpect(jsonPath("$.text", is("test")))
+    .andExpect(jsonPath("$.platform", is(platform)));
+
+    assertNotNull(userRepository.findFirstByName(user.getName()));
+    assertNotNull(itemRepository.findAllByUserOrderByCreatedAtDesc(user));
+    Item i = itemRepository.findAllByUserOrderByCreatedAtDesc(user).get(0);
+    assertNotNull(i);
+    assertEquals(platformEnum, i.getPlatform());
+  }
 
 }
