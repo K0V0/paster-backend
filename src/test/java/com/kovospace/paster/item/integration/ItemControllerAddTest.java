@@ -9,7 +9,6 @@ import com.kovospace.paster.item.models.Item;
 import com.kovospace.paster.item.repositories.ItemRepository;
 import com.kovospace.paster.user.models.User;
 import com.kovospace.paster.user.repositories.UserRepository;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -28,8 +27,6 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -72,10 +69,6 @@ public class ItemControllerAddTest extends KovoTest {
   @Autowired
   private ItemRepository itemRepository;
 
-  //@BeforeAll
-  //@Transactional
-  //
-  // @PostConstruct
   @Transactional
   @BeforeEach
   public void init() {
@@ -89,68 +82,60 @@ public class ItemControllerAddTest extends KovoTest {
     this.token = jwtService.getPrefix() + " " + user.getJwtToken();
   }
 
-  @AfterEach
-  //@Transactional
-  public void databaseCleanup() {
-    //userRepository.deleteAll();
-  }
-
   @Test
   @Order(1)
   public void unauthorizedRequestNotOK() throws Exception {
-    mockMvc
-        .perform(post(getApiPrefix() + getEndpoint()))
-        .andExpect(status().is(401))
-        .andExpect(jsonPath("$.status", is("error")))
-        .andExpect(jsonPath("$.message", is("Missing Authentication header.")));
+    postRequest()
+            .run()
+            .andExpect(status().is(401))
+            .andExpect(jsonPath("$.status", is("error")))
+            .andExpect(jsonPath("$.message", is("Missing Authentication header.")));
   }
 
   @Test
   @Order(2)
   public void requestBodyEmpty() throws Exception {
-    mockMvc
-        .perform(post(getApiPrefix() + getEndpoint())
-            .header("Authorization", token))
-        .andExpect(status().is(400))
-        .andExpect(jsonPath("$.message", is("Request body malformed or missing.")));
+    postRequest()
+            .withJwtToken(this.token)
+            .run()
+            .andExpect(status().is(400))
+            .andExpect(jsonPath("$.message", is("Request body malformed or missing.")));
   }
 
   @Test
   @Order(3)
   public void requestBodyMalformed() throws Exception {
-    mockMvc
-        .perform(post(getApiPrefix() + getEndpoint())
-            .header("Authorization", token)
-            .contentType(MediaType.APPLICATION_JSON)
-            .content("{kjhmbn}"))
-        .andExpect(status().is(400))
-        .andExpect(jsonPath("$.message", is("Request body malformed or missing.")));
+    postRequest()
+            .withJwtToken(this.token)
+            .withMediaType(MediaType.APPLICATION_JSON)
+            .withMediaContent("{kjhmbn}")
+            .run()
+            .andExpect(status().is(400))
+            .andExpect(jsonPath("$.message", is("Request body malformed or missing.")));
   }
 
   @Test
   @Order(4)
   public void requestBodyWrongMediaType() throws Exception {
-    mockMvc
-        .perform(
-            post(getApiPrefix() + getEndpoint())
-                .header("Authorization", token)
-                .content("{\"text\":\"bla bla bla\"}"))
-        .andExpect(status().is(415));
-    //.andExpect(jsonPath("$.message", is("Wrong request media type.")));
+    postRequest()
+            .withJwtToken(this.token)
+            .withMediaContent("{\"text\":\"bla bla bla\"}")
+            .run()
+            .andExpect(status().is(415));
+            //.andExpect(jsonPath("$.message", is("Wrong request media type.")));
   }
 
   @Test
   @Order(5)
   public void requestJsonEmpty() throws Exception {
-    mockMvc
-        .perform(
-            post(getApiPrefix() + getEndpoint())
-                .header("Authorization", token)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{}"))
-        .andExpect(status().is(400))
-        .andExpect(jsonPath("$.messages.length()", is(1)))
-        .andExpect(jsonPath("$.messages.text.*", hasItem("Item not presented.")));;
+    postRequest()
+            .withJwtToken(this.token)
+            .withMediaType(MediaType.APPLICATION_JSON)
+            .withMediaContent("{}")
+            .run()
+            .andExpect(status().is(400))
+            .andExpect(jsonPath("$.messages.length()", is(1)))
+            .andExpect(jsonPath("$.messages.text.*", hasItem("Item not presented.")));
   }
 
   @Test
@@ -158,16 +143,14 @@ public class ItemControllerAddTest extends KovoTest {
   public void contentNull() throws Exception {
     ItemRequestDTO item = new ItemRequestDTO();
 
-    mockMvc
-        .perform(
-            post(getApiPrefix() + getEndpoint())
-                .header("Authorization", token)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsBytes(item))
-        )
-        .andExpect(status().is(400))
-        .andExpect(jsonPath("$.messages.length()", is(1)))
-        .andExpect(jsonPath("$.messages.text.*", hasItem("Item not presented.")));
+    postRequest()
+            .withJwtToken(this.token)
+            .withMediaType(MediaType.APPLICATION_JSON)
+            .withMediaContent(objectMapper.writeValueAsBytes(item))
+            .run()
+            .andExpect(status().is(400))
+            .andExpect(jsonPath("$.messages.length()", is(1)))
+            .andExpect(jsonPath("$.messages.text.*", hasItem("Item not presented.")));
   }
 
   @Test
@@ -176,16 +159,14 @@ public class ItemControllerAddTest extends KovoTest {
     ItemRequestDTO item = new ItemRequestDTO();
     item.setText("");
 
-    mockMvc
-        .perform(
-            post(getApiPrefix() + getEndpoint())
-                .header("Authorization", token)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsBytes(item))
-        )
-        .andExpect(status().is(400))
-        .andExpect(jsonPath("$.messages.length()", is(1)))
-        .andExpect(jsonPath("$.messages.text.*", hasItem("Nothing pasted.")));
+    postRequest()
+            .withJwtToken(this.token)
+            .withMediaType(MediaType.APPLICATION_JSON)
+            .withMediaContent(objectMapper.writeValueAsBytes(item))
+            .run()
+            .andExpect(status().is(400))
+            .andExpect(jsonPath("$.messages.length()", is(1)))
+            .andExpect(jsonPath("$.messages.text.*", hasItem("Nothing pasted.")));
   }
 
   @Test
@@ -195,16 +176,14 @@ public class ItemControllerAddTest extends KovoTest {
     ItemRequestDTO item = new ItemRequestDTO();
     item.setText(tst);
 
-    mockMvc
-        .perform(
-            post(getApiPrefix() + getEndpoint())
-                .header("Authorization", token)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsBytes(item))
-        )
-        .andExpect(status().is(400))
-        .andExpect(jsonPath("$.messages.length()", is(1)))
-        .andExpect(jsonPath("$.messages.text.*", hasItem("Maximum allowed size exceeded.")));
+    postRequest()
+            .withJwtToken(this.token)
+            .withMediaType(MediaType.APPLICATION_JSON)
+            .withMediaContent(objectMapper.writeValueAsBytes(item))
+            .run()
+            .andExpect(status().is(400))
+            .andExpect(jsonPath("$.messages.length()", is(1)))
+            .andExpect(jsonPath("$.messages.text.*", hasItem("Maximum allowed size exceeded.")));
   }
 
   @Test
@@ -245,13 +224,11 @@ public class ItemControllerAddTest extends KovoTest {
     item.setText("test");
     item.setPlatform("kokotina");
 
-    mockMvc
-            .perform(
-                    post(getApiPrefix() + getEndpoint())
-                            .header("Authorization", token)
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .content(objectMapper.writeValueAsBytes(item))
-            )
+    postRequest()
+            .withJwtToken(this.token)
+            .withMediaType(MediaType.APPLICATION_JSON)
+            .withMediaContent(objectMapper.writeValueAsBytes(item))
+            .run()
             .andExpect(status().is(400))
             .andExpect(jsonPath("$.messages.length()", is(1)))
             .andExpect(jsonPath("$.messages.platform.*", hasItem("Wrong platform type passed.")));
@@ -274,24 +251,22 @@ public class ItemControllerAddTest extends KovoTest {
   }
 
   private void itemSaveTest(ItemRequestDTO item, int expectedStatus) throws Exception {
-    mockMvc
-            .perform(
-                    post(getApiPrefix() + getEndpoint())
-                            .header("Authorization", token)
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .content(objectMapper.writeValueAsBytes(item))
-            )
+    postRequest()
+            .withJwtToken(this.token)
+            .withMediaType(MediaType.APPLICATION_JSON)
+            .withMediaContent(objectMapper.writeValueAsBytes(item))
+            .run()
             .andExpect(status().is(expectedStatus));
   }
 
   private void itemGetPlatformTests(String platform, PlatformEnum platformEnum) throws Exception {
-    mockMvc.perform(
-            get( getApiPrefix() + "/board/item/1")
-            .header("Authorization", token)
-    )
-    .andExpect(status().is(200))
-    .andExpect(jsonPath("$.text", is("test")))
-    .andExpect(jsonPath("$.platform", is(platform)));
+    getRequest()
+            .withJwtToken(this.token)
+            .withUrl(getApiPrefix() + "/board/item/1")
+            .run()
+            .andExpect(status().is(200))
+            .andExpect(jsonPath("$.text", is("test")))
+            .andExpect(jsonPath("$.platform", is(platform)));
 
     assertNotNull(userRepository.findFirstByName(user.getName()));
     assertNotNull(itemRepository.findAllByUserOrderByCreatedAtDesc(user));

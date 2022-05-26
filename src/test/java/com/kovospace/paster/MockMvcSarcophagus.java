@@ -21,7 +21,7 @@ public class MockMvcSarcophagus {
     private String url;
     private HttpMethod httpMethod;
     private MediaType mediaType;
-    private String mediaContent;
+    private Object mediaContent;
     private String jwtToken;
     private String apiKey;
 
@@ -40,7 +40,7 @@ public class MockMvcSarcophagus {
         return this;
     }
 
-    public MockMvcSarcophagus withMediaContent(String mediaContent) {
+    public MockMvcSarcophagus withMediaContent(Object mediaContent) {
         this.mediaContent = mediaContent;
         return this;
     }
@@ -83,13 +83,28 @@ public class MockMvcSarcophagus {
                     .header("Authorization", this.jwtToken);
         }
 
-        if ((this.mediaType == null && this.mediaContent != null) || (this.mediaType != null && this.mediaContent == null)) {
+        if (this.mediaType != null) {
+            mockHttpServletRequestBuilder = mockHttpServletRequestBuilder
+                    .contentType(this.mediaType);
+        }
+
+        if (this.mediaContent != null) {
+            if (this.mediaContent instanceof String) {
+                mockHttpServletRequestBuilder = mockHttpServletRequestBuilder
+                        .content((String) this.mediaContent);
+            } else {
+                mockHttpServletRequestBuilder = mockHttpServletRequestBuilder
+                        .content((byte[]) this.mediaContent);
+            }
+        }
+
+        /*if ((this.mediaType == null && this.mediaContent != null) || (this.mediaType != null && this.mediaContent == null)) {
             throw new Exception("Media content must always come together with media type.");
         } else if (this.mediaType != null && this.mediaContent != null) {
             mockHttpServletRequestBuilder = mockHttpServletRequestBuilder
                     .contentType(this.mediaType)
                     .content(this.mediaContent);
-        }
+        }*/
 
         return mockMvc.perform(mockHttpServletRequestBuilder);
     }

@@ -15,14 +15,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.is;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -71,74 +68,62 @@ public class UserControllerLoginTest extends KovoTest {
   @Test
   @Order(1)
   public void endpointNotFound() throws Exception {
-    //TestRestTemplate testRestTemplate = new TestRestTemplate();
-    //ResponseEntity<ErrorResponseDTO> errorResponse = testRestTemplate
-       // .getForEntity("http://0.0.0.0:4004/user/logi", ErrorResponseDTO.class);
-    //System.out.println(Objects.requireNonNull(errorResponse.getBody()).getMessage());
-    MvcResult res = mockMvc
-        .perform(post( getApiPrefix() + "/user/logi"))
-        .andDo(print())
-        .andExpect(status().is(404))
-        .andReturn();
-        //.andExpect(jsonPath("$.message", is("Endpoint not found.")));
+    postRequest()
+            .withUrl(getApiPrefix() + "/user/logi")
+            .run()
+            .andExpect(status().is(404))
+            .andReturn();
+            //.andExpect(jsonPath("$.message", is("Endpoint not found.")));*/
   }
 
   @Test
   @Order(2)
   public void getRequestNotAllowed() throws Exception {
-    mockMvc
-        .perform(get(getApiPrefix() + getEndpoint()))
-        .andExpect(status().is(405))
-        .andExpect(jsonPath("$.message", is("Wrong HTTP method used.")));
+    getRequest().run()
+            .andExpect(status().is(405))
+            .andExpect(jsonPath("$.message", is("Wrong HTTP method used.")));
   }
 
   @Test
   @Order(3)
   public void requestBodyEmpty() throws Exception {
-    mockMvc
-        .perform(post(getApiPrefix() + getEndpoint()))
-        .andExpect(status().is(400))
-        .andExpect(jsonPath("$.message", is("Request body malformed or missing.")));
+    postRequest().run()
+            .andExpect(status().is(400))
+            .andExpect(jsonPath("$.message", is("Request body malformed or missing.")));
   }
 
   @Test
   @Order(4)
   public void requestBodyMalformed() throws Exception {
-    mockMvc
-        .perform(
-            post(getApiPrefix() + getEndpoint())
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{kjhmbn}")
-        )
-        .andExpect(status().is(400))
-        .andExpect(jsonPath("$.message", is("Request body malformed or missing.")));
+    postRequest()
+            .withMediaType(MediaType.APPLICATION_JSON)
+            .withMediaContent("{kjhmbn}")
+            .run()
+            .andExpect(status().is(400))
+            .andExpect(jsonPath("$.message", is("Request body malformed or missing.")));
   }
 
   @Test
   @Order(5)
   public void requestBodyWrongMediaType() throws Exception {
-    mockMvc
-        .perform(
-            post(getApiPrefix() + getEndpoint())
-                .content("{\"name\":\"comrade Testovic\",\"pass\":\"AZ-5\"}")
-        )
-        .andExpect(status().is(415));
-        //.andExpect(jsonPath("$.message", is("Wrong request media type.")));
+    postRequest()
+            .withMediaContent("{\"name\":\"comrade Testovic\",\"pass\":\"AZ-5\"}")
+            .run()
+            .andExpect(status().is(415));
+            //.andExpect(jsonPath("$.message", is("Wrong request media type.")));
   }
 
   @Test
   @Order(6)
   public void requestJsonEmpty() throws Exception {
-    mockMvc
-        .perform(
-            post(getApiPrefix() + getEndpoint())
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{}")
-        )
-        .andExpect(status().is(400))
-        .andExpect(jsonPath("$.messages.length()", is(2)))
-        .andExpect(jsonPath("$.messages.name.*", hasItem("Username is required.")))
-        .andExpect(jsonPath("$.messages.pass.*", hasItem("Password is required.")));
+    postRequest()
+            .withMediaType(MediaType.APPLICATION_JSON)
+            .withMediaContent("{}")
+            .run()
+            .andExpect(status().is(400))
+            .andExpect(jsonPath("$.messages.length()", is(2)))
+            .andExpect(jsonPath("$.messages.name.*", hasItem("Username is required.")))
+            .andExpect(jsonPath("$.messages.pass.*", hasItem("Password is required.")));
   }
 
   @Test
@@ -146,16 +131,14 @@ public class UserControllerLoginTest extends KovoTest {
   public void usernameAndPasswordNull() throws Exception {
     UserLoginRequestDTO user = new UserLoginRequestDTO();
 
-    mockMvc
-        .perform(
-            post(getApiPrefix() + getEndpoint())
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsBytes(user))
-        )
-        .andExpect(status().is(400))
-        .andExpect(jsonPath("$.messages.length()", is(2)))
-        .andExpect(jsonPath("$.messages.name.*", hasItem("Username is required.")))
-        .andExpect(jsonPath("$.messages.pass.*", hasItem("Password is required.")));
+    postRequest()
+            .withMediaType(MediaType.APPLICATION_JSON)
+            .withMediaContent(objectMapper.writeValueAsBytes(user))
+            .run()
+            .andExpect(status().is(400))
+            .andExpect(jsonPath("$.messages.length()", is(2)))
+            .andExpect(jsonPath("$.messages.name.*", hasItem("Username is required.")))
+            .andExpect(jsonPath("$.messages.pass.*", hasItem("Password is required.")));
   }
 
   @Test
@@ -165,16 +148,14 @@ public class UserControllerLoginTest extends KovoTest {
     user.setName("");
     user.setPass("");
 
-    mockMvc
-        .perform(
-            post(getApiPrefix() + getEndpoint())
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsBytes(user))
-        )
-        .andExpect(status().is(400))
-        .andExpect(jsonPath("$.messages.length()", is(2)))
-        .andExpect(jsonPath("$.messages.name.*", hasItem("Username field is empty.")))
-        .andExpect(jsonPath("$.messages.pass.*", hasItem("Password field is empty.")));
+    postRequest()
+            .withMediaType(MediaType.APPLICATION_JSON)
+            .withMediaContent(objectMapper.writeValueAsBytes(user))
+            .run()
+            .andExpect(status().is(400))
+            .andExpect(jsonPath("$.messages.length()", is(2)))
+            .andExpect(jsonPath("$.messages.name.*", hasItem("Username field is empty.")))
+            .andExpect(jsonPath("$.messages.pass.*", hasItem("Password field is empty.")));
   }
 
   @Test
@@ -246,35 +227,40 @@ public class UserControllerLoginTest extends KovoTest {
   @Test
   @Order(20)
   public void usersPasswordWrong() throws Exception {
-    loadUser();
+    loadUserToDB();
     assertFormErrorMsg("neviemNepametam", "Username or password is wrong.", passPreparer, 401);
+    destroyUsersInDB();
   }
 
   @Test
   @Order(21)
   public void userLoginOK() throws Exception {
+    loadUserToDB();
+
+    UserLoginRequestDTO userLoginRequestDTO = new UserLoginRequestDTO();
+    userLoginRequestDTO.setName(namePreparer.getDto().getName());
+    userLoginRequestDTO.setPass(namePreparer.getDto().getPass());
+
     Mockito.when(timeService.getTime()).thenReturn(1234567890L);
     String jwtToken = jwtService.generate(user);
 
-    mockMvc
-        .perform(
-            post(getApiPrefix() + getEndpoint())
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsBytes(namePreparer.getDto()))
-        )
-        .andExpect(status().is(200))
-        .andExpect(jsonPath("$.jwtToken", is(jwtToken)));
+    postRequest()
+            .withMediaType(MediaType.APPLICATION_JSON)
+            .withMediaContent(objectMapper.writeValueAsBytes(userLoginRequestDTO))
+            .run()
+            .andExpect(status().is(200))
+            .andExpect(jsonPath("$.jwtToken", is(jwtToken)));
 
-    destroyUser();
+    destroyUsersInDB();
   }
 
-  private void loadUser() {
+  private void loadUserToDB() {
     user = modelMapper.map(namePreparer.getDto(), User.class);
     user.setPasword(bCryptPasswordEncoder.encode( namePreparer.getDto().getPass() ));
     userRepository.save(user);
   }
 
-  private void destroyUser() {
+  private void destroyUsersInDB() {
     userRepository.deleteAll();
   }
 
