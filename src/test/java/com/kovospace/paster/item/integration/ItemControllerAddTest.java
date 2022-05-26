@@ -1,6 +1,5 @@
 package com.kovospace.paster.item.integration;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kovospace.paster.KovoTest;
 import com.kovospace.paster.base.services.JwtService;
 import com.kovospace.paster.item.dtos.ItemRequestDTO;
@@ -17,7 +16,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
 import static java.util.stream.Collectors.joining;
@@ -30,6 +28,7 @@ import static org.junit.Assert.assertTrue;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+//TODO testy na problemy s jwtTokenom
 public class ItemControllerAddTest extends KovoTest {
 
   @Override
@@ -48,12 +47,6 @@ public class ItemControllerAddTest extends KovoTest {
   @Value("${board.preview-max-length}")
   private int maxTextLength;
 
-  @Value("${jwt.prefix}")
-  private String prefix;
-
-  @Autowired
-  private MockMvc mockMvc;
-
   @Autowired
   private BCryptPasswordEncoder bCryptPasswordEncoder;
 
@@ -62,9 +55,6 @@ public class ItemControllerAddTest extends KovoTest {
 
   @Autowired
   private JwtService jwtService;
-
-  @Autowired
-  private ObjectMapper objectMapper;
 
   @Autowired
   private ItemRepository itemRepository;
@@ -250,6 +240,34 @@ public class ItemControllerAddTest extends KovoTest {
     itemGetPlatformTests("WEBAPP", PlatformEnum.WEBAPP);
   }
 
+  //TODO preco kod 403
+  @Test
+  @Order(14)
+  public void apiKeyNotIncluded() throws Exception {
+    postRequest()
+            .withApiKey(null)
+            .run()
+            .andExpect(status().is(403));
+  }
+
+  @Test
+  @Order(15)
+  public void apiKeyEmpty() throws Exception {
+    postRequest()
+            .withApiKey("")
+            .run()
+            .andExpect(status().is(401));
+  }
+
+  @Test
+  @Order(16)
+  public void apiKeyWrong() throws Exception {
+    postRequest()
+            .withApiKey("wrongApiKey")
+            .run()
+            .andExpect(status().is(401));
+  }
+
   private void itemSaveTest(ItemRequestDTO item, int expectedStatus) throws Exception {
     postRequest()
             .withJwtToken(this.token)
@@ -274,5 +292,7 @@ public class ItemControllerAddTest extends KovoTest {
     assertNotNull(i);
     assertEquals(platformEnum, i.getPlatform());
   }
+
+
 
 }

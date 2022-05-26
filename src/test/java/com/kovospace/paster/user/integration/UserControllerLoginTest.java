@@ -1,6 +1,5 @@
 package com.kovospace.paster.user.integration;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kovospace.paster.KovoTest;
 import com.kovospace.paster.base.services.JwtService;
 import com.kovospace.paster.base.services.TimeService;
@@ -15,8 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.is;
@@ -26,12 +23,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class UserControllerLoginTest extends KovoTest {
 
   private static User user;
-
-  @Autowired
-  private MockMvc mockMvc;
-
-  @Autowired
-  private ObjectMapper objectMapper;
 
   @Autowired
   private ModelMapper modelMapper;
