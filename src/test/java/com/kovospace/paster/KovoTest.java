@@ -2,11 +2,16 @@ package com.kovospace.paster;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kovospace.paster.base.configurations.strings.Strings;
+import com.kovospace.paster.base.models.ApiKey;
+import com.kovospace.paster.base.repositories.ApiKeyRepository;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -38,6 +43,9 @@ import static org.springframework.util.StringUtils.capitalize;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public abstract class KovoTest {
 
+  @Value("${app.api-key-token}")
+  private static final String DUMMY_API_KEY = "dummyApiKey";
+
   protected String API_PREFIX;
   protected String ENDPOINT;
 
@@ -47,9 +55,24 @@ public abstract class KovoTest {
   @Autowired
   protected ObjectMapper objectMapper;
 
+  @Autowired
+  private ApiKeyRepository apiKeyRepository;
+
   public KovoTest() {
     this.ENDPOINT = getEndpoint();
     this.API_PREFIX = getApiPrefix();
+  }
+
+  @BeforeEach
+  protected void onConstruct() {
+    ApiKey aKey = new ApiKey();
+    aKey.setKey(DUMMY_API_KEY);
+    apiKeyRepository.save(aKey);
+  }
+
+  @AfterEach
+  protected void onDestruct() {
+    apiKeyRepository.deleteAll();
   }
 
   protected abstract String getEndpoint();
@@ -141,17 +164,23 @@ public abstract class KovoTest {
   }
 
   protected MockMvcSarcophagus postRequest() {
+    mocks();
     return new MockMvcSarcophagus(mockMvc)
             .withHttpMethod(HttpMethod.POST)
             .withUrl(API_PREFIX + ENDPOINT)
-            .withApiKey("dummyApiKey");
+            .withApiKey(DUMMY_API_KEY);
   }
 
   protected MockMvcSarcophagus getRequest() {
-     return new MockMvcSarcophagus(mockMvc)
-             .withHttpMethod(HttpMethod.GET)
-             .withUrl(API_PREFIX + ENDPOINT)
-             .withApiKey("dummyApiKey");
+    mocks();
+    return new MockMvcSarcophagus(mockMvc)
+           .withHttpMethod(HttpMethod.GET)
+           .withUrl(API_PREFIX + ENDPOINT)
+           .withApiKey(DUMMY_API_KEY);
+  }
+
+  private void mocks() {
+    //Mockito.when(apiKeyService.isValid(any())).thenReturn(true);
   }
 
 }
