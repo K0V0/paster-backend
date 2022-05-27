@@ -1,9 +1,7 @@
 package com.kovospace.paster.item.integration;
 
-import com.kovospace.paster.KovoTest;
 import com.kovospace.paster.base.services.JwtService;
 import com.kovospace.paster.item.dtos.ItemRequestDTO;
-import com.kovospace.paster.item.models.Item;
 import com.kovospace.paster.item.repositories.ItemRepository;
 import com.kovospace.paster.user.models.User;
 import com.kovospace.paster.user.repositories.UserRepository;
@@ -16,49 +14,19 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
 
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Stream.generate;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 //TODO testy na problemy s jwtTokenom
-public class ItemControllerAddTest extends KovoTest {
-
-  @Override
-  protected String getEndpoint() {
-    return "/board/item";
-  }
-
-  @Override
-  protected String getApiPrefix() {
-    return "/api/v1";
-  }
-
-  private User user;
-  private String token;
-
-  @Value("${board.preview-max-length}")
-  private int maxTextLength;
-
-  @Autowired
-  private BCryptPasswordEncoder bCryptPasswordEncoder;
-
-  @Autowired
-  private UserRepository userRepository;
-
-  @Autowired
-  private JwtService jwtService;
-
-  @Autowired
-  private ItemRepository itemRepository;
+public class ItemControllerAddTest extends ItemControllerTest {
 
   @Transactional
   @BeforeEach
@@ -201,10 +169,9 @@ public class ItemControllerAddTest extends KovoTest {
     item.setText(tst);
 
     itemPostTest(item, 201);
-
-    /*itemDbSaveTest();
-
-    itemGetTests()
+    itemDbSaveTest();
+    //TODO unable to run - freezes
+    /*itemGetTests()
             .andExpect(jsonPath("$.text", is("test")));*/
   }
 
@@ -331,37 +298,6 @@ public class ItemControllerAddTest extends KovoTest {
     itemGetTests()
             .andExpect(jsonPath("$.text", is("test")))
             .andExpect(jsonPath("$.deviceName", is("")));
-  }
-
-
-
-  private ResultActions itemPostTest(ItemRequestDTO item, int expectedStatus) throws Exception {
-    return postRequest()
-            .withJwtToken(this.token)
-            .withMediaType(MediaType.APPLICATION_JSON)
-            .withMediaContent(objectMapper.writeValueAsBytes(item))
-            .run()
-            .andExpect(status().is(expectedStatus));
-  }
-
-  private Item itemDbSaveTest() {
-    Item i = itemRepository.findAllByUserOrderByCreatedAtDesc(user).get(0);
-    assertNotNull(i);
-    return i;
-  }
-
-  private ResultActions itemGetTests() throws Exception {
-    assertNotNull(userRepository.findFirstByName(user.getName()));
-    assertNotNull(itemRepository.findAllByUserOrderByCreatedAtDesc(user));
-    Item i = itemRepository.findAllByUserOrderByCreatedAtDesc(user).get(0);
-    assertNotNull(i);
-    //assertEquals(platformEnum, i.getPlatform());
-
-    return getRequest()
-            .withJwtToken(this.token)
-            .withUrl(getApiPrefix() + "/board/item/1")
-            .run()
-            .andExpect(status().is(200));
   }
 
 }
