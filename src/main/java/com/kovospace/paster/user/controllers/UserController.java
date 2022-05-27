@@ -1,14 +1,20 @@
 package com.kovospace.paster.user.controllers;
 
 import com.kovospace.paster.base.controllers.BaseController;
+import com.kovospace.paster.base.exceptions.FeatureNotImplementedException;
 import com.kovospace.paster.user.controllerHelpers.UserControllerResponder;
+import com.kovospace.paster.user.dtos.UserInfoChangeRequestDTO;
 import com.kovospace.paster.user.dtos.UserLoginRequestDTO;
 import com.kovospace.paster.user.dtos.UserLoginResponseDTO;
+import com.kovospace.paster.user.dtos.UserPassChangeRequestDTO;
 import com.kovospace.paster.user.dtos.UserRegisterRequestDTO;
+import com.kovospace.paster.user.dtos.UserRemoveRequestDTO;
 import com.kovospace.paster.user.exceptions.UserException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,14 +36,38 @@ public class UserController extends BaseController {
 
   @PostMapping("/register")
   public ResponseEntity<UserLoginResponseDTO> register(@Valid @RequestBody UserRegisterRequestDTO user)
-      throws UserException {
+  throws UserException
+  {
     return responder.register(user);
   }
 
   @PostMapping("/login")
   public ResponseEntity<UserLoginResponseDTO> login(@Valid @RequestBody UserLoginRequestDTO user)
-      throws UserException {
+  throws UserException
+  {
     return responder.login(user);
+  }
+
+  @PatchMapping("/login")
+  public ResponseEntity<?> passChange(@Valid @RequestBody UserPassChangeRequestDTO passChange)
+  throws FeatureNotImplementedException
+  {
+    throw new FeatureNotImplementedException();
+  }
+
+  //TODO zmazanie uctu potvrdzovat e-mailom
+  @DeleteMapping("/login")
+  public ResponseEntity<?> remove(@Valid @RequestBody UserRemoveRequestDTO userRemove)
+  throws FeatureNotImplementedException
+  {
+    throw new FeatureNotImplementedException();
+  }
+
+  @PatchMapping("/user")
+  public ResponseEntity<?> remove(@Valid @RequestBody UserInfoChangeRequestDTO details)
+  throws FeatureNotImplementedException
+  {
+    throw new FeatureNotImplementedException();
   }
 
 }

@@ -1,3 +1,5 @@
+general.implementation.missing = "Not implemented yet."
+
 general.endpoint.httpMethod.wrong = "Wrong HTTP method used."
 general.endpoint.missing = "Endpoint not found."
 general.endpoint.mediaType.wrong = "Wrong request media type."
