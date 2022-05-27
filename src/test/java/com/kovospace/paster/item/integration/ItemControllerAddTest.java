@@ -3,11 +3,11 @@ package com.kovospace.paster.item.integration;
 import com.kovospace.paster.KovoTest;
 import com.kovospace.paster.base.services.JwtService;
 import com.kovospace.paster.item.dtos.ItemRequestDTO;
-import com.kovospace.paster.item.dtos.PlatformEnum;
 import com.kovospace.paster.item.models.Item;
 import com.kovospace.paster.item.repositories.ItemRepository;
 import com.kovospace.paster.user.models.User;
 import com.kovospace.paster.user.repositories.UserRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
 
 import static java.util.stream.Collectors.joining;
@@ -70,6 +71,11 @@ public class ItemControllerAddTest extends KovoTest {
     userRepository.save(user);
     user.setJwtToken(jwtService.generate(user));
     this.token = jwtService.getPrefix() + " " + user.getJwtToken();
+  }
+
+  @AfterEach
+  public void destruct() {
+    itemRepository.deleteAll();
   }
 
   @Test
@@ -182,7 +188,8 @@ public class ItemControllerAddTest extends KovoTest {
   public void itemSavedShort() throws Exception {
     ItemRequestDTO item = new ItemRequestDTO();
     item.setText("test string");
-    itemSaveTest(item, 201);
+
+    itemPostTest(item, 201);
   }
 
   @Test
@@ -192,7 +199,13 @@ public class ItemControllerAddTest extends KovoTest {
     String tst = generate(() -> "a").limit(maxTextLength - 1).collect(joining());
     ItemRequestDTO item = new ItemRequestDTO();
     item.setText(tst);
-    itemSaveTest(item, 201);
+
+    itemPostTest(item, 201);
+
+    /*itemDbSaveTest();
+
+    itemGetTests()
+            .andExpect(jsonPath("$.text", is("test")));*/
   }
 
   @Test
@@ -202,8 +215,12 @@ public class ItemControllerAddTest extends KovoTest {
     ItemRequestDTO item = new ItemRequestDTO();
     item.setText("test");
 
-    itemSaveTest(item, 201);
-    itemGetPlatformTests("UNKNOWN", PlatformEnum.UNKNOWN);
+    itemPostTest(item, 201);
+
+    itemGetTests()
+            .andExpect(jsonPath("$.text", is("test")))
+            .andExpect(jsonPath("$.platform", is("UNKNOWN")));
+    ;
   }
 
   @Test
@@ -236,8 +253,11 @@ public class ItemControllerAddTest extends KovoTest {
     item.setText("test");
     item.setPlatform("webapp");
 
-    itemSaveTest(item, 201);
-    itemGetPlatformTests("WEBAPP", PlatformEnum.WEBAPP);
+    itemPostTest(item, 201);
+    itemDbSaveTest();
+    itemGetTests()
+            .andExpect(jsonPath("$.text", is("test")))
+            .andExpect(jsonPath("$.platform", is("WEBAPP")));
   }
 
   //TODO preco kod 403
@@ -268,8 +288,55 @@ public class ItemControllerAddTest extends KovoTest {
             .andExpect(status().is(401));
   }
 
-  private void itemSaveTest(ItemRequestDTO item, int expectedStatus) throws Exception {
-    postRequest()
+  @Test
+  @Order(17)
+  @DirtiesContext
+  public void deviceNameOK() throws Exception {
+    ItemRequestDTO item = new ItemRequestDTO();
+    item.setText("test");
+    item.setDeviceName("dummyDevice");
+
+    itemPostTest(item, 201);
+    itemDbSaveTest();
+    itemGetTests()
+            .andExpect(jsonPath("$.text", is("test")))
+            .andExpect(jsonPath("$.deviceName", is("dummyDevice")));
+  }
+
+  @Test
+  @Order(18)
+  @DirtiesContext
+  public void deviceNameSetEmpty() throws Exception {
+    ItemRequestDTO item = new ItemRequestDTO();
+    item.setText("test");
+    item.setDeviceName("");
+
+    itemPostTest(item, 201);
+    itemDbSaveTest();
+    itemGetTests()
+            .andExpect(jsonPath("$.text", is("test")))
+            .andExpect(jsonPath("$.deviceName", is("")));
+  }
+
+  @Test
+  @Order(19)
+  @DirtiesContext
+  public void deviceNameSetNull() throws Exception {
+    ItemRequestDTO item = new ItemRequestDTO();
+    item.setText("test");
+    item.setDeviceName("");
+
+    itemPostTest(item, 201);
+    itemDbSaveTest();
+    itemGetTests()
+            .andExpect(jsonPath("$.text", is("test")))
+            .andExpect(jsonPath("$.deviceName", is("")));
+  }
+
+
+
+  private ResultActions itemPostTest(ItemRequestDTO item, int expectedStatus) throws Exception {
+    return postRequest()
             .withJwtToken(this.token)
             .withMediaType(MediaType.APPLICATION_JSON)
             .withMediaContent(objectMapper.writeValueAsBytes(item))
@@ -277,22 +344,24 @@ public class ItemControllerAddTest extends KovoTest {
             .andExpect(status().is(expectedStatus));
   }
 
-  private void itemGetPlatformTests(String platform, PlatformEnum platformEnum) throws Exception {
-    getRequest()
-            .withJwtToken(this.token)
-            .withUrl(getApiPrefix() + "/board/item/1")
-            .run()
-            .andExpect(status().is(200))
-            .andExpect(jsonPath("$.text", is("test")))
-            .andExpect(jsonPath("$.platform", is(platform)));
+  private Item itemDbSaveTest() {
+    Item i = itemRepository.findAllByUserOrderByCreatedAtDesc(user).get(0);
+    assertNotNull(i);
+    return i;
+  }
 
+  private ResultActions itemGetTests() throws Exception {
     assertNotNull(userRepository.findFirstByName(user.getName()));
     assertNotNull(itemRepository.findAllByUserOrderByCreatedAtDesc(user));
     Item i = itemRepository.findAllByUserOrderByCreatedAtDesc(user).get(0);
     assertNotNull(i);
-    assertEquals(platformEnum, i.getPlatform());
+    //assertEquals(platformEnum, i.getPlatform());
+
+    return getRequest()
+            .withJwtToken(this.token)
+            .withUrl(getApiPrefix() + "/board/item/1")
+            .run()
+            .andExpect(status().is(200));
   }
-
-
 
 }

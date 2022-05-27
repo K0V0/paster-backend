@@ -77,7 +77,7 @@ public class ItemControllerResponderImpl implements ItemControllerResponder {
   @Override
   public void addItem(String token, ItemRequestDTO dto) throws JwtException, UserNotFoundException {
     long userId = jwtService.parse(token);
-    itemService.addItem(userId, dto.getText(), dto.getPlatform());
+    itemService.addItem(userId, dto.getText(), dto.getPlatform(), dto.getDeviceName());
     websocketService.notifyForChanges(userId);
   }
 
