@@ -1,0 +1,80 @@
+plugins {
+    id 'org.springframework.boot' version '2.5.4'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+group = 'com.kovospace'
+version = '0.0.1-SNAPSHOT'
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+def powermock = '2.0.2'
+
+dependencies {
+    // Basic
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'junit:junit:4.13.1'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+    // @Getter, @Setter, ... lombok stuff
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    // Database stuff
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    runtimeOnly 'com.h2database:h2'
+    runtimeOnly 'mysql:mysql-connector-java'
+
+    // @Valid annotations
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    // annotation processor for configs
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+
+    // Spring security, JWT token
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+
+    // Tests
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
+    implementation 'uk.org.webcompere:system-stubs-jupiter:1.2.0'
+    testImplementation "org.powermock:powermock-core:${powermock}"
+    testImplementation "org.powermock:powermock-module-junit4:${powermock}"
+    testImplementation "org.powermock:powermock-api-mockito2:${powermock}"
+    // @SetEnviromentVariable
+    implementation 'org.junit-pioneer:junit-pioneer:1.4.2'
+
+    // modelMapper
+    implementation 'org.modelmapper:modelmapper:2.4.0'
+
+    // JWT token stuff
+    implementation 'com.auth0:java-jwt:3.16.0'
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.2', 'io.jsonwebtoken:jjwt-jackson:0.11.2'
+
+    // Google Gson
+    implementation 'com.google.code.gson:gson:2.8.9'
+
+    // websockets
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
+    //implementation 'org.webjars:sockjs-client:1.0.2'
+    //implementation 'org.webjars:stomp-websocket:2.3.3'
+}
+
+test {
+    useJUnitPlatform()
+}
