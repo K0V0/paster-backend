@@ -69,4 +69,10 @@ public class ControllerAdvice {
     return new ErrorsResponseDTO(errorMessages);
   }
 
+  @ResponseStatus(HttpStatus.NOT_IMPLEMENTED) // 501
+  @ExceptionHandler(MissingRequestHeaderException.class)
+  public ErrorResponseDTO implementationMissing() {
+    return new ErrorResponseDTO("general.implementation.missing");
+  }
+
 }
