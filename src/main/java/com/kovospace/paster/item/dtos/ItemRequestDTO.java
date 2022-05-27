@@ -36,6 +36,8 @@ public class ItemRequestDTO {
   @EnumValidator(enumClazz = PlatformEnum.class, groups = FirstOrder.class)
   private String platform;
 
+  private String deviceName;
+
   public void setPlatform(String platform) {
     this.platform = Optional.ofNullable(platform)
             .map(String::toUpperCase)

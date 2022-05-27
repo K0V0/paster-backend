@@ -12,7 +12,7 @@ public interface ItemService {
 
   Item getItemOfUser(long userId, long itemId) throws ItemNotFoundException;
 
-  void addItem(long userId, String text, String platform) throws UserNotFoundException;
+  void addItem(long userId, String text, String platform, String deviceName) throws UserNotFoundException;
 
   void deleteItem(long userId, long itemId);
 

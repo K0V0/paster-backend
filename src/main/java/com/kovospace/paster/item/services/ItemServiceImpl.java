@@ -59,13 +59,14 @@ public class ItemServiceImpl implements ItemService {
 
   @Override
   @Transactional
-  public void addItem(long userId, String text, String platform) throws UserNotFoundException {
+  public void addItem(long userId, String text, String platform, String deviceName) throws UserNotFoundException {
     User user = userRepo.findById(userId)
             .orElseThrow(UserNotFoundException::new);
     Item item = new Item();
     item.setUser(user);
     item.setText(text);
     item.setPlatform(PlatformEnum.valueOf(platform.toUpperCase()));
+    item.setDeviceName(deviceName);
     itemRepo.save(item);
     // TODO v buducnosti neobmedzene polozky pre premium useraň
     // TODO SQL OFFET nefunguje ako ocakavane, ak ma user menej ako 20 itemov tak vracia tie
