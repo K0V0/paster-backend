@@ -32,7 +32,6 @@ public class Item {
   @Convert(converter = PlatformEnumConverter.class)
   private PlatformEnum platform;
 
-  @Column
   private String deviceName;
   @ManyToOne
   private User user;
