@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -65,7 +66,7 @@ public class ItemServiceImpl implements ItemService {
     Item item = new Item();
     item.setUser(user);
     item.setText(text);
-    item.setPlatform(PlatformEnum.valueOf(platform.toUpperCase()));
+    item.setPlatform(convertToPlatformEnum(platform));
     item.setDeviceName(deviceName);
     itemRepo.save(item);
     // TODO v buducnosti neobmedzene polozky pre premium useraň
@@ -82,6 +83,12 @@ public class ItemServiceImpl implements ItemService {
     User user = userRepo.getById(userId);
     // TODO exception throw and catch if not found
     itemRepo.deleteByUserAndId(user, itemId);
+  }
+
+  private PlatformEnum convertToPlatformEnum(String platform) {
+    return Optional.ofNullable(platform)
+            .map(pl -> PlatformEnum.valueOf(pl.toUpperCase()))
+            .orElse(PlatformEnum.UNKNOWN);
   }
 
 }

@@ -5,8 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
-
 @Service
 public class ApiKeyServiceImpl implements ApiKeyService {
 
@@ -27,7 +25,7 @@ public class ApiKeyServiceImpl implements ApiKeyService {
     public boolean isValid(String token, String ipAddress) {
         return repo.findByKey(token)
                 .map(ak -> {
-                    if (ak.getDomains().size() == 0) { return true; }
+                    if (ak.getDomains().isEmpty()) { return true; }
                     return ak.getDomains()
                             .stream()
                             .anyMatch(d ->  d.getDomain().equalsIgnoreCase(ipAddress));
