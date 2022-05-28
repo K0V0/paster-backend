@@ -1,18 +1,12 @@
 package com.kovospace.paster.item.integration;
 
-import com.kovospace.paster.base.services.JwtService;
 import com.kovospace.paster.item.dtos.ItemRequestDTO;
-import com.kovospace.paster.item.repositories.ItemRepository;
 import com.kovospace.paster.user.models.User;
-import com.kovospace.paster.user.repositories.UserRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -243,7 +237,7 @@ public class ItemControllerAddTest extends ItemControllerTest {
     postRequest()
             .withApiKey("")
             .run()
-            .andExpect(status().is(401));
+            .andExpect(status().is(403));
   }
 
   @Test
@@ -252,7 +246,7 @@ public class ItemControllerAddTest extends ItemControllerTest {
     postRequest()
             .withApiKey("wrongApiKey")
             .run()
-            .andExpect(status().is(401));
+            .andExpect(status().is(403));
   }
 
   @Test

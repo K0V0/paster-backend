@@ -44,7 +44,9 @@ import static org.springframework.util.StringUtils.capitalize;
 public abstract class KovoTest {
 
   @Value("${app.api-key-token}")
-  private static final String DUMMY_API_KEY = "dummyApiKey";
+  protected String DUMMY_API_KEY;
+  @Value("${app.api-key-header}")
+  protected String API_KEY_HEADER;
 
   protected String API_PREFIX;
   protected String ENDPOINT;
@@ -168,7 +170,7 @@ public abstract class KovoTest {
     return new MockMvcSarcophagus(mockMvc)
             .withHttpMethod(HttpMethod.POST)
             .withUrl(API_PREFIX + ENDPOINT)
-            .withApiKey(DUMMY_API_KEY);
+            .withApiKey(DUMMY_API_KEY, API_KEY_HEADER);
   }
 
   protected MockMvcSarcophagus getRequest() {
@@ -176,7 +178,7 @@ public abstract class KovoTest {
     return new MockMvcSarcophagus(mockMvc)
            .withHttpMethod(HttpMethod.GET)
            .withUrl(API_PREFIX + ENDPOINT)
-           .withApiKey(DUMMY_API_KEY);
+           .withApiKey(DUMMY_API_KEY, API_KEY_HEADER);
   }
 
   private void mocks() {
