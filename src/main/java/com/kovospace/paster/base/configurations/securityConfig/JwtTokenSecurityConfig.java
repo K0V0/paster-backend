@@ -1,5 +1,6 @@
 package com.kovospace.paster.base.configurations.securityConfig;
 
+import com.kovospace.paster.base.exceptions.FiltersExceptionHandler;
 import com.kovospace.paster.base.filters.JwtAuthFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -12,13 +13,17 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @EnableWebSecurity
 @Configuration
-@Order(2)
+@Order(3)
 public class JwtTokenSecurityConfig extends BaseSecurityConfig {
 
   private JwtAuthFilter jwtAuthFilter;
+  private FiltersExceptionHandler filtersExceptionHandler;
 
   @Autowired
-  public JwtTokenSecurityConfig(JwtAuthFilter jwtAuthFilter) { this.jwtAuthFilter = jwtAuthFilter; }
+  public JwtTokenSecurityConfig(JwtAuthFilter jwtAuthFilter, FiltersExceptionHandler filtersExceptionHandler) {
+      this.jwtAuthFilter = jwtAuthFilter;
+      this.filtersExceptionHandler = filtersExceptionHandler;
+  }
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
@@ -37,14 +42,10 @@ public class JwtTokenSecurityConfig extends BaseSecurityConfig {
         .anyRequest().authenticated()
         .and()
         .addFilterBefore(
-            jwtAuthFilter,
-            UsernamePasswordAuthenticationFilter.class
-        );
-        /*addFilterBefore(
-            jwtExceptionCatcherFilter,
-            UsernamePasswordAuthenticationFilter.class)
-        .addFilterAfter(
-            jwtAuthorizationFilter,
-            UsernamePasswordAuthenticationFilter.class);*/
+                filtersExceptionHandler,
+                UsernamePasswordAuthenticationFilter.class)
+        .addFilterBefore(
+                jwtAuthFilter,
+                UsernamePasswordAuthenticationFilter.class);
   }
 }

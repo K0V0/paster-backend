@@ -228,7 +228,7 @@ public class ItemControllerAddTest extends ItemControllerTest {
     postRequest()
             .withApiKey(null)
             .run()
-            .andExpect(status().is(403));
+            .andExpect(status().is(401));
   }
 
   @Test
@@ -237,7 +237,7 @@ public class ItemControllerAddTest extends ItemControllerTest {
     postRequest()
             .withApiKey("")
             .run()
-            .andExpect(status().is(403));
+            .andExpect(status().is(401));
   }
 
   @Test
@@ -246,7 +246,7 @@ public class ItemControllerAddTest extends ItemControllerTest {
     postRequest()
             .withApiKey("wrongApiKey")
             .run()
-            .andExpect(status().is(403));
+            .andExpect(status().is(401));
   }
 
   @Test
