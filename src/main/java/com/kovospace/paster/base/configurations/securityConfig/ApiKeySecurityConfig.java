@@ -49,6 +49,8 @@ public class ApiKeySecurityConfig extends BaseSecurityConfig {
         httpSecurity
                 .antMatcher("/**")
                 .csrf().disable()
+                .cors()
+                .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .addFilter(filter).authorizeRequests().anyRequest().authenticated();
