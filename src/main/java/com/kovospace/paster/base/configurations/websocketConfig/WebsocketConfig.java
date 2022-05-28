@@ -1,6 +1,5 @@
 package com.kovospace.paster.base.configurations.websocketConfig;
 
-import com.kovospace.paster.base.configurations.websocketConfig.WsServerSpringConfigurator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
@@ -19,4 +18,5 @@ public class WebsocketConfig {
   public WsServerSpringConfigurator customSpringConfigurator() {
     return new WsServerSpringConfigurator();
   }
+
 }

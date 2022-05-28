@@ -1,5 +1,6 @@
 package com.kovospace.paster;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -10,6 +11,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 public class MockMvcSarcophagus {
+
+    @Value("${app.api-key-header}")
+    private String API_KEY_HEADER;
 
     private MockMvc mockMvc;
     private MockHttpServletRequestBuilder mockHttpServletRequestBuilder;
@@ -55,6 +59,12 @@ public class MockMvcSarcophagus {
         return this;
     }
 
+    public MockMvcSarcophagus withApiKey(String apiKey, String header) {
+        this.API_KEY_HEADER = header;
+        this.apiKey = apiKey;
+        return this;
+    }
+
 
     public ResultActions run() throws Exception {
 
@@ -75,7 +85,7 @@ public class MockMvcSarcophagus {
 
         if (this.apiKey != null) {
             mockHttpServletRequestBuilder = mockHttpServletRequestBuilder
-                    .header("X-API-KEY", "dummyApiKey");
+                    .header(API_KEY_HEADER, this.apiKey);
         }
 
         if (this.jwtToken != null) {

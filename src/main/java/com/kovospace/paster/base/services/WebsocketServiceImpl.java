@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class WebsocketServiceImpl implements WebsocketService {
 
-  private WsSessionHandler wsSessionHandler;
-  private Gson gson;
+  private final WsSessionHandler wsSessionHandler;
+  private final Gson gson;
 
   @Autowired
   public WebsocketServiceImpl(

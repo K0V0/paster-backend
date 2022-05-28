@@ -8,8 +8,6 @@ git pull
 
 cd build/libs
 
-su
-
 systemctl restart paster-backend
 
 exit

@@ -8,10 +8,12 @@ general.endpoint.authentication.missing = "Missing Authentication header."
 general.endpoint.authentication.jwt.missing = "JWT Token is missing."
 general.endpoint.authentication.jwt.prefix.missing = "JWT Token prefix missing."
 general.endpoint.authentication.jwt.prefix.wrong = "JWT Token prefix invalid or missing."
-general.endpoint.authentication.apikey.missing = "API key is missing".
-general.endpoint.authentication.apikey.wrong = "API key is invalid".
+general.endpoint.authentication.apikey.missing = "API key is missing."
+general.endpoint.authentication.apikey.wrong = "API key is invalid."
 
 general.websocket.authentication.jwt.missing = "JWT Token not included as param of handshake request."
+general.websocket.authentication.apikey.missing = "API key not included as param of handshake request."
+general.websocket.authentication.apikey.invalid = "Provided API key is not valid."
 general.websocket.user.missing = "User not found."
 
 general.services.time.arithmetic.length = "Result too long."

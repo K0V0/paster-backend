@@ -3,6 +3,7 @@ package com.kovospace.paster.base.controllerHelpers;
 import com.kovospace.paster.base.configurations.strings.Strings;
 import com.kovospace.paster.base.dtos.ErrorResponseDTO;
 import com.kovospace.paster.base.dtos.ErrorsResponseDTO;
+import com.kovospace.paster.base.exceptions.ApiKeyMissingException;
 import com.kovospace.paster.base.exceptions.FeatureNotImplementedException;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
@@ -74,6 +75,12 @@ public class ControllerAdvice {
   @ExceptionHandler(FeatureNotImplementedException.class)
   public ErrorResponseDTO implementationMissing() {
     return new ErrorResponseDTO("general.implementation.missing");
+  }
+
+  @ResponseStatus(HttpStatus.UNAUTHORIZED) // 401
+  @ExceptionHandler(ApiKeyMissingException.class)
+  public ErrorResponseDTO apiKeyMissing() {
+    return new ErrorResponseDTO("general.endpoint.authentication.apikey.missing");
   }
 
 }

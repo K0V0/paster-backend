@@ -29,7 +29,7 @@ import javax.validation.Valid;
 @RequestMapping("/api/v1/board")
 public class ItemController extends BaseController {
 
-  private ItemControllerResponder responder;
+  private final ItemControllerResponder responder;
 
   @Autowired
   public ItemController(ItemControllerResponder responder) {

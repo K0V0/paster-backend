@@ -27,7 +27,7 @@ import javax.validation.Valid;
 @RequestMapping("/api/v1/user")
 public class UserController extends BaseController {
 
-  private UserControllerResponder responder;
+  private final UserControllerResponder responder;
 
   @Autowired
   public UserController(UserControllerResponder responder) {

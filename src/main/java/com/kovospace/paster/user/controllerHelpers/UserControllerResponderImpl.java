@@ -14,8 +14,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserControllerResponderImpl implements UserControllerResponder {
 
-  private UserService userService;
-  private ModelMapper modelMapper;
+  private final UserService userService;
+  private final ModelMapper modelMapper;
 
   @Autowired
   public UserControllerResponderImpl(UserService userService, ModelMapper modelMapper) {

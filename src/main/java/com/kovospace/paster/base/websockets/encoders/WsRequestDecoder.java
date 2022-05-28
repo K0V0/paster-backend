@@ -9,7 +9,7 @@ import javax.websocket.EndpointConfig;
 
 public class WsRequestDecoder implements Decoder.Text<WsRequestDTO> {
 
-  private static Gson gson = new Gson();
+  private final static Gson gson = new Gson();
 
   @Override
   public WsRequestDTO decode(String s) throws DecodeException {

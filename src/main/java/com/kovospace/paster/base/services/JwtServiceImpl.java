@@ -17,7 +17,7 @@ import java.nio.charset.StandardCharsets;
 @Service
 public class JwtServiceImpl implements JwtService {
 
-  private TimeService timeService;
+  private final TimeService timeService;
   private SecretKey secretKey;
   private JwtParser jwtParser;
 
