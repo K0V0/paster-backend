@@ -2,10 +2,13 @@ package com.kovospace.paster.base.websockets.controllers;
 
 import com.google.gson.Gson;
 import com.kovospace.paster.base.configurations.websocketConfig.WsServerSpringConfigurator;
+import com.kovospace.paster.base.services.ApiKeyService;
 import com.kovospace.paster.base.services.JwtService;
 import com.kovospace.paster.base.websockets.dtos.WsAutosyncReplyDTO;
 import com.kovospace.paster.base.websockets.dtos.WsRequestDTO;
 import com.kovospace.paster.base.websockets.encoders.WsRequestDecoder;
+import com.kovospace.paster.base.websockets.exceptions.ApiKeyNotIncludedException;
+import com.kovospace.paster.base.websockets.exceptions.ApiKeyNotValidException;
 import com.kovospace.paster.base.websockets.exceptions.JwtTokenNotIncludedException;
 import com.kovospace.paster.base.websockets.exceptions.WsException;
 import com.kovospace.paster.base.websockets.handlers.WsSessionHandler;
@@ -34,27 +37,28 @@ import java.util.Optional;
 public class WsServer {
   private WsSessionHandler wsSessionHandler;
   private JwtService jwtService;
+  private ApiKeyService apiKeyService;
   private Gson gson;
 
   @Autowired
   public WsServer(
       WsSessionHandler wsSessionHandler,
       JwtService jwtService,
+      ApiKeyService apiKeyService,
       Gson gson
   ) {
     this.wsSessionHandler = wsSessionHandler;
     this.jwtService = jwtService;
+    this.apiKeyService = apiKeyService;
     this.gson = gson;
   }
 
   @OnOpen
   public void onOpen(Session session) throws WsException, JwtException {
     System.out.println("websocket connection open");
-    String jwtToken = Optional
-        .ofNullable(session.getRequestParameterMap())
-        .map(stringListMap -> stringListMap.get("jwtToken"))
-        .map(strings -> strings.get(0))
-        .orElseThrow(JwtTokenNotIncludedException::new);
+    String apiKey = getParamOrThrow("apiKey", new ApiKeyNotIncludedException(), session);
+    if (!apiKeyService.isValid(apiKey)) { throw new ApiKeyNotValidException(); }
+    String jwtToken = getParamOrThrow("jwtToken", new JwtTokenNotIncludedException(), session);
     long userId = jwtService.parse("Bearer " + jwtToken);
     wsSessionHandler.addUserSession(userId, session);
     // TODO nastavenie na moznost vypnut autosync v ucte pouzivatela
@@ -82,6 +86,16 @@ public class WsServer {
       session.close();
     }
     System.out.println(throwable.getMessage());
+  }
+
+  private String getParamOrThrow(String param, WsException exception, Session session)
+  throws WsException
+  {
+    return Optional
+            .ofNullable(session.getRequestParameterMap())
+            .map(stringListMap -> stringListMap.get(param))
+            .map(strings -> strings.get(0))
+            .orElseThrow(() -> exception);
   }
 
 }
