@@ -54,9 +54,9 @@ public class ApiKeySecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.GET, "/websocket").permitAll()
-                .antMatchers(HttpMethod.GET, "/websocket/**").permitAll()
-                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                //.antMatchers(HttpMethod.GET, "/websocket").permitAll()
+                //.antMatchers(HttpMethod.GET, "/websocket/**").permitAll()
+                //.antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(
