@@ -1,35 +1,38 @@
 package com.kovospace.paster.base.configurations.securityConfig;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kovospace.paster.base.exceptions.FiltersExceptionHandler;
 import com.kovospace.paster.base.filters.ApiKeyAuthFilter;
 import com.kovospace.paster.base.services.ApiKeyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
 @Configuration
 @EnableWebSecurity
-@Order(2)
-public class ApiKeySecurityConfig extends BaseSecurityConfig {
+@Order(1)
+public class ApiKeySecurityConfig extends WebSecurityConfigurerAdapter {
 
     private ApiKeyService apiKeyService;
     private FiltersExceptionHandler exceptionsFilter;
-    private ObjectMapper objectMapper;
+
+    private CorsConfigurationSource corsConfigurationSource;
 
     @Autowired
     public ApiKeySecurityConfig(
             ApiKeyService apiKeyService,
-            ObjectMapper objectMapper,
-            FiltersExceptionHandler exceptionsFilter)
-    {
+            FiltersExceptionHandler exceptionsFilter,
+            CorsConfigurationSource corsConfigurationSource
+    ) {
         this.apiKeyService = apiKeyService;
-        this.objectMapper = objectMapper;
         this.exceptionsFilter = exceptionsFilter;
+        this.corsConfigurationSource = corsConfigurationSource;
     }
 
     @Override
@@ -49,15 +52,21 @@ public class ApiKeySecurityConfig extends BaseSecurityConfig {
                 .exceptionHandling()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                //.and()
-                //.authorizeRequests()
-                //.antMatchers("/websocket").permitAll()
+                .and()
+                .authorizeRequests()
+                .antMatchers(HttpMethod.GET, "/websocket").permitAll()
+                .antMatchers(HttpMethod.GET, "/websocket/**").permitAll()
+                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(
                         exceptionsFilter,
                         CorsFilter.class
                 )
-                .addFilter(filter).authorizeRequests().anyRequest().authenticated();
+                .addFilterAfter(
+                        filter,
+                        CorsFilter.class
+                );
     }
 
 }

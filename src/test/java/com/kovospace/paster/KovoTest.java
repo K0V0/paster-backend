@@ -68,7 +68,7 @@ public abstract class KovoTest {
   @BeforeEach
   protected void onConstruct() {
     ApiKey aKey = new ApiKey();
-    aKey.setKey(DUMMY_API_KEY);
+    aKey.setToken(DUMMY_API_KEY);
     apiKeyRepository.save(aKey);
   }
 

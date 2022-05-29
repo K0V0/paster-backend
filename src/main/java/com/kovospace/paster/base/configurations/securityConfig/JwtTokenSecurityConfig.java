@@ -8,21 +8,29 @@ import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfigurationSource;
 
 @EnableWebSecurity
 @Configuration
-@Order(3)
-public class JwtTokenSecurityConfig extends BaseSecurityConfig {
+@Order(2)
+public class JwtTokenSecurityConfig extends WebSecurityConfigurerAdapter {
 
   private JwtAuthFilter jwtAuthFilter;
   private FiltersExceptionHandler filtersExceptionHandler;
+  private CorsConfigurationSource corsConfigurationSource;
 
   @Autowired
-  public JwtTokenSecurityConfig(JwtAuthFilter jwtAuthFilter, FiltersExceptionHandler filtersExceptionHandler) {
+  public JwtTokenSecurityConfig(
+          JwtAuthFilter jwtAuthFilter,
+          FiltersExceptionHandler filtersExceptionHandler,
+          CorsConfigurationSource corsConfigurationSource
+  ) {
       this.jwtAuthFilter = jwtAuthFilter;
       this.filtersExceptionHandler = filtersExceptionHandler;
+      this.corsConfigurationSource = corsConfigurationSource;
   }
 
   @Override
@@ -39,6 +47,7 @@ public class JwtTokenSecurityConfig extends BaseSecurityConfig {
         .antMatchers(HttpMethod.POST, "/api/v*/user/**").permitAll()
         .antMatchers(HttpMethod.GET, "/api/v*/user/**").permitAll()
         .antMatchers(HttpMethod.GET, "/websocket").permitAll()
+        .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
         .anyRequest().authenticated()
         .and()
         .addFilterBefore(

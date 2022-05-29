@@ -9,8 +9,8 @@ import java.util.Optional;
 @Repository
 public interface ApiKeyRepository extends JpaRepository<ApiKey, Long> {
 
-    boolean existsByKey(String key);
+    boolean existsByToken(String token);
 
-    Optional<ApiKey> findByKey(String key);
+    Optional<ApiKey> findByToken(String token);
 
 }

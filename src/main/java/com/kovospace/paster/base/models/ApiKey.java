@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -21,9 +22,9 @@ public class ApiKey {
     private Long id;
 
     @Column(unique=true)
-    private String key;
+    private String token;
 
-    @OneToMany(mappedBy = "apiKey")
+    @OneToMany(mappedBy = "apiKey", fetch = FetchType.EAGER)
     private List<Domain> domains;
 
 }

@@ -17,13 +17,13 @@ public class ApiKeyServiceImpl implements ApiKeyService {
 
     @Override
     public boolean isValid(String apiKey) {
-        return repo.existsByKey(apiKey);
+        return repo.existsByToken(apiKey);
     }
 
     @Override
     @Transactional
     public boolean isValid(String token, String ipAddress) {
-        return repo.findByKey(token)
+        return repo.findByToken(token)
                 .map(ak -> {
                     if (ak.getDomains().isEmpty()) { return true; }
                     return ak.getDomains()
