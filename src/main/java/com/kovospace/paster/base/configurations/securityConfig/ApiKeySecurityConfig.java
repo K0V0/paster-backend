@@ -49,9 +49,9 @@ public class ApiKeySecurityConfig extends BaseSecurityConfig {
                 .exceptionHandling()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .authorizeRequests()
-                .antMatchers("/websocket").permitAll()
+                //.and()
+                //.authorizeRequests()
+                //.antMatchers("/websocket").permitAll()
                 .and()
                 .addFilterBefore(
                         exceptionsFilter,
