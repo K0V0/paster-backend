@@ -15,6 +15,7 @@ import com.kovospace.paster.base.websockets.handlers.WsSessionHandler;
 import io.jsonwebtoken.JwtException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
@@ -29,6 +30,7 @@ import java.util.Optional;
 // TODO nejaky logging namiesto sout()
 
 @Component
+@CrossOrigin
 @ServerEndpoint(
     value = "/websocket",
     decoders = WsRequestDecoder.class,
