@@ -2,6 +2,7 @@ package com.kovospace.paster.base.filters;
 
 import com.kovospace.paster.base.services.JwtService;
 import io.jsonwebtoken.JwtException;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -15,6 +16,7 @@ import java.io.IOException;
 import java.util.Optional;
 
 @Component
+@Order(3)
 public class JwtAuthFilter extends OncePerRequestFilter {
 
   private JwtService jwtService;
@@ -41,6 +43,5 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         userId, null, null
     ));
     filterChain.doFilter(request, response);
-
   }
 }
