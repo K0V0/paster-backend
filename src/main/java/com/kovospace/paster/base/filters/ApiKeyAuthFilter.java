@@ -3,27 +3,38 @@ package com.kovospace.paster.base.filters;
 import com.kovospace.paster.base.exceptions.ApiKeyInvalidException;
 import com.kovospace.paster.base.exceptions.ApiKeyMissingException;
 import com.kovospace.paster.base.services.ApiKeyService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.web.authentication.preauth.AbstractPreAuthenticatedProcessingFilter;
+import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
 
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class ApiKeyAuthFilter extends AbstractPreAuthenticatedProcessingFilter {
+@Component
+public class ApiKeyAuthFilter extends OncePerRequestFilter {
 
     private String API_KEY_HEADER = "x-auth-token";
 
     private ApiKeyService apiKeyService;
 
+    @Autowired
     public ApiKeyAuthFilter(ApiKeyService apiKeyService) {
         this.apiKeyService = apiKeyService;
     }
 
     @Override
-    protected Object getPreAuthenticatedPrincipal(HttpServletRequest request) {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+    throws ServletException, IOException
+    {
         // standart request
         String token = request.getHeader(API_KEY_HEADER);
         if (token == null) {
@@ -38,12 +49,7 @@ public class ApiKeyAuthFilter extends AbstractPreAuthenticatedProcessingFilter {
         boolean isValid = (ipAddress == null) ? apiKeyService.isValid(token) : apiKeyService.isValid(token, ipAddress);
         if (!isValid) { throw new ApiKeyInvalidException(); }
 
-        return token;
-    }
-
-    @Override
-    protected Object getPreAuthenticatedCredentials(HttpServletRequest request) {
-        return "N/A";
+        filterChain.doFilter(request, response);
     }
 
     private Map<String, String> getParametersFromURL(String queryString) {
@@ -54,5 +60,4 @@ public class ApiKeyAuthFilter extends AbstractPreAuthenticatedProcessingFilter {
                         .collect(Collectors.toMap(k -> k[0], v -> v[1])))
                 .orElseGet(HashMap::new);
     }
-
 }

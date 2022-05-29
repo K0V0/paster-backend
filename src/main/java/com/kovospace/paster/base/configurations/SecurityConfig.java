@@ -1,8 +1,8 @@
-package com.kovospace.paster.base.configurations.securityConfig;
+package com.kovospace.paster.base.configurations;
 
 import com.kovospace.paster.base.exceptions.FiltersExceptionHandler;
 import com.kovospace.paster.base.filters.ApiKeyAuthFilter;
-import com.kovospace.paster.base.services.ApiKeyService;
+import com.kovospace.paster.base.filters.JwtAuthFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -11,41 +11,35 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
 
-@Configuration
 @EnableWebSecurity
+@Configuration
 @Order(1)
-public class ApiKeySecurityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private ApiKeyService apiKeyService;
+    private ApiKeyAuthFilter apiKeyAuthFilter;
+    private JwtAuthFilter jwtAuthFilter;
     private FiltersExceptionHandler exceptionsFilter;
-
     private CorsConfigurationSource corsConfigurationSource;
 
     @Autowired
-    public ApiKeySecurityConfig(
-            ApiKeyService apiKeyService,
+    public SecurityConfig(
+            ApiKeyAuthFilter apiKeyAuthFilter,
+            JwtAuthFilter jwtAuthFilter,
             FiltersExceptionHandler exceptionsFilter,
             CorsConfigurationSource corsConfigurationSource
     ) {
-        this.apiKeyService = apiKeyService;
+        this.apiKeyAuthFilter = apiKeyAuthFilter;
+        this.jwtAuthFilter = jwtAuthFilter;
         this.exceptionsFilter = exceptionsFilter;
         this.corsConfigurationSource = corsConfigurationSource;
     }
 
     @Override
-    protected void configure(HttpSecurity httpSecurity) throws Exception {
-        ApiKeyAuthFilter filter = new ApiKeyAuthFilter(apiKeyService);
-
-        filter.setAuthenticationManager(authentication -> {
-            // filter aj tak vyhadzuje exceptions ak sa daco nepodari
-            authentication.setAuthenticated(true);
-            return authentication;
-        });
-
-        httpSecurity
+    protected void configure(HttpSecurity http) throws Exception {
+        http
                 .csrf().disable()
                 .cors()
                 .and()
@@ -53,20 +47,22 @@ public class ApiKeySecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
+                .addFilterBefore(
+                        exceptionsFilter,
+                        UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(
+                        apiKeyAuthFilter,
+                        UsernamePasswordAuthenticationFilter.class
+                )
                 .authorizeRequests()
-                //.antMatchers(HttpMethod.GET, "/websocket").permitAll()
-                //.antMatchers(HttpMethod.GET, "/websocket/**").permitAll()
-                //.antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/v*/user/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/v*/user/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(
-                        exceptionsFilter,
-                        CorsFilter.class
-                )
-                .addFilterAfter(
-                        filter,
-                        CorsFilter.class
-                );
+                        jwtAuthFilter,
+                        UsernamePasswordAuthenticationFilter.class);
+
     }
 
 }
