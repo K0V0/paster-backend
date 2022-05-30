@@ -30,7 +30,7 @@ import java.util.Optional;
 // TODO nejaky logging namiesto sout()
 
 @Component
-//@CrossOrigin
+@CrossOrigin
 @ServerEndpoint(
     value = "/websocket",
     decoders = WsRequestDecoder.class,

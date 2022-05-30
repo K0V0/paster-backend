@@ -25,19 +25,19 @@ import java.util.Arrays;
 @Order(1)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private ApiKeyAuthFilter apiKeyAuthFilter;
-    private JwtAuthFilter jwtAuthFilter;
-    private FiltersExceptionHandler exceptionsFilter;
-    private CorsConfigurationSource corsConfigurationSource;
+    //private final ApiKeyAuthFilter apiKeyAuthFilter;
+    private final JwtAuthFilter jwtAuthFilter;
+    private final FiltersExceptionHandler exceptionsFilter;
+    private final CorsConfigurationSource corsConfigurationSource;
 
     @Autowired
     public SecurityConfig(
-            ApiKeyAuthFilter apiKeyAuthFilter,
+            //ApiKeyAuthFilter apiKeyAuthFilter,
             JwtAuthFilter jwtAuthFilter,
             FiltersExceptionHandler exceptionsFilter,
             CorsConfigurationSource corsConfigurationSource
     ) {
-        this.apiKeyAuthFilter = apiKeyAuthFilter;
+        //this.apiKeyAuthFilter = apiKeyAuthFilter;
         this.jwtAuthFilter = jwtAuthFilter;
         this.exceptionsFilter = exceptionsFilter;
         this.corsConfigurationSource = corsConfigurationSource;
@@ -53,12 +53,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .addFilterBefore(
-                        exceptionsFilter,
-                        CorsFilter.class)
-                .addFilterAfter(
-                        apiKeyAuthFilter,
-                        CorsFilter.class)
+//                .addFilterBefore(
+//                        exceptionsFilter,
+//                        CorsFilter.class)
+//                .addFilterAfter(
+//                        apiKeyAuthFilter,
+//                        CorsFilter.class)
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/api/v*/user/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/v*/user/**").permitAll()
@@ -75,11 +75,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // TODO ulozit allowed origins niekde do configu
         configuration.setAllowedOrigins(Arrays.asList(
                 "http://0.0.0.0:4200",
+                "https://0.0.0.0:4200",
+                "http://0.0.0.0:5999",
+                "https://0.0.0.0:5999",
+                "http://192.168.100.247:5999",
+                "https://192.168.100.247:5999",
                 "http://0.0.0.0:6060",
+                "https://0.0.0.0:6060",
                 "http://kovo.space:4200",
+                "https://kovo.space:4200",
                 "http://kovo.space:6060",
+                "https://kovo.space:6060",
                 "http://localhost:4200",
+                "https://localhost:4200",
                 "http://localhost:6060",
+                "https://localhost:6060",
                 "http://paster.cloud",
                 "http://www.paster.cloud",
                 "https://paster.cloud",
