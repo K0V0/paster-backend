@@ -16,6 +16,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 import java.util.Arrays;
 
@@ -54,10 +55,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .addFilterBefore(
                         exceptionsFilter,
-                        UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(
+                        CorsFilter.class)
+                .addFilterAfter(
                         apiKeyAuthFilter,
-                        UsernamePasswordAuthenticationFilter.class)
+                        CorsFilter.class)
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/api/v*/user/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/v*/user/**").permitAll()
