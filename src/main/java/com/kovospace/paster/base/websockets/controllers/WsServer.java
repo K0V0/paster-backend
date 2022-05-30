@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
+import javax.naming.AuthenticationException;
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
 import javax.websocket.OnMessage;
@@ -76,12 +77,12 @@ public class WsServer {
   @OnClose
   public void onClose(Session session) {
     wsSessionHandler.removeSession(session);
-    System.out.println("session closed");
+    System.out.println("websocket session closed");
   }
 
   @OnError
   public void onError(Session session, Throwable throwable) throws IOException {
-    if (throwable instanceof WsException || throwable instanceof JwtException) {
+    if (throwable instanceof WsException || throwable instanceof JwtException || throwable instanceof AuthenticationException) {
       System.out.println("send error message, but continue");
       session.getAsyncRemote().sendText(throwable.getMessage());
     } else {
