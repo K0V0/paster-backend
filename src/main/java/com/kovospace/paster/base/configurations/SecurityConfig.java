@@ -6,7 +6,6 @@ import com.kovospace.paster.base.filters.JwtAuthFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -22,7 +21,6 @@ import java.util.Arrays;
 
 @EnableWebSecurity
 @Configuration
-@Order(1)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final ApiKeyAuthFilter apiKeyAuthFilter;
@@ -65,6 +63,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/api/v*/user/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/v*/user/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/websocket*").permitAll()
+                .antMatchers(HttpMethod.OPTIONS, "/api/websocket*").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(
