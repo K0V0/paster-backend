@@ -25,19 +25,19 @@ import java.util.Arrays;
 @Order(1)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    //private final ApiKeyAuthFilter apiKeyAuthFilter;
+    private final ApiKeyAuthFilter apiKeyAuthFilter;
     private final JwtAuthFilter jwtAuthFilter;
     private final FiltersExceptionHandler exceptionsFilter;
     private final CorsConfigurationSource corsConfigurationSource;
 
     @Autowired
     public SecurityConfig(
-            //ApiKeyAuthFilter apiKeyAuthFilter,
+            ApiKeyAuthFilter apiKeyAuthFilter,
             JwtAuthFilter jwtAuthFilter,
             FiltersExceptionHandler exceptionsFilter,
             CorsConfigurationSource corsConfigurationSource
     ) {
-        //this.apiKeyAuthFilter = apiKeyAuthFilter;
+        this.apiKeyAuthFilter = apiKeyAuthFilter;
         this.jwtAuthFilter = jwtAuthFilter;
         this.exceptionsFilter = exceptionsFilter;
         this.corsConfigurationSource = corsConfigurationSource;
@@ -53,12 +53,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-//                .addFilterBefore(
-//                        exceptionsFilter,
-//                        CorsFilter.class)
-//                .addFilterAfter(
-//                        apiKeyAuthFilter,
-//                        CorsFilter.class)
+                .authorizeRequests()
+                .antMatchers("*").permitAll()
+                .and()
+                .addFilterAfter(
+                        exceptionsFilter,
+                        CorsFilter.class)
+                .addFilterAfter(
+                        apiKeyAuthFilter,
+                        CorsFilter.class)
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/api/v*/user/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/v*/user/**").permitAll()

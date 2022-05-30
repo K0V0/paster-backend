@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@Order(1)
+//@Order(1)
 @Component
 public class FiltersExceptionHandler extends OncePerRequestFilter {
 
