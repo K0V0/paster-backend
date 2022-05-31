@@ -2,6 +2,7 @@ package com.kovospace.paster.base.configurations;
 
 import com.kovospace.paster.base.exceptions.FiltersExceptionHandler;
 import com.kovospace.paster.base.filters.ApiKeyAuthFilter;
+import com.kovospace.paster.base.filters.JwtAuthFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,6 +74,32 @@ public class SecurityConfig {
                             UsernamePasswordAuthenticationFilter.class)*/
                     .addFilterBefore(
                             apiKeyAuthFilter,
+                            UsernamePasswordAuthenticationFilter.class);
+        }
+    }
+
+    @Configuration
+    @Order(3)
+    public static class JwtTokenWebSecurity extends WebSecurityConfigurerAdapter {
+
+        private final JwtAuthFilter jwtAuthFilter;
+
+        @Autowired
+        public JwtTokenWebSecurity(JwtAuthFilter jwtAuthFilter) {
+            this.jwtAuthFilter = jwtAuthFilter;
+        }
+
+        @Override
+        protected void configure(HttpSecurity httpSecurity) throws Exception {
+            httpSecurity
+                    .authorizeRequests()
+                    .antMatchers(HttpMethod.POST, "/api/v*/user/**").permitAll()
+                    .antMatchers(HttpMethod.GET, "/api/v*/user/**").permitAll()
+                    .antMatchers(HttpMethod.GET, "/websocket").permitAll()
+                    .anyRequest().authenticated()
+                    .and()
+                    .addFilterBefore(
+                            jwtAuthFilter,
                             UsernamePasswordAuthenticationFilter.class);
         }
     }

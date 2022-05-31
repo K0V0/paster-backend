@@ -227,8 +227,9 @@ public class ItemControllerAddTest extends ItemControllerTest {
   public void apiKeyNotIncluded() throws Exception {
     postRequest()
             .withApiKey(null)
+            .withJwtToken(token)
             .run()
-            .andExpect(status().is(401));
+            .andExpect(status().is(403));
   }
 
   @Test
@@ -236,8 +237,9 @@ public class ItemControllerAddTest extends ItemControllerTest {
   public void apiKeyEmpty() throws Exception {
     postRequest()
             .withApiKey("")
+            .withJwtToken(token)
             .run()
-            .andExpect(status().is(401));
+            .andExpect(status().is(403));
   }
 
   @Test
@@ -245,8 +247,9 @@ public class ItemControllerAddTest extends ItemControllerTest {
   public void apiKeyWrong() throws Exception {
     postRequest()
             .withApiKey("wrongApiKey")
+            .withJwtToken(token)
             .run()
-            .andExpect(status().is(401));
+            .andExpect(status().is(403));
   }
 
   @Test
