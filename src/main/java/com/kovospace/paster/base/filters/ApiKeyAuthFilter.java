@@ -43,15 +43,21 @@ public class ApiKeyAuthFilter extends OncePerRequestFilter {
         if (token == null) {
             // websockets handshake
             token = getParametersFromURL(request.getQueryString()).get("apiKey");
+            System.out.println("API key filter - token not found in headers, try url params");
         }
         if (token == null || token.equals("")) {
+            System.out.println("API key filter - token is NULL");
             throw new ApiKeyMissingException();
         }
 
         String ipAddress = request.getRemoteAddr();
         boolean isValid = (ipAddress == null) ? apiKeyService.isValid(token) : apiKeyService.isValid(token, ipAddress);
-        if (!isValid) { throw new ApiKeyInvalidException(); }
+        if (!isValid) {
+            System.out.println("API key filter - token is invalid");
+            throw new ApiKeyInvalidException();
+        }
 
+        System.out.println("API key filter - continue filterChain");
         filterChain.doFilter(request, response);
     }
 

@@ -1,7 +1,6 @@
 package com.kovospace.paster.base.configurations;
 
 import com.kovospace.paster.base.filters.ApiKeyAuthFilter;
-import com.kovospace.paster.base.filters.ExceptionsHandlerFilter;
 import com.kovospace.paster.base.filters.JwtAuthFilter;
 import com.kovospace.paster.base.filters.SimpleCorsFilter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,12 +21,10 @@ public class SecurityConfig {
     @Order(1)
     public static class BasicAndExceptions extends WebSecurityConfigurerAdapter {
 
-        //private final ExceptionsHandlerFilter exceptionsFilter;
         private final SimpleCorsFilter simpleCorsFilter;
 
         @Autowired
-        public BasicAndExceptions(/*ExceptionsHandlerFilter exceptionsFilter,*/ SimpleCorsFilter simpleCorsFilter) {
-            //this.exceptionsFilter = exceptionsFilter;
+        public BasicAndExceptions(SimpleCorsFilter simpleCorsFilter) {
             this.simpleCorsFilter = simpleCorsFilter;
         }
 
@@ -48,9 +45,6 @@ public class SecurityConfig {
                     .addFilterBefore(
                             simpleCorsFilter,
                             CorsFilter.class);
-//                    .addFilterBefore(
-//                        exceptionsFilter,
-//                        SimpleCorsFilter.class);
         }
     }
 
@@ -59,12 +53,10 @@ public class SecurityConfig {
     public static class ApiKeyWebSecurity extends WebSecurityConfigurerAdapter {
 
         private final ApiKeyAuthFilter apiKeyAuthFilter;
-        //private final ExceptionsHandlerFilter exceptionsFilter;
 
         @Autowired
-        public ApiKeyWebSecurity(ApiKeyAuthFilter apiKeyAuthFilter/*, ExceptionsHandlerFilter exceptionsFilter*/) {
+        public ApiKeyWebSecurity(ApiKeyAuthFilter apiKeyAuthFilter) {
             this.apiKeyAuthFilter = apiKeyAuthFilter;
-            //this.exceptionsFilter = exceptionsFilter;
         }
 
         @Override
@@ -77,9 +69,6 @@ public class SecurityConfig {
                     .addFilterBefore(
                             apiKeyAuthFilter,
                             UsernamePasswordAuthenticationFilter.class);
-//                    .addFilterBefore(
-//                            exceptionsFilter,
-//                            ApiKeyAuthFilter.class);
         }
     }
 
@@ -88,12 +77,10 @@ public class SecurityConfig {
     public static class JwtTokenWebSecurity extends WebSecurityConfigurerAdapter {
 
         private final JwtAuthFilter jwtAuthFilter;
-        //private final ExceptionsHandlerFilter exceptionsFilter;
 
         @Autowired
-        public JwtTokenWebSecurity(JwtAuthFilter jwtAuthFilter/*, ExceptionsHandlerFilter exceptionsFilter*/) {
+        public JwtTokenWebSecurity(JwtAuthFilter jwtAuthFilter) {
             this.jwtAuthFilter = jwtAuthFilter;
-            //this.exceptionsFilter = exceptionsFilter;
         }
 
         @Override
@@ -108,9 +95,6 @@ public class SecurityConfig {
                     .addFilterBefore(
                             jwtAuthFilter,
                             UsernamePasswordAuthenticationFilter.class);
-//                    .addFilterBefore(
-//                            exceptionsFilter,
-//                            JwtAuthFilter.class);
         }
     }
 
