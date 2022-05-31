@@ -37,6 +37,7 @@ public class ApiKeyAuthFilter extends OncePerRequestFilter {
     throws ServletException, IOException
     {
         System.out.println("API key filter called");
+        System.out.println(request.getRequestURL());
 
         // standart request
         String token = request.getHeader(API_KEY_HEADER);
