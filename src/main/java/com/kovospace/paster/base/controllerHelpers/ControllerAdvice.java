@@ -77,7 +77,7 @@ public class ControllerAdvice {
     return new ErrorResponseDTO("general.implementation.missing");
   }
 
-  @ResponseStatus(HttpStatus.UNAUTHORIZED) // 403
+  @ResponseStatus(HttpStatus.UNAUTHORIZED) // 401
   @ExceptionHandler(ApiKeyMissingException.class)
   public ErrorResponseDTO apiKeyMissing() {
     return new ErrorResponseDTO("general.endpoint.authentication.apikey.missing");

@@ -3,8 +3,6 @@ package com.kovospace.paster.base.filters;
 import com.kovospace.paster.base.exceptions.ApiKeyInvalidException;
 import com.kovospace.paster.base.exceptions.ApiKeyMissingException;
 import com.kovospace.paster.base.services.ApiKeyService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -25,8 +23,6 @@ import java.util.stream.Collectors;
 @Order(2)
 public class ApiKeyAuthFilter extends OncePerRequestFilter {
 
-    private static final Logger logger = LoggerFactory.getLogger(ApiKeyAuthFilter.class);
-
     private final String API_KEY_HEADER = "x-auth-token";
 
     private final ApiKeyService apiKeyService;
@@ -34,28 +30,27 @@ public class ApiKeyAuthFilter extends OncePerRequestFilter {
     @Autowired
     public ApiKeyAuthFilter(ApiKeyService apiKeyService) {
         this.apiKeyService = apiKeyService;
-        logger.debug("api key filter construction");
     }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
     throws ServletException, IOException
     {
-//        logger.debug("api key filter run");
-//
-//        // standart request
-//        String token = request.getHeader(API_KEY_HEADER);
-//        if (token == null) {
-//            // websockets handshake
-//            token = getParametersFromURL(request.getQueryString()).get("apiKey");
-//        }
-//        if (token == null || token.equals("")) {
-//            throw new ApiKeyMissingException();
-//        }
-//
-//        String ipAddress = request.getRemoteAddr();
-//        boolean isValid = (ipAddress == null) ? apiKeyService.isValid(token) : apiKeyService.isValid(token, ipAddress);
-//        if (!isValid) { throw new ApiKeyInvalidException(); }
+        System.out.println("API key filter called");
+
+        // standart request
+        String token = request.getHeader(API_KEY_HEADER);
+        if (token == null) {
+            // websockets handshake
+            token = getParametersFromURL(request.getQueryString()).get("apiKey");
+        }
+        if (token == null || token.equals("")) {
+            throw new ApiKeyMissingException();
+        }
+
+        String ipAddress = request.getRemoteAddr();
+        boolean isValid = (ipAddress == null) ? apiKeyService.isValid(token) : apiKeyService.isValid(token, ipAddress);
+        if (!isValid) { throw new ApiKeyInvalidException(); }
 
         filterChain.doFilter(request, response);
     }

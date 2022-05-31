@@ -21,18 +21,17 @@ import java.util.Optional;
 @Order(3)
 public class JwtAuthFilter extends OncePerRequestFilter {
 
-  private static final Logger logger = LoggerFactory.getLogger(JwtAuthFilter.class);
   private final JwtService jwtService;
 
   public JwtAuthFilter(JwtService jwtService) {
     this.jwtService = jwtService;
-    logger.debug("JWT token auth filter construction");
   }
 
   @Override
-  protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
-      FilterChain filterChain) throws ServletException, IOException {
-    logger.debug("JWT token auth filter run");
+  protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+  throws ServletException, IOException
+  {
+    System.out.println("JWT token filter called");
 
     String header = request.getHeader("Authorization");
     String token = Optional.ofNullable(header)
