@@ -2,6 +2,8 @@ package com.kovospace.paster.base.filters;
 
 import com.kovospace.paster.base.services.JwtService;
 import io.jsonwebtoken.JwtException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -17,15 +19,19 @@ import java.util.Optional;
 @Component
 public class JwtAuthFilter extends OncePerRequestFilter {
 
+  private static final Logger logger = LoggerFactory.getLogger(JwtAuthFilter.class);
   private final JwtService jwtService;
 
   public JwtAuthFilter(JwtService jwtService) {
     this.jwtService = jwtService;
+    logger.debug("JWT token auth filter construction");
   }
 
   @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
       FilterChain filterChain) throws ServletException, IOException {
+    logger.debug("JWT token auth filter run");
+
     String header = request.getHeader("Authorization");
     String token = Optional.ofNullable(header)
         .map(t -> t.replace("Bearer", ""))

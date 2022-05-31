@@ -16,9 +16,9 @@ import java.util.Optional;
 @Service
 public class UserServiceImpl implements UserService {
 
-  private UserRepository repo;
-  private BCryptPasswordEncoder encoder;
-  private JwtService jwtService;
+  private final UserRepository repo;
+  private final BCryptPasswordEncoder encoder;
+  private final JwtService jwtService;
 
   @Autowired
   public UserServiceImpl(UserRepository repo, BCryptPasswordEncoder encoder, JwtService jwtService) {

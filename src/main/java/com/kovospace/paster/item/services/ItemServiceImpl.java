@@ -21,8 +21,8 @@ public class ItemServiceImpl implements ItemService {
   @Value("${board.preview-length}")
   private int previewLength;
 
-  private ItemRepository itemRepo;
-  private UserRepository userRepo;
+  private final ItemRepository itemRepo;
+  private final UserRepository userRepo;
 
   public ItemServiceImpl(ItemRepository itemRepo, UserRepository userRepo) {
     this.userRepo = userRepo;

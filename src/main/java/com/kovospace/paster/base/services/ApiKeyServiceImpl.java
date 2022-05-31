@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class ApiKeyServiceImpl implements ApiKeyService {
 
-    private ApiKeyRepository repo;
+    private final ApiKeyRepository repo;
 
     @Autowired
     public ApiKeyServiceImpl(ApiKeyRepository repo) {

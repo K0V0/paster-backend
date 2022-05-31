@@ -6,8 +6,8 @@ import org.modelmapper.PropertyMap;
 
 public class ItemResponseDTOPropertyMap extends PropertyMap<Item, ItemResponseDTO> {
 
-  private TimestampToStringConverter timestampToStringConverter;
-  private DeviceNameToNonNullStringConverter deviceNameToNonNullStringConverter;
+  private final TimestampToStringConverter timestampToStringConverter;
+  private final DeviceNameToNonNullStringConverter deviceNameToNonNullStringConverter;
 
   public ItemResponseDTOPropertyMap() {
     super();

@@ -1,6 +1,7 @@
 package com.kovospace.paster.base.websockets.controllers;
 
 import com.google.gson.Gson;
+import com.kovospace.paster.base.configurations.SecurityConfig;
 import com.kovospace.paster.base.configurations.websocketConfig.WsServerSpringConfigurator;
 import com.kovospace.paster.base.services.ApiKeyService;
 import com.kovospace.paster.base.services.JwtService;
@@ -13,6 +14,8 @@ import com.kovospace.paster.base.websockets.exceptions.JwtTokenNotIncludedExcept
 import com.kovospace.paster.base.websockets.exceptions.WsException;
 import com.kovospace.paster.base.websockets.handlers.WsSessionHandler;
 import io.jsonwebtoken.JwtException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -38,10 +41,13 @@ import java.util.Optional;
     configurator = WsServerSpringConfigurator.class
 )
 public class WsServer {
-  private WsSessionHandler wsSessionHandler;
-  private JwtService jwtService;
-  private ApiKeyService apiKeyService;
-  private Gson gson;
+
+  private static final Logger logger = LoggerFactory.getLogger(WsServer.class);
+
+  private final WsSessionHandler wsSessionHandler;
+  private final JwtService jwtService;
+  private final ApiKeyService apiKeyService;
+  private final Gson gson;
 
   @Autowired
   public WsServer(
@@ -50,6 +56,7 @@ public class WsServer {
       ApiKeyService apiKeyService,
       Gson gson
   ) {
+    logger.debug("sebsocket server controller constructed");
     this.wsSessionHandler = wsSessionHandler;
     this.jwtService = jwtService;
     this.apiKeyService = apiKeyService;

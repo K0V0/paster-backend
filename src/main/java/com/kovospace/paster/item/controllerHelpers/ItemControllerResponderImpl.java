@@ -21,10 +21,10 @@ import java.util.stream.Collectors;
 @Component
 public class ItemControllerResponderImpl implements ItemControllerResponder {
 
-  private ItemService itemService;
-  private JwtService jwtService;
-  private ModelMapper modelMapper;
-  private WebsocketService websocketService;
+  private final ItemService itemService;
+  private final JwtService jwtService;
+  private final ModelMapper modelMapper;
+  private final WebsocketService websocketService;
 
   @Autowired
   public ItemControllerResponderImpl(
