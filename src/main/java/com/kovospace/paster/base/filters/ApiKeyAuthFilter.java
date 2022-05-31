@@ -41,21 +41,21 @@ public class ApiKeyAuthFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
     throws ServletException, IOException
     {
-        logger.debug("api key filter run");
-
-        // standart request
-        String token = request.getHeader(API_KEY_HEADER);
-        if (token == null) {
-            // websockets handshake
-            token = getParametersFromURL(request.getQueryString()).get("apiKey");
-        }
-        if (token == null || token.equals("")) {
-            throw new ApiKeyMissingException();
-        }
-
-        String ipAddress = request.getRemoteAddr();
-        boolean isValid = (ipAddress == null) ? apiKeyService.isValid(token) : apiKeyService.isValid(token, ipAddress);
-        if (!isValid) { throw new ApiKeyInvalidException(); }
+//        logger.debug("api key filter run");
+//
+//        // standart request
+//        String token = request.getHeader(API_KEY_HEADER);
+//        if (token == null) {
+//            // websockets handshake
+//            token = getParametersFromURL(request.getQueryString()).get("apiKey");
+//        }
+//        if (token == null || token.equals("")) {
+//            throw new ApiKeyMissingException();
+//        }
+//
+//        String ipAddress = request.getRemoteAddr();
+//        boolean isValid = (ipAddress == null) ? apiKeyService.isValid(token) : apiKeyService.isValid(token, ipAddress);
+//        if (!isValid) { throw new ApiKeyInvalidException(); }
 
         filterChain.doFilter(request, response);
     }
