@@ -52,9 +52,10 @@ public class ApiKeyAuthFilter extends OncePerRequestFilter {
         }
 
         String ipAddress = request.getRemoteAddr();
+        System.out.println("API key filter - ipAddress: " + request.getRemoteAddr());
         boolean isValid = (ipAddress == null) ? apiKeyService.isValid(token) : apiKeyService.isValid(token, ipAddress);
         if (!isValid) {
-            System.out.println("API key filter - token is invalid");
+            System.out.println("API key filter - token is invalid - " + token);
             throw new ApiKeyInvalidException();
         }
 
