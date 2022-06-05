@@ -18,6 +18,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.server.UnsupportedMediaTypeStatusException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -59,15 +62,15 @@ public class ControllerAdvice {
   @ResponseStatus(HttpStatus.BAD_REQUEST) // 400
   @ExceptionHandler(MethodArgumentNotValidException.class)
   public ErrorsResponseDTO someFieldMissing(MethodArgumentNotValidException ex) {
-    Map<String, Map<String, String>> errorMessages = ex.getFieldErrors()
+    Map<String, List<ErrorResponseDTO>> errorMessages = new HashMap<>();
+    ex.getFieldErrors()
             .stream()
             .filter(Objects::nonNull)
-            .collect(Collectors.groupingBy(
-                    FieldError::getField,
-                    Collectors.toMap(
-                            DefaultMessageSourceResolvable::getDefaultMessage,
-                            val -> Strings.s(Optional.ofNullable(val.getDefaultMessage()).orElse(""))
-                    )));
+            .forEach(fieldError -> {
+              String field = fieldError.getField();
+              errorMessages.computeIfAbsent(field, k -> new ArrayList<>());
+              errorMessages.get(field).add(new ErrorResponseDTO(fieldError.getDefaultMessage()));
+            });
     return new ErrorsResponseDTO(errorMessages);
   }
 

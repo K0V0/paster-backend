@@ -32,7 +32,7 @@ public class UserLoginRequestDTO extends RequestDTO {
 
   @NotNull(message = "user.login.password.required", groups = FirstOrder.class)
   @NotBlank(message = "user.login.password.empty", groups = SecondOrder.class)
-  @Size(min = 8, max = 32, message = "user.login.credentials.wrong", groups = ThirdOrder.class)
+  //@Size(min = 8, max = 32, message = "user.login.credentials.wrong", groups = ThirdOrder.class)
   private String pass;
 
 }
