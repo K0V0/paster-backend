@@ -93,7 +93,16 @@ public class ItemControllerAddTest extends ItemControllerTest {
             .run()
             .andExpect(status().is(400))
             .andExpect(jsonPath("$.messages.length()", is(1)))
-            .andExpect(jsonPath("$.messages.text.*", hasItem("Item not presented.")));
+
+            .andExpect(jsonPath("$.messages.text[0].length()", is(3)))
+            .andExpect(jsonPath("$.messages.text[0].status", is("error")))
+            .andExpect(jsonPath("$.messages.text[0].code", is("item.request.missing")))
+            .andExpect(jsonPath("$.messages.text[0].message", is("Item not presented.")));
+
+            /*.andExpect(jsonPath("$.messages.text[0].length()", is(3)))
+            .andExpect(jsonPath("$.messages.text[0].status", is("error")))
+            .andExpect(jsonPath("$.messages.text[0].code", is("item.request.missing")))
+            .andExpect(jsonPath("$.messages.text[0].message", is("Item not presented.")));*/
   }
 
   @Test
@@ -108,7 +117,10 @@ public class ItemControllerAddTest extends ItemControllerTest {
             .run()
             .andExpect(status().is(400))
             .andExpect(jsonPath("$.messages.length()", is(1)))
-            .andExpect(jsonPath("$.messages.text.*", hasItem("Item not presented.")));
+            .andExpect(jsonPath("$.messages.text[0].length()", is(3)))
+            .andExpect(jsonPath("$.messages.text[0].status", is("error")))
+            .andExpect(jsonPath("$.messages.text[0].code", is("item.request.missing")))
+            .andExpect(jsonPath("$.messages.text[0].message", is("Item not presented.")));
   }
 
   @Test
@@ -124,7 +136,10 @@ public class ItemControllerAddTest extends ItemControllerTest {
             .run()
             .andExpect(status().is(400))
             .andExpect(jsonPath("$.messages.length()", is(1)))
-            .andExpect(jsonPath("$.messages.text.*", hasItem("Nothing pasted.")));
+            .andExpect(jsonPath("$.messages.text[0].length()", is(3)))
+            .andExpect(jsonPath("$.messages.text[0].status", is("error")))
+            .andExpect(jsonPath("$.messages.text[0].code", is("item.request.empty")))
+            .andExpect(jsonPath("$.messages.text[0].message", is("Nothing pasted.")));
   }
 
   @Test
@@ -141,7 +156,10 @@ public class ItemControllerAddTest extends ItemControllerTest {
             .run()
             .andExpect(status().is(400))
             .andExpect(jsonPath("$.messages.length()", is(1)))
-            .andExpect(jsonPath("$.messages.text.*", hasItem("Maximum allowed size exceeded.")));
+            .andExpect(jsonPath("$.messages.text[0].length()", is(3)))
+            .andExpect(jsonPath("$.messages.text[0].status", is("error")))
+            .andExpect(jsonPath("$.messages.text[0].code", is("item.request.maxsize.reached")))
+            .andExpect(jsonPath("$.messages.text[0].message", is("Maximum allowed size exceeded.")));
   }
 
   @Test
@@ -199,7 +217,10 @@ public class ItemControllerAddTest extends ItemControllerTest {
             .run()
             .andExpect(status().is(400))
             .andExpect(jsonPath("$.messages.length()", is(1)))
-            .andExpect(jsonPath("$.messages.platform.*", hasItem("Wrong platform type passed.")));
+            .andExpect(jsonPath("$.messages.platform[0].length()", is(3)))
+            .andExpect(jsonPath("$.messages.platform[0].status", is("error")))
+            .andExpect(jsonPath("$.messages.platform[0].code", is("item.request.platform.wrong")))
+            .andExpect(jsonPath("$.messages.platform[0].message", is("Wrong platform type passed.")));
 
     assertNotNull(userRepository.findFirstByName(user.getName()));
     assertNotNull(itemRepository.findAllByUserOrderByCreatedAtDesc(user));
