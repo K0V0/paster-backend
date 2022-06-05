@@ -127,13 +127,17 @@ public abstract class KovoTest {
   protected void assertFieldErrorMsg(Object input, String message, DtoPreparer dtoPreparer, int httpStatus)
             throws Exception
   {
+    String field = dtoPreparer.getField();
     postRequest()
             .withMediaType(MediaType.APPLICATION_JSON)
             .withMediaContent(objectMapper.writeValueAsBytes(dtoPreparer.apply(input)))
             .run()
             .andExpect(status().is(httpStatus))
             .andExpect(jsonPath("$.messages.length()", is(1)))
-            .andExpect(jsonPath("$.messages." + dtoPreparer.getField() + ".*", hasItem(Strings.s(message))));
+            .andExpect(jsonPath("$.messages." + field + ".length()", is(1)))
+            .andExpect(jsonPath("$.messages." + field + "[0].status", is("error")))
+            .andExpect(jsonPath("$.messages." + field + "[0].code", is(message)))
+            .andExpect(jsonPath("$.messages." + field + "[0].message", is(Strings.s(message))));
   }
 
   protected void assertFieldErrorMsg(String input, String message, DtoPreparer dtoPreparer)

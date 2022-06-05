@@ -113,8 +113,16 @@ public class UserControllerLoginTest extends KovoTest {
             .run()
             .andExpect(status().is(400))
             .andExpect(jsonPath("$.messages.length()", is(2)))
-            .andExpect(jsonPath("$.messages.name.*", hasItem("Username is required.")))
-            .andExpect(jsonPath("$.messages.pass.*", hasItem("Password is required.")));
+
+            .andExpect(jsonPath("$.messages.name.length()", is(1)))
+            .andExpect(jsonPath("$.messages.name[0].status", is("error")))
+            .andExpect(jsonPath("$.messages.name[0].code", is("user.login.username.required")))
+            .andExpect(jsonPath("$.messages.name[0].message", is("Username is required.")))
+
+            .andExpect(jsonPath("$.messages.pass.length()", is(1)))
+            .andExpect(jsonPath("$.messages.pass[0].status", is("error")))
+            .andExpect(jsonPath("$.messages.pass[0].code", is("user.login.password.required")))
+            .andExpect(jsonPath("$.messages.pass[0].message", is("Password is required.")));
   }
 
   @Test
@@ -128,8 +136,16 @@ public class UserControllerLoginTest extends KovoTest {
             .run()
             .andExpect(status().is(400))
             .andExpect(jsonPath("$.messages.length()", is(2)))
-            .andExpect(jsonPath("$.messages.name.*", hasItem("Username is required.")))
-            .andExpect(jsonPath("$.messages.pass.*", hasItem("Password is required.")));
+
+            .andExpect(jsonPath("$.messages.name.length()", is(1)))
+            .andExpect(jsonPath("$.messages.name[0].status", is("error")))
+            .andExpect(jsonPath("$.messages.name[0].code", is("user.login.username.required")))
+            .andExpect(jsonPath("$.messages.name[0].message", is("Username is required.")))
+
+            .andExpect(jsonPath("$.messages.pass.length()", is(1)))
+            .andExpect(jsonPath("$.messages.pass[0].status", is("error")))
+            .andExpect(jsonPath("$.messages.pass[0].code", is("user.login.password.required")))
+            .andExpect(jsonPath("$.messages.pass[0].message", is("Password is required.")));
   }
 
   @Test
@@ -145,81 +161,89 @@ public class UserControllerLoginTest extends KovoTest {
             .run()
             .andExpect(status().is(400))
             .andExpect(jsonPath("$.messages.length()", is(2)))
-            .andExpect(jsonPath("$.messages.name.*", hasItem("Username field is empty.")))
-            .andExpect(jsonPath("$.messages.pass.*", hasItem("Password field is empty.")));
+
+            .andExpect(jsonPath("$.messages.name.length()", is(1)))
+            .andExpect(jsonPath("$.messages.name[0].status", is("error")))
+            .andExpect(jsonPath("$.messages.name[0].code", is("user.login.username.empty")))
+            .andExpect(jsonPath("$.messages.name[0].message", is("Username field is empty.")))
+
+            .andExpect(jsonPath("$.messages.pass.length()", is(1)))
+            .andExpect(jsonPath("$.messages.pass[0].status", is("error")))
+            .andExpect(jsonPath("$.messages.pass[0].code", is("user.login.password.empty")))
+            .andExpect(jsonPath("$.messages.pass[0].message", is("Password field is empty.")));
   }
 
   @Test
   @Order(9)
   public void usernameNull() throws Exception {
-    assertFieldErrorMsg((String) null, "Username is required.", namePreparer);
+    assertFieldErrorMsg((String) null, "user.login.username.required", namePreparer);
   }
 
   @Test
   @Order(10)
   public void usernameEmpty() throws Exception {
-    assertFieldErrorMsg("", "Username field is empty.", namePreparer);
+    assertFieldErrorMsg("", "user.login.username.empty", namePreparer);
   }
 
   @Test
   @Order(11)
   public void passwordNull() throws Exception {
-    assertFieldErrorMsg((String) null, "Password is required.", passPreparer);
+    assertFieldErrorMsg((String) null, "user.login.password.required", passPreparer);
   }
 
   @Test
   @Order(12)
   public void passwordEmpty() throws Exception {
-    assertFieldErrorMsg("", "Password field is empty.", passPreparer);
+    assertFieldErrorMsg("", "user.login.password.empty", passPreparer);
   }
 
   @Test
   @Order(13)
   public void passwordShort() throws Exception {
-    assertFieldErrorMsg("1234567", "Username or password is wrong.", passPreparer);
+    assertFormErrorMsg("1234567", "user.login.credentials.wrong", passPreparer, 401);
   }
 
   @Test
   @Order(14)
   public void usernameAreSpaces() throws Exception {
-    assertFieldErrorMsg("     ", "Username field is empty.", namePreparer);
+    assertFieldErrorMsg("     ", "user.login.username.empty", namePreparer);
   }
 
   @Test
   @Order(15)
   public void passwordAreSpaces() throws Exception {
-    assertFieldErrorMsg("     ", "Password field is empty.", passPreparer);
+    assertFieldErrorMsg("     ", "user.login.password.empty", passPreparer);
   }
 
   @Test
   @Order(16)
   public void usernameBeginWithSpace() throws Exception {
-    assertFieldErrorMsg(" comrade_Testovic", "Whitespaces not allowed anywhere in username.", namePreparer);
+    assertFieldErrorMsg(" comrade_Testovic", "user.login.username.format.whitespaces.denied", namePreparer);
   }
 
   @Test
   @Order(17)
   public void usernameWithSpace() throws Exception {
-    assertFieldErrorMsg("comrade Testovic", "Whitespaces not allowed anywhere in username.", namePreparer);
+    assertFieldErrorMsg("comrade Testovic", "user.login.username.format.whitespaces.denied", namePreparer);
   }
 
   @Test
   @Order(18)
   public void usernameEndsWithSpace() throws Exception {
-    assertFieldErrorMsg("comrade_Testovic ", "Whitespaces not allowed anywhere in username.", namePreparer);
+    assertFieldErrorMsg("comrade_Testovic ", "user.login.username.format.whitespaces.denied", namePreparer);
   }
 
   @Test
   @Order(19)
   public void userNotFound() throws Exception {
-    assertFormErrorMsg("comrade_nonexistent", "Username or password is wrong.", namePreparer, 401);
+    assertFormErrorMsg("comrade_nonexistent", "user.login.credentials.wrong", namePreparer, 401);
   }
 
   @Test
   @Order(20)
   public void usersPasswordWrong() throws Exception {
     loadUserToDB();
-    assertFormErrorMsg("neviemNepametam", "Username or password is wrong.", passPreparer, 401);
+    assertFormErrorMsg("neviemNepametam", "user.login.credentials.wrong", passPreparer, 401);
     destroyUsersInDB();
   }
 

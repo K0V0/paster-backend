@@ -14,6 +14,8 @@ import org.springframework.http.MediaType;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.hasItemInArray;
+import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -110,10 +112,31 @@ public class UserControllerRegisterTest extends KovoTest {
             .run()
             .andExpect(status().is(400))
             .andExpect(jsonPath("$.messages.length()", is(5)))
-            .andExpect(jsonPath("$.messages.name.*", hasItem("Username is required.")))
-            .andExpect(jsonPath("$.messages.pass.*", hasItem("Password is required.")))
-            .andExpect(jsonPath("$.messages.pass2.*", hasItem("Password confirmation is required.")))
-            .andExpect(jsonPath("$.messages.email.*", hasItem("E-mail is required.")));
+
+            .andExpect(jsonPath("$.messages.name.length()", is(1)))
+            .andExpect(jsonPath("$.messages.name[0].status", is("error")))
+            .andExpect(jsonPath("$.messages.name[0].code", is("user.register.username.required")))
+            .andExpect(jsonPath("$.messages.name[0].message", is("Username is required.")))
+
+            .andExpect(jsonPath("$.messages.pass.length()", is(1)))
+            .andExpect(jsonPath("$.messages.pass[0].status", is("error")))
+            .andExpect(jsonPath("$.messages.pass[0].code", is("user.register.password.required")))
+            .andExpect(jsonPath("$.messages.pass[0].message", is("Password is required.")))
+
+            .andExpect(jsonPath("$.messages.pass2.length()", is(1)))
+            .andExpect(jsonPath("$.messages.pass2[0].status", is("error")))
+            .andExpect(jsonPath("$.messages.pass2[0].code", is("user.register.passwordConfirmation.required")))
+            .andExpect(jsonPath("$.messages.pass2[0].message", is("Password confirmation is required.")))
+
+            .andExpect(jsonPath("$.messages.email.length()", is(1)))
+            .andExpect(jsonPath("$.messages.email[0].status", is("error")))
+            .andExpect(jsonPath("$.messages.email[0].code", is("user.register.email.required")))
+            .andExpect(jsonPath("$.messages.email[0].message", is("E-mail is required.")))
+
+            .andExpect(jsonPath("$.messages.gdpr.length()", is(1)))
+            .andExpect(jsonPath("$.messages.gdpr[0].status", is("error")))
+            .andExpect(jsonPath("$.messages.gdpr[0].code", is("user.register.gdpr.required")))
+            .andExpect(jsonPath("$.messages.gdpr[0].message", is("GDPR accept field is required.")));
   }
 
   @Test
@@ -126,12 +149,37 @@ public class UserControllerRegisterTest extends KovoTest {
             .withMediaContent(objectMapper.writeValueAsBytes(user))
             .run()
             .andExpect(status().is(400))
-            .andExpect(jsonPath("$.messages.length()", is(5)))
+            /*.andExpect(jsonPath("$.messages.length()", is(5)))
             .andExpect(jsonPath("$.messages.name.*", hasItem("Username is required.")))
             .andExpect(jsonPath("$.messages.pass.*", hasItem("Password is required.")))
             .andExpect(jsonPath("$.messages.pass2.*", hasItem("Password confirmation is required.")))
             .andExpect(jsonPath("$.messages.gdpr.*", hasItem("GDPR accept field is empty.")))
-            .andExpect(jsonPath("$.messages.email.*", hasItem("E-mail is required.")));
+            .andExpect(jsonPath("$.messages.email.*", hasItem("E-mail is required.")));*/
+
+            .andExpect(jsonPath("$.messages.name.length()", is(1)))
+            .andExpect(jsonPath("$.messages.name[0].status", is("error")))
+            .andExpect(jsonPath("$.messages.name[0].code", is("user.register.username.required")))
+            .andExpect(jsonPath("$.messages.name[0].message", is("Username is required.")))
+
+            .andExpect(jsonPath("$.messages.pass.length()", is(1)))
+            .andExpect(jsonPath("$.messages.pass[0].status", is("error")))
+            .andExpect(jsonPath("$.messages.pass[0].code", is("user.register.password.required")))
+            .andExpect(jsonPath("$.messages.pass[0].message", is("Password is required.")))
+
+            .andExpect(jsonPath("$.messages.pass2.length()", is(1)))
+            .andExpect(jsonPath("$.messages.pass2[0].status", is("error")))
+            .andExpect(jsonPath("$.messages.pass2[0].code", is("user.register.passwordConfirmation.required")))
+            .andExpect(jsonPath("$.messages.pass2[0].message", is("Password confirmation is required.")))
+
+            .andExpect(jsonPath("$.messages.email.length()", is(1)))
+            .andExpect(jsonPath("$.messages.email[0].status", is("error")))
+            .andExpect(jsonPath("$.messages.email[0].code", is("user.register.email.required")))
+            .andExpect(jsonPath("$.messages.email[0].message", is("E-mail is required.")))
+
+            .andExpect(jsonPath("$.messages.gdpr.length()", is(1)))
+            .andExpect(jsonPath("$.messages.gdpr[0].status", is("error")))
+            .andExpect(jsonPath("$.messages.gdpr[0].code", is("user.register.gdpr.required")))
+            .andExpect(jsonPath("$.messages.gdpr[0].message", is("GDPR accept field is required.")));
   }
 
   @Test
@@ -150,110 +198,129 @@ public class UserControllerRegisterTest extends KovoTest {
             .run()
             .andExpect(status().is(400))
             .andExpect(jsonPath("$.messages.length()", is(5)))
-            .andExpect(jsonPath("$.messages.name.*", hasItem("Username field is empty.")))
-            .andExpect(jsonPath("$.messages.pass.*", hasItem("Password field is empty.")))
-            .andExpect(jsonPath("$.messages.pass2.*", hasItem("Password confirmation field is empty.")))
-            .andExpect(jsonPath("$.messages.gdpr.*", hasItem("GDPR consent must be accepted.")))
-            .andExpect(jsonPath("$.messages.email.*", hasItem("E-mail field is empty.")));
+
+            .andExpect(jsonPath("$.messages.name.length()", is(1)))
+            .andExpect(jsonPath("$.messages.name[0].status", is("error")))
+            .andExpect(jsonPath("$.messages.name[0].code", is("user.register.username.empty")))
+            .andExpect(jsonPath("$.messages.name[0].message", is("Username field is empty.")))
+
+            .andExpect(jsonPath("$.messages.pass.length()", is(1)))
+            .andExpect(jsonPath("$.messages.pass[0].status", is("error")))
+            .andExpect(jsonPath("$.messages.pass[0].code", is("user.register.password.empty")))
+            .andExpect(jsonPath("$.messages.pass[0].message", is("Password field is empty.")))
+
+            .andExpect(jsonPath("$.messages.pass2.length()", is(1)))
+            .andExpect(jsonPath("$.messages.pass2[0].status", is("error")))
+            .andExpect(jsonPath("$.messages.pass2[0].code", is("user.register.passwordConfirmation.empty")))
+            .andExpect(jsonPath("$.messages.pass2[0].message", is("Password confirmation field is empty.")))
+
+            .andExpect(jsonPath("$.messages.email.length()", is(1)))
+            .andExpect(jsonPath("$.messages.email[0].status", is("error")))
+            .andExpect(jsonPath("$.messages.email[0].code", is("user.register.email.empty")))
+            .andExpect(jsonPath("$.messages.email[0].message", is("E-mail field is empty.")))
+
+            .andExpect(jsonPath("$.messages.gdpr.length()", is(1)))
+            .andExpect(jsonPath("$.messages.gdpr[0].status", is("error")))
+            .andExpect(jsonPath("$.messages.gdpr[0].code", is("user.register.gdpr.denied")))
+            .andExpect(jsonPath("$.messages.gdpr[0].message", is("GDPR consent must be accepted.")));
   }
 
   @Test
   @Order(9)
   public void usernameNull() throws Exception {
-    assertFieldErrorMsg((String) null, "Username is required.", nameDtoPreparer);
+    assertFieldErrorMsg((String) null, "user.register.username.required", nameDtoPreparer);
   }
 
   @Test
   @Order(10)
   public void usernameEmpty() throws Exception {
-    assertFieldErrorMsg("", "Username field is empty.", nameDtoPreparer);
+    assertFieldErrorMsg("", "user.register.username.empty", nameDtoPreparer);
   }
 
   @Test
   @Order(11)
   public void passwordNull() throws Exception {
-    assertFieldErrorMsg((String) null, "Password is required.", passDtoPreparer);
+    assertFieldErrorMsg((String) null, "user.register.password.required", passDtoPreparer);
   }
 
   @Test
   @Order(12)
   public void passwordEmpty() throws Exception {
-    assertFieldErrorMsg("", "Password field is empty.", passDtoPreparer);
+    assertFieldErrorMsg("", "user.register.password.empty", passDtoPreparer);
   }
 
   @Test
   @Order(13)
   public void passwordConfirmationNull() throws Exception {
-    assertFieldErrorMsg((String) null, "Password confirmation is required.", pass2DtoPreparer);
+    assertFieldErrorMsg((String) null, "user.register.passwordConfirmation.required", pass2DtoPreparer);
   }
 
   @Test
   @Order(14)
   public void passwordConfirmationEmpty() throws Exception {
-    assertFieldErrorMsg("", "Password confirmation field is empty.", pass2DtoPreparer);
+    assertFieldErrorMsg("", "user.register.passwordConfirmation.empty", pass2DtoPreparer);
   }
 
   @Test
   @Order(15)
   public void usernameIsJustSpaces() throws Exception {
-    assertFieldErrorMsg("     ", "Username field is empty.", nameDtoPreparer);
+    assertFieldErrorMsg("     ", "user.register.username.empty", nameDtoPreparer);
   }
 
   @Test
   @Order(16)
   public void passwordIsJustSpaces() throws Exception {
-    assertFieldErrorMsg("     ", "Password field is empty.", passDtoPreparer);
+    assertFieldErrorMsg("     ", "user.register.password.empty", passDtoPreparer);
   }
 
   @Test
   @Order(17)
   public void passwordConfirmationIsJustSpaces() throws Exception {
-    assertFieldErrorMsg("     ", "Password confirmation field is empty.", pass2DtoPreparer);
+    assertFieldErrorMsg("     ", "user.register.passwordConfirmation.empty", pass2DtoPreparer);
   }
 
   @Test
   @Order(18)
   public void usernameStartOrEndsWithSpace() throws Exception {
-    assertFieldErrorMsg(" comrade_testovic", "Your username begins with space.", nameDtoPreparer);
-    assertFieldErrorMsg("  comrade_testovic", "Your username begins with space.", nameDtoPreparer);
-    assertFieldErrorMsg("comrade_testovic ", "Your username ends with space.", nameDtoPreparer);
-    assertFieldErrorMsg("comrade_testovic  ", "Your username ends with space.", nameDtoPreparer);
-    assertFieldErrorMsg(" comrade_testovic ", "Your username is surrounded with space(s).", nameDtoPreparer);
+    assertFieldErrorMsg(" comrade_testovic", "user.register.username.format.whitespaces.beginning.denied", nameDtoPreparer);
+    assertFieldErrorMsg("  comrade_testovic", "user.register.username.format.whitespaces.beginning.denied", nameDtoPreparer);
+    assertFieldErrorMsg("comrade_testovic ", "user.register.username.format.whitespaces.end.denied", nameDtoPreparer);
+    assertFieldErrorMsg("comrade_testovic  ", "user.register.username.format.whitespaces.end.denied", nameDtoPreparer);
+    assertFieldErrorMsg(" comrade_testovic ", "user.register.username.format.whitespaces.around.denied", nameDtoPreparer);
   }
 
   @Test
   @Order(19)
   public void usernameWithOnlySpaces() throws Exception {
-    assertFieldErrorMsg("   ", "Username field is empty.", nameDtoPreparer);
+    assertFieldErrorMsg("   ", "user.register.username.empty", nameDtoPreparer);
   }
 
   @Test
   @Order(20)
   public void usernameWithSpace() throws Exception {
-    assertFieldErrorMsg("comrade testovic", "Your username contains space(s).", nameDtoPreparer);
+    assertFieldErrorMsg("comrade testovic", "user.register.username.format.whitespaces.denied", nameDtoPreparer);
   }
 
   @Test
   @Order(21)
   public void usernameContainsNotAllowedChars() throws Exception {
-    assertFieldErrorMsg("com#rade_te/sto?vic", "Your username contains not allowed characters. "
-        + "Allowed characters are letters, numbers, underscores, dashes and dots.", nameDtoPreparer);
+    assertFieldErrorMsg("com#rade_te/sto?vic", "user.register.username.format.characters.denied", nameDtoPreparer);
   }
 
   @Test
   @Order(22)
   public void passwordShort() throws Exception {
-    assertFieldErrorMsg("1234567", "Password must have at least 8 characters.", passDtoPreparer);
+    assertFieldErrorMsg("1234567", "user.register.password.format.length.short", passDtoPreparer);
   }
 
   @Test
   @Order(23)
   public void passwordStartsOrEndsWithSpace() throws Exception {
-    assertFieldErrorMsg(" 1234567", "Your password is starting or ending with space(s).", passDtoPreparer);
-    assertFieldErrorMsg("  1234567", "Your password is starting or ending with space(s).", passDtoPreparer);
-    assertFieldErrorMsg("1234567 ", "Your password is starting or ending with space(s).", passDtoPreparer);
-    assertFieldErrorMsg("1234567  ", "Your password is starting or ending with space(s).", passDtoPreparer);
-    assertFieldErrorMsg(" 1234567 ", "Your password is starting or ending with space(s).", passDtoPreparer);
+    assertFieldErrorMsg(" 1234567", "user.register.password.format.whitespaces.around.denied", passDtoPreparer);
+    assertFieldErrorMsg("  1234567", "user.register.password.format.whitespaces.around.denied", passDtoPreparer);
+    assertFieldErrorMsg("1234567 ", "user.register.password.format.whitespaces.around.denied", passDtoPreparer);
+    assertFieldErrorMsg("1234567  ", "user.register.password.format.whitespaces.around.denied", passDtoPreparer);
+    assertFieldErrorMsg(" 1234567 ", "user.register.password.format.whitespaces.around.denied", passDtoPreparer);
   }
 
   @Test
@@ -271,7 +338,7 @@ public class UserControllerRegisterTest extends KovoTest {
             .withMediaContent(objectMapper.writeValueAsBytes(user))
             .run()
             .andExpect(status().is(409))
-            .andExpect(jsonPath("$.message", is("Password and its confirmation did not match.")));
+            .andExpect(jsonPath("$.code", is("user.register.passwordConfirmation.nomatch")));
   }
 
   @Test
@@ -294,6 +361,7 @@ public class UserControllerRegisterTest extends KovoTest {
             .withMediaContent(objectMapper.writeValueAsBytes(user))
             .run()
             .andExpect(status().is(403))
+            .andExpect(jsonPath("$.code", is("user.register.username.taken")))
             .andExpect(jsonPath("$.message", is("Username is already taken.")));
 
     userRepository.deleteAll();
@@ -326,46 +394,46 @@ public class UserControllerRegisterTest extends KovoTest {
   @Test
   @Order(27)
   public void userEmailNull() throws Exception {
-    assertFieldErrorMsg((String) null, "E-mail is required.", emailDtoPreparer);
+    assertFieldErrorMsg((String) null, "user.register.email.required", emailDtoPreparer);
   }
 
   @Test
   @Order(28)
   public void userEmailEmpty() throws Exception {
-    assertFieldErrorMsg("", "E-mail field is empty.", emailDtoPreparer);
+    assertFieldErrorMsg("", "user.register.email.empty", emailDtoPreparer);
   }
 
   @Test
   @Order(29)
   public void emailTests() throws Exception {
-    assertFieldErrorMsg("hello", "E-mail address is not valid.", emailDtoPreparer);
-    assertFieldErrorMsg("hello@", "E-mail address is not valid.", emailDtoPreparer);
-    assertFieldErrorMsg("hello@world", "E-mail address is not valid.", emailDtoPreparer);
-    assertFieldErrorMsg(".hello@world.net", "E-mail address is not valid.", emailDtoPreparer);
-    assertFieldErrorMsg("hello.@world.net", "E-mail address is not valid.", emailDtoPreparer);
-    assertFieldErrorMsg("he..llo@world.net", "E-mail address is not valid.", emailDtoPreparer);
-    assertFieldErrorMsg("hello!+2020@example.com", "E-mail address is not valid.", emailDtoPreparer);
-    assertFieldErrorMsg("hello@example.a", "E-mail address is not valid.", emailDtoPreparer);
-    assertFieldErrorMsg("hello@example..com", "E-mail address is not valid.", emailDtoPreparer);
-    assertFieldErrorMsg("hello@.com", "E-mail address is not valid.", emailDtoPreparer);
-    assertFieldErrorMsg("hello@.example.", "E-mail address is not valid.", emailDtoPreparer);
-    assertFieldErrorMsg("hello@-example.com", "E-mail address is not valid.", emailDtoPreparer);
-    assertFieldErrorMsg("hello@example.com-", "E-mail address is not valid.", emailDtoPreparer);
-    assertFieldErrorMsg("hello@example_example.com", "E-mail address is not valid.", emailDtoPreparer);
+    assertFieldErrorMsg("hello", "user.register.email.format.wrong", emailDtoPreparer);
+    assertFieldErrorMsg("hello@", "user.register.email.format.wrong", emailDtoPreparer);
+    assertFieldErrorMsg("hello@world", "user.register.email.format.wrong", emailDtoPreparer);
+    assertFieldErrorMsg(".hello@world.net", "user.register.email.format.wrong", emailDtoPreparer);
+    assertFieldErrorMsg("hello.@world.net", "user.register.email.format.wrong", emailDtoPreparer);
+    assertFieldErrorMsg("he..llo@world.net", "user.register.email.format.wrong", emailDtoPreparer);
+    assertFieldErrorMsg("hello!+2020@example.com", "user.register.email.format.wrong", emailDtoPreparer);
+    assertFieldErrorMsg("hello@example.a", "user.register.email.format.wrong", emailDtoPreparer);
+    assertFieldErrorMsg("hello@example..com", "user.register.email.format.wrong", emailDtoPreparer);
+    assertFieldErrorMsg("hello@.com", "user.register.email.format.wrong", emailDtoPreparer);
+    assertFieldErrorMsg("hello@.example.", "user.register.email.format.wrong", emailDtoPreparer);
+    assertFieldErrorMsg("hello@-example.com", "user.register.email.format.wrong", emailDtoPreparer);
+    assertFieldErrorMsg("hello@example.com-", "user.register.email.format.wrong", emailDtoPreparer);
+    assertFieldErrorMsg("hello@example_example.com", "user.register.email.format.wrong", emailDtoPreparer);
     assertFieldErrorMsg("1234567890123456789012345678901234567890123456789012345678901234xx@example.com",
-        "E-mail address is not valid.", emailDtoPreparer);
+        "user.register.email.format.wrong", emailDtoPreparer);
   }
 
   @Test
   @Order(30)
   public void gdprIsNull() throws Exception {
-    assertFieldErrorMsg((Boolean) null, "GDPR accept field is empty.", gdprDtoPreparer);
+    assertFieldErrorMsg((Boolean) null, "user.register.gdpr.required", gdprDtoPreparer);
   }
 
   @Test
   @Order(31)
   public void gdprNotAccepted() throws Exception {
-    assertFieldErrorMsg(false, "GDPR consent must be accepted.", gdprDtoPreparer);
+    assertFieldErrorMsg(false, "user.register.gdpr.denied", gdprDtoPreparer);
   }
 
 }
