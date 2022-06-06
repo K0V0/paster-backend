@@ -92,7 +92,7 @@ public class StringsServiceImpl implements StringsService {
 
     @Override
     public String getTranslation(String code) {
-        String result = values.get(locale).get(code);
+        String result = values.get(locale).get(code.toLowerCase());
         if (result == null) {
             return code;
         }

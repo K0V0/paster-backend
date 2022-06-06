@@ -28,7 +28,7 @@ public class HeaderLocaleFilter extends OncePerRequestFilter {
     throws ServletException, IOException
     {
         System.out.println("localeeeeeeee");
-        stringsService.setLocale("sk");
+        //stringsService.setLocale("sk");
         filterChain.doFilter(request, response);
     }
 }
