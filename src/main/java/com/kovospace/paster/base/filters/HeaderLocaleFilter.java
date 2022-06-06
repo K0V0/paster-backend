@@ -16,6 +16,7 @@ import java.io.IOException;
 @Order(1)
 public class HeaderLocaleFilter extends OncePerRequestFilter {
 
+    private static final String LANGUAGE_HEADER = "Accept-Language";
     private StringsService stringsService;
 
     @Autowired
@@ -28,7 +29,8 @@ public class HeaderLocaleFilter extends OncePerRequestFilter {
     throws ServletException, IOException
     {
         System.out.println("localeeeeeeee");
-        //stringsService.setLocale("sk");
+        String language = request.getHeader(LANGUAGE_HEADER);
+        stringsService.setLocale(language);
         filterChain.doFilter(request, response);
     }
 }

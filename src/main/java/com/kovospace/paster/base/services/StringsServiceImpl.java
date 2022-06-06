@@ -12,6 +12,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -92,11 +93,11 @@ public class StringsServiceImpl implements StringsService {
 
     @Override
     public String getTranslation(String code) {
-        String result = values.get(locale).get(code.toLowerCase());
-        if (result == null) {
-            return code;
-        }
-        return result;
+        if (code == null || code.trim().equals("")) { return ""; }
+        return Optional.ofNullable(values)
+                .map(v -> v.get(locale))
+                .map(v -> v.get(code.toLowerCase()))
+                .orElse(code);
     }
 
     @Override
