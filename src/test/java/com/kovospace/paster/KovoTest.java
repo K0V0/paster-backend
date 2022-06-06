@@ -1,9 +1,9 @@
 package com.kovospace.paster;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kovospace.paster.base.configurations.strings.Strings;
 import com.kovospace.paster.base.models.ApiKey;
 import com.kovospace.paster.base.repositories.ApiKeyRepository;
+import com.kovospace.paster.base.services.StringsService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
@@ -25,7 +25,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.function.Function;
 
-import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -60,6 +59,9 @@ public abstract class KovoTest {
   @Autowired
   private ApiKeyRepository apiKeyRepository;
 
+  @Autowired
+  protected StringsService stringsService;
+
   public KovoTest() {
     this.ENDPOINT = getEndpoint();
     this.API_PREFIX = getApiPrefix();
@@ -70,6 +72,7 @@ public abstract class KovoTest {
     ApiKey aKey = new ApiKey();
     aKey.setToken(DUMMY_API_KEY);
     apiKeyRepository.save(aKey);
+    stringsService.setLocale("en");
   }
 
   @AfterEach
@@ -137,7 +140,7 @@ public abstract class KovoTest {
             .andExpect(jsonPath("$.messages." + field + ".length()", is(1)))
             .andExpect(jsonPath("$.messages." + field + "[0].status", is("error")))
             .andExpect(jsonPath("$.messages." + field + "[0].code", is(message)))
-            .andExpect(jsonPath("$.messages." + field + "[0].message", is(Strings.s(message))));
+            .andExpect(jsonPath("$.messages." + field + "[0].message", is(stringsService.getTranslation(message))));
   }
 
   protected void assertFieldErrorMsg(String input, String message, DtoPreparer dtoPreparer)
@@ -160,7 +163,7 @@ public abstract class KovoTest {
             .withMediaContent(objectMapper.writeValueAsBytes(dtoPreparer.apply(input)))
             .run()
             .andExpect(status().is(httpStatus))
-            .andExpect(jsonPath("$.message", is(Strings.s(message))));
+            .andExpect(jsonPath("$.message", is(stringsService.getTranslation(message))));
   }
 
   protected void assertFormErrorMsg(String input, String message, DtoPreparer dtoPreparer)

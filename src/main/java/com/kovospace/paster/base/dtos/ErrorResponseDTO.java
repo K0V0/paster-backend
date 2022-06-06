@@ -1,6 +1,5 @@
 package com.kovospace.paster.base.dtos;
 
-import com.kovospace.paster.base.configurations.strings.Strings;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,9 +13,12 @@ public class ErrorResponseDTO extends ResponseDTO {
   private String message;
 
   public ErrorResponseDTO(String code) {
-    super("error");
-    this.code = code;
-    this.message = Strings.s(code);
+    this(code, code);
   }
 
+  public ErrorResponseDTO(String code, String message) {
+    super("error");
+    this.code = code;
+    this.message = message;
+  }
 }
