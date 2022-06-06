@@ -1,6 +1,6 @@
 package com.kovospace.paster.item.dtos;
 
-import com.kovospace.paster.base.configurations.validators.EnumValidator;
+import com.kovospace.paster.base.validators.EnumValidator;
 import com.kovospace.paster.base.dtoHelpers.FirstOrder;
 import com.kovospace.paster.base.dtoHelpers.SecondOrder;
 import com.kovospace.paster.base.dtoHelpers.ThirdOrder;

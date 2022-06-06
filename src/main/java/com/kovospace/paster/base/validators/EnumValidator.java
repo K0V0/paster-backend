@@ -1,4 +1,4 @@
-package com.kovospace.paster.base.configurations.validators;
+package com.kovospace.paster.base.validators;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
