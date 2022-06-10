@@ -15,6 +15,9 @@ public class MockMvcSarcophagus {
     @Value("${app.api-key-header}")
     private String API_KEY_HEADER;
 
+    @Value("${app.language-header}")
+    private String LANGUAGE_HEADER;
+
     private MockMvc mockMvc;
     private MockHttpServletRequestBuilder mockHttpServletRequestBuilder;
 
@@ -28,6 +31,7 @@ public class MockMvcSarcophagus {
     private Object mediaContent;
     private String jwtToken;
     private String apiKey;
+    private String languageCode;
 
     public MockMvcSarcophagus withUrl(String url) {
         this.url = url;
@@ -65,6 +69,12 @@ public class MockMvcSarcophagus {
         return this;
     }
 
+    public MockMvcSarcophagus withLanguage(String languageCode) {
+        this.LANGUAGE_HEADER = "Accept-Language";
+        this.languageCode = languageCode;
+        return this;
+    }
+
 
     public ResultActions run() throws Exception {
 
@@ -81,6 +91,11 @@ public class MockMvcSarcophagus {
                 break;
             default:
                 throw new Exception("Unsupported/unknown http method.");
+        }
+
+        if (this.languageCode != null) {
+            mockHttpServletRequestBuilder = mockHttpServletRequestBuilder
+                    .header(LANGUAGE_HEADER, languageCode);
         }
 
         if (this.apiKey != null) {
