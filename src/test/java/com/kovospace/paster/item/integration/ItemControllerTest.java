@@ -80,8 +80,7 @@ public abstract class ItemControllerTest extends KovoTest {
     protected ResultActions itemDeleteTest(long itemId) throws Exception {
         return deleteRequest(itemId)
                 .withJwtToken(this.token)
-                .run()
-                .andExpect(status().is(200));
+                .run();
     }
 
     @Transactional

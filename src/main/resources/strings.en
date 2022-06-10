@@ -56,6 +56,7 @@ item.request.maxsize.reached = "Maximum allowed size exceeded."
 item.request.platform.wrong = "Wrong platform type passed."
 item.response.missing = "Item not found."
 item.response.access.denied = "User not found or You have no right to access these items."
+item.response.delete.unnecessary = "Item does not exist or already deleted."
 
 
 

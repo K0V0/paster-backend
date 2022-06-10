@@ -3,6 +3,7 @@ package com.kovospace.paster.item.controllerHelpers;
 import com.kovospace.paster.item.dtos.ItemRequestDTO;
 import com.kovospace.paster.item.dtos.ItemResponseDTO;
 import com.kovospace.paster.item.dtos.ItemsResponseDTO;
+import com.kovospace.paster.item.exceptions.ItemException;
 import com.kovospace.paster.item.exceptions.ItemNotFoundException;
 import com.kovospace.paster.item.exceptions.UserNotFoundException;
 import io.jsonwebtoken.JwtException;
@@ -17,6 +18,6 @@ public interface ItemControllerResponder {
 
   void addItem(String token, ItemRequestDTO dto) throws JwtException, UserNotFoundException;
 
-  ResponseEntity<Void> deleteItem(String token, long itemId) throws JwtException;
+  ResponseEntity<Void> deleteItem(String token, long itemId) throws JwtException, ItemException;
 
 }

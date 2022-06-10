@@ -56,6 +56,7 @@ item.request.maxsize.reached = "Presiahnutá maximálna povolená veľkosť."
 item.request.platform.wrong = "Nesprávny/nekompatibilný typ platformy."
 item.response.missing = "Položka nenájdená."
 item.response.access.denied = "Používateľ nenájdený alebo nemáte práva k danému obsahu."
+item.response.delete.unnecessary = "Položka neexistuje alebo už bola vymazaná."
 
 
 

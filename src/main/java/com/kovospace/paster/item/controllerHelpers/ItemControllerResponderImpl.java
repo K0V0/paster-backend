@@ -6,6 +6,7 @@ import com.kovospace.paster.item.converters.itemResponseDTOConverter.ItemRespons
 import com.kovospace.paster.item.dtos.ItemRequestDTO;
 import com.kovospace.paster.item.dtos.ItemResponseDTO;
 import com.kovospace.paster.item.dtos.ItemsResponseDTO;
+import com.kovospace.paster.item.exceptions.ItemException;
 import com.kovospace.paster.item.exceptions.ItemNotFoundException;
 import com.kovospace.paster.item.exceptions.UserNotFoundException;
 import com.kovospace.paster.item.services.ItemService;
@@ -82,7 +83,7 @@ public class ItemControllerResponderImpl implements ItemControllerResponder {
   }
 
   @Override
-  public ResponseEntity<Void> deleteItem(String token, long itemId) throws JwtException {
+  public ResponseEntity<Void> deleteItem(String token, long itemId) throws JwtException, ItemException {
     long userId = jwtService.parse(token);
     boolean needToDelete = itemService.deleteItem(userId, itemId);
     websocketService.notifyForChanges(userId);

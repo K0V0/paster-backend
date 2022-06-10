@@ -5,6 +5,7 @@ import com.kovospace.paster.item.controllerHelpers.ItemControllerResponder;
 import com.kovospace.paster.item.dtos.ItemRequestDTO;
 import com.kovospace.paster.item.dtos.ItemResponseDTO;
 import com.kovospace.paster.item.dtos.ItemsResponseDTO;
+import com.kovospace.paster.item.exceptions.ItemException;
 import com.kovospace.paster.item.exceptions.ItemNotFoundException;
 import com.kovospace.paster.item.exceptions.UserNotFoundException;
 import io.jsonwebtoken.JwtException;
@@ -72,7 +73,7 @@ public class ItemController extends BaseController {
   public ResponseEntity<Void> delete(
       @RequestHeader(value = "Authorization") String token,
       @PathVariable long id
-  ) {
+  ) throws ItemException {
     return responder.deleteItem(token, id);
   }
 

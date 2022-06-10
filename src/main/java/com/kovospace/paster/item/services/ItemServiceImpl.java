@@ -1,7 +1,10 @@
 package com.kovospace.paster.item.services;
 
 import com.kovospace.paster.item.dtos.PlatformEnum;
+import com.kovospace.paster.item.exceptions.ItemException;
 import com.kovospace.paster.item.exceptions.ItemNotFoundException;
+import com.kovospace.paster.item.exceptions.ItemNotOwnedByUserException;
+import com.kovospace.paster.item.exceptions.NoItemToDeleteException;
 import com.kovospace.paster.item.exceptions.UserNotFoundException;
 import com.kovospace.paster.item.models.Item;
 import com.kovospace.paster.item.repositories.ItemRepository;
@@ -79,15 +82,16 @@ public class ItemServiceImpl implements ItemService {
   // TODO unit/integracny test
   @Override
   @Transactional
-  public boolean deleteItem(long userId, long itemId) {
-    User user = userRepo.getById(userId);
-    // TODO test unauthorized user handling
-    // TODO exception throw and catch if user not found/not authorized for given item
-    boolean needToDelete = itemRepo.existsById(itemId);
-    if (needToDelete) {
-      itemRepo.deleteByUserAndId(user, itemId);
+  public boolean deleteItem(long userId, long itemId) throws ItemException {
+    User user = userRepo.findById(userId)
+            .orElseThrow(UserNotFoundException::new);
+    Item item = itemRepo.findById(itemId)
+            .orElseThrow(NoItemToDeleteException::new);
+    if (!item.getUser().equals(user)) {
+      throw new ItemNotOwnedByUserException();
     }
-    return needToDelete;
+    itemRepo.deleteByUserAndId(user, itemId);
+    return true;
   }
 
   private PlatformEnum convertToPlatformEnum(String platform) {
