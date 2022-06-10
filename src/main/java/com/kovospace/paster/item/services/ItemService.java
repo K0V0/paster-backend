@@ -14,6 +14,6 @@ public interface ItemService {
 
   void addItem(long userId, String text, String platform, String deviceName) throws UserNotFoundException;
 
-  void deleteItem(long userId, long itemId);
+  boolean deleteItem(long userId, long itemId);
 
 }

@@ -73,8 +73,7 @@ public class ItemController extends BaseController {
       @RequestHeader(value = "Authorization") String token,
       @PathVariable long id
   ) {
-    responder.deleteItem(token, id);
-    return new ResponseEntity<>(HttpStatus.ACCEPTED);
+    return responder.deleteItem(token, id);
   }
 
 }

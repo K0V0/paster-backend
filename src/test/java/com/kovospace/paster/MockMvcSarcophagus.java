@@ -9,6 +9,7 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 
 public class MockMvcSarcophagus {
 
@@ -88,6 +89,9 @@ public class MockMvcSarcophagus {
                 break;
             case POST:
                 mockHttpServletRequestBuilder = post(this.url);
+                break;
+            case DELETE:
+                mockHttpServletRequestBuilder = delete(this.url);
                 break;
             default:
                 throw new Exception("Unsupported/unknown http method.");

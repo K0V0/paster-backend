@@ -1,18 +1,13 @@
 package com.kovospace.paster.item.integration;
 
 import com.kovospace.paster.item.dtos.ItemRequestDTO;
-import com.kovospace.paster.user.models.User;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.transaction.annotation.Transactional;
 
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Stream.generate;
-import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -21,24 +16,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 //TODO testy na problemy s jwtTokenom
 public class ItemControllerAddTest extends ItemControllerTest {
-
-  @Transactional
-  @BeforeEach
-  public void init() {
-    userRepository.deleteAll();
-    user = new User();
-    user.setName("Anatoli Datlov");
-    user.setEmail("datlov@chnpp.cccp");
-    user.setPasword(bCryptPasswordEncoder.encode("AZ-5"));
-    userRepository.save(user);
-    user.setJwtToken(jwtService.generate(user));
-    this.token = jwtService.getPrefix() + " " + user.getJwtToken();
-  }
-
-  @AfterEach
-  public void destruct() {
-    itemRepository.deleteAll();
-  }
 
   @Test
   @Order(1)
@@ -98,11 +75,6 @@ public class ItemControllerAddTest extends ItemControllerTest {
             .andExpect(jsonPath("$.messages.text[0].status", is("error")))
             .andExpect(jsonPath("$.messages.text[0].code", is("item.request.missing")))
             .andExpect(jsonPath("$.messages.text[0].message", is("Item not presented.")));
-
-            /*.andExpect(jsonPath("$.messages.text[0].length()", is(3)))
-            .andExpect(jsonPath("$.messages.text[0].status", is("error")))
-            .andExpect(jsonPath("$.messages.text[0].code", is("item.request.missing")))
-            .andExpect(jsonPath("$.messages.text[0].message", is("Item not presented.")));*/
   }
 
   @Test
@@ -196,7 +168,7 @@ public class ItemControllerAddTest extends ItemControllerTest {
 
     itemPostTest(item, 201);
 
-    itemGetTests()
+    itemGetTest()
             .andExpect(jsonPath("$.text", is("test")))
             .andExpect(jsonPath("$.platform", is("UNKNOWN")));
     ;
@@ -237,7 +209,7 @@ public class ItemControllerAddTest extends ItemControllerTest {
 
     itemPostTest(item, 201);
     itemDbSaveTest();
-    itemGetTests()
+    itemGetTest()
             .andExpect(jsonPath("$.text", is("test")))
             .andExpect(jsonPath("$.platform", is("WEBAPP")));
   }
@@ -283,7 +255,7 @@ public class ItemControllerAddTest extends ItemControllerTest {
 
     itemPostTest(item, 201);
     itemDbSaveTest();
-    itemGetTests()
+    itemGetTest()
             .andExpect(jsonPath("$.text", is("test")))
             .andExpect(jsonPath("$.deviceName", is("dummyDevice")));
   }
@@ -298,7 +270,7 @@ public class ItemControllerAddTest extends ItemControllerTest {
 
     itemPostTest(item, 201);
     itemDbSaveTest();
-    itemGetTests()
+    itemGetTest()
             .andExpect(jsonPath("$.text", is("test")))
             .andExpect(jsonPath("$.deviceName", is("")));
   }
@@ -313,7 +285,7 @@ public class ItemControllerAddTest extends ItemControllerTest {
 
     itemPostTest(item, 201);
     itemDbSaveTest();
-    itemGetTests()
+    itemGetTest()
             .andExpect(jsonPath("$.text", is("test")))
             .andExpect(jsonPath("$.deviceName", is("")));
   }

@@ -188,6 +188,14 @@ public abstract class KovoTest {
            .withApiKey(DUMMY_API_KEY, API_KEY_HEADER);
   }
 
+  protected MockMvcSarcophagus deleteRequest(long itemId) {
+    mocks();
+    return new MockMvcSarcophagus(mockMvc)
+            .withHttpMethod(HttpMethod.DELETE)
+            .withUrl(API_PREFIX + ENDPOINT + "/" + itemId)
+            .withApiKey(DUMMY_API_KEY, API_KEY_HEADER);
+  }
+
   private void mocks() {
     //Mockito.when(apiKeyService.isValid(any())).thenReturn(true);
   }

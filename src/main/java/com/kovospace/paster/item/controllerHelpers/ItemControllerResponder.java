@@ -17,6 +17,6 @@ public interface ItemControllerResponder {
 
   void addItem(String token, ItemRequestDTO dto) throws JwtException, UserNotFoundException;
 
-  void deleteItem(String token, long itemId) throws JwtException;
+  ResponseEntity<Void> deleteItem(String token, long itemId) throws JwtException;
 
 }

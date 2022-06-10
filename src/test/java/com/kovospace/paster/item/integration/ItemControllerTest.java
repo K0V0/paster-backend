@@ -7,11 +7,14 @@ import com.kovospace.paster.item.models.Item;
 import com.kovospace.paster.item.repositories.ItemRepository;
 import com.kovospace.paster.user.models.User;
 import com.kovospace.paster.user.repositories.UserRepository;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.Assert.assertNotNull;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -61,7 +64,7 @@ public abstract class ItemControllerTest extends KovoTest {
         return i;
     }
 
-    protected ResultActions itemGetTests() throws Exception {
+    protected ResultActions itemGetTest() throws Exception {
         assertNotNull(userRepository.findFirstByName(user.getName()));
         assertNotNull(itemRepository.findAllByUserOrderByCreatedAtDesc(user));
         Item i = itemRepository.findAllByUserOrderByCreatedAtDesc(user).get(0);
@@ -72,5 +75,30 @@ public abstract class ItemControllerTest extends KovoTest {
                 .withUrl(getApiPrefix() + "/board/item/1")
                 .run()
                 .andExpect(status().is(200));
+    }
+
+    protected ResultActions itemDeleteTest(long itemId) throws Exception {
+        return deleteRequest(itemId)
+                .withJwtToken(this.token)
+                .run()
+                .andExpect(status().is(200));
+    }
+
+    @Transactional
+    @BeforeEach
+    public void init() {
+        userRepository.deleteAll();
+        user = new User();
+        user.setName("Anatoli Datlov");
+        user.setEmail("datlov@chnpp.cccp");
+        user.setPasword(bCryptPasswordEncoder.encode("AZ-5"));
+        userRepository.save(user);
+        user.setJwtToken(jwtService.generate(user));
+        this.token = jwtService.getPrefix() + " " + user.getJwtToken();
+    }
+
+    @AfterEach
+    public void destruct() {
+        itemRepository.deleteAll();
     }
 }

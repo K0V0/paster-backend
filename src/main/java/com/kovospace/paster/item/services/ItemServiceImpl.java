@@ -79,10 +79,15 @@ public class ItemServiceImpl implements ItemService {
   // TODO unit/integracny test
   @Override
   @Transactional
-  public void deleteItem(long userId, long itemId) {
+  public boolean deleteItem(long userId, long itemId) {
     User user = userRepo.getById(userId);
-    // TODO exception throw and catch if not found
-    itemRepo.deleteByUserAndId(user, itemId);
+    // TODO test unauthorized user handling
+    // TODO exception throw and catch if user not found/not authorized for given item
+    boolean needToDelete = itemRepo.existsById(itemId);
+    if (needToDelete) {
+      itemRepo.deleteByUserAndId(user, itemId);
+    }
+    return needToDelete;
   }
 
   private PlatformEnum convertToPlatformEnum(String platform) {

@@ -82,9 +82,10 @@ public class ItemControllerResponderImpl implements ItemControllerResponder {
   }
 
   @Override
-  public void deleteItem(String token, long itemId) throws JwtException {
+  public ResponseEntity<Void> deleteItem(String token, long itemId) throws JwtException {
     long userId = jwtService.parse(token);
-    itemService.deleteItem(userId, itemId);
+    boolean needToDelete = itemService.deleteItem(userId, itemId);
     websocketService.notifyForChanges(userId);
+    return new ResponseEntity<Void>(needToDelete ? HttpStatus.OK : HttpStatus.NO_CONTENT);
   }
 }
