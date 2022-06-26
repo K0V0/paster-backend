@@ -73,9 +73,9 @@ public class ItemServiceImpl implements ItemService {
     item.setDeviceName(deviceName);
     itemRepo.save(item);
     // TODO v buducnosti neobmedzene polozky pre premium useraň
-    // TODO SQL OFFET nefunguje ako ocakavane, ak ma user menej ako 20 itemov tak vracia tie
-    if (itemRepo.findAllByUserOrderByCreatedAtDesc(user).size() > 20) {
-      itemRepo.deleteAll(itemRepo.findUserItemsAbove20(userId));
+    List<Item> items = itemRepo.findAllByUserOrderByCreatedAtDesc(user);
+    if (items.size() > 20) {
+      itemRepo.deleteAll(items.subList(20, items.size()));
     }
   }
 

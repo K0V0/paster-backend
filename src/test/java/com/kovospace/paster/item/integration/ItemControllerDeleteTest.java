@@ -82,4 +82,24 @@ public class ItemControllerDeleteTest extends ItemControllerTest {
         assertEquals(2, itemRepository.findAll().size());
     }
 
+    @Test
+    @Order(4)
+    @DirtiesContext
+    public void deleteOldItemsAfter20() throws Exception {
+        for (int i = 0; i < 21; i++) {
+            ItemRequestDTO item = new ItemRequestDTO();
+            item.setText("test string " + (i+1));
+
+            itemPostTest(item, 201);
+        }
+
+        assertEquals(20, itemRepository.findAll().size());
+        assertEquals("test string 2", itemRepository
+                .findAllByUserOrderByCreatedAtDesc(userRepository.findAll().get(0))
+                .get(19).getText());
+        assertEquals("test string 21", itemRepository
+                .findAllByUserOrderByCreatedAtDesc(userRepository.findAll().get(0))
+                .get(0).getText());
+    }
+
 }
