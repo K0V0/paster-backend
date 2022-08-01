@@ -41,4 +41,9 @@ public class User {
   @Transient
   private String jwtToken;
 
+  private String avatarFileName;
+
+  //TODO performance balanced last user activity tracking //MAYBE
+
+
 }

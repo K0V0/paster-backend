@@ -188,6 +188,14 @@ public abstract class KovoTest {
            .withApiKey(DUMMY_API_KEY, API_KEY_HEADER);
   }
 
+  protected MockMvcSarcophagus getRequest(String path) {
+    mocks();
+    return new MockMvcSarcophagus(mockMvc)
+            .withHttpMethod(HttpMethod.GET)
+            .withUrl(API_PREFIX + ENDPOINT + path)
+            .withApiKey(DUMMY_API_KEY, API_KEY_HEADER);
+  }
+
   protected MockMvcSarcophagus deleteRequest(long itemId) {
     mocks();
     return new MockMvcSarcophagus(mockMvc)

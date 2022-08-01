@@ -2,6 +2,8 @@ package com.kovospace.paster.user.controllerHelpers;
 
 import com.kovospace.paster.user.dtos.UserLoginRequestDTO;
 import com.kovospace.paster.user.dtos.UserLoginResponseDTO;
+import com.kovospace.paster.user.dtos.UserProfileRequestDTO;
+import com.kovospace.paster.user.dtos.UserProfileResponseDTO;
 import com.kovospace.paster.user.dtos.UserRegisterRequestDTO;
 import com.kovospace.paster.user.exceptions.UserException;
 import com.kovospace.paster.user.services.UserService;
@@ -43,6 +45,30 @@ public class UserControllerResponderImpl implements UserControllerResponder {
             UserLoginResponseDTO.class
         ),
         HttpStatus.CREATED
+    );
+  }
+
+  @Override
+  public ResponseEntity<UserProfileResponseDTO> getProfile(long userId)
+      throws UserException {
+    return new ResponseEntity<UserProfileResponseDTO>(
+        modelMapper.map(
+            userService.getProfile(userId),
+            UserProfileResponseDTO.class
+        ),
+        HttpStatus.OK
+    );
+  }
+
+  @Override
+  public ResponseEntity<UserProfileResponseDTO> updateProfile(UserProfileRequestDTO dto)
+      throws UserException {
+    return new ResponseEntity<>(
+        modelMapper.map(
+            userService.updateProfile(dto.getId(), dto.getAvatarFileName()),
+            UserProfileResponseDTO.class
+        ),
+        HttpStatus.ACCEPTED
     );
   }
 }

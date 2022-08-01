@@ -4,6 +4,7 @@ import com.kovospace.paster.base.dtos.ErrorResponseDTO;
 import com.kovospace.paster.base.dtos.ErrorsResponseDTO;
 import com.kovospace.paster.base.exceptions.ApiKeyMissingException;
 import com.kovospace.paster.base.exceptions.FeatureNotImplementedException;
+import com.kovospace.paster.base.exceptions.WrongArgumentTypeException;
 import com.kovospace.paster.base.services.StringsService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -86,6 +87,12 @@ public class ControllerAdvice {
   @ExceptionHandler(ApiKeyMissingException.class)
   public ErrorResponseDTO apiKeyMissing() {
     return stringsService.getErrorResponseDTO("general.endpoint.authentication.apikey.missing");
+  }
+
+  @ResponseStatus(HttpStatus.BAD_REQUEST) // 400
+  @ExceptionHandler(WrongArgumentTypeException.class)
+  public ErrorResponseDTO wrongArguments(WrongArgumentTypeException e) {
+    return stringsService.getErrorResponseDTO(e.getMessage());
   }
 
 }

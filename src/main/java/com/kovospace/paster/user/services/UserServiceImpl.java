@@ -3,6 +3,8 @@ package com.kovospace.paster.user.services;
 import com.kovospace.paster.base.services.JwtService;
 import com.kovospace.paster.user.exceptions.UserException;
 import com.kovospace.paster.user.exceptions.UserLoginBadCredentialsException;
+import com.kovospace.paster.user.exceptions.UserNotFoundException;
+import com.kovospace.paster.user.exceptions.UserProfileNothingUpdatedException;
 import com.kovospace.paster.user.exceptions.UserRegisterAlreadyOccupiedException;
 import com.kovospace.paster.user.exceptions.UserRegisterPasswordsNotMatchException;
 import com.kovospace.paster.user.models.User;
@@ -56,6 +58,33 @@ public class UserServiceImpl implements UserService {
   @Override
   public boolean exist(long userId) {
     return repo.findById(userId).isPresent();
+  }
+
+  @Override
+  public User getProfile(long userId) throws UserException {
+    Optional<User> userOpt = repo.findById(userId);
+    if (userOpt.isPresent()) {
+      return userOpt.get();
+    }
+    throw new UserNotFoundException();
+  }
+
+  @Override
+  public User updateProfile(long userId, String filePath) throws UserException {
+    //TODO file upload
+    //repo.findById(userId).ifPresent(user -> {
+    Optional<User> userOpt = repo.findById(userId);
+    if (userOpt.isPresent()) {
+      if (filePath == null) { throw new UserProfileNothingUpdatedException(); }
+      User user = userOpt.get();
+      if (filePath != null) {
+        //TODO decide format of filepath + parse
+        user.setAvatarFileName(filePath);
+      }
+      repo.save(user);
+      return user;
+    }
+    throw new UserNotFoundException();
   }
 
 }
