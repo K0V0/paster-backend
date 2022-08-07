@@ -16,6 +16,6 @@ public interface UserService {
 
   User getProfile(long userId) throws UserException;
 
-  User updateProfile(long userId, String filePath) throws UserException;
+  User updateProfile(long userId, String filePath, String email) throws UserException;
 
 }

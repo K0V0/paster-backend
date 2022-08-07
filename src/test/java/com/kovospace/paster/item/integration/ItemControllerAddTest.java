@@ -221,7 +221,8 @@ public class ItemControllerAddTest extends ItemControllerTest {
     postRequest()
             .withApiKey(null)
             .run()
-            .andExpect(status().is(403));
+            .andExpect(status().is(400))
+            .andExpect(jsonPath("$.message", is("API key is missing.")));
   }
 
   @Test
@@ -230,7 +231,8 @@ public class ItemControllerAddTest extends ItemControllerTest {
     postRequest()
             .withApiKey("")
             .run()
-            .andExpect(status().is(403));
+            .andExpect(status().is(400))
+            .andExpect(jsonPath("$.message", is("API key is missing.")));
   }
 
   @Test
@@ -239,7 +241,8 @@ public class ItemControllerAddTest extends ItemControllerTest {
     postRequest()
             .withApiKey("wrongApiKey")
             .run()
-            .andExpect(status().is(403));
+            .andExpect(status().is(403))
+            .andExpect(jsonPath("$.message", is("API key is invalid.")));
   }
 
   @Test

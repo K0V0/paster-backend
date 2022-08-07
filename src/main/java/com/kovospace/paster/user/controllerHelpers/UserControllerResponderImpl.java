@@ -1,5 +1,6 @@
 package com.kovospace.paster.user.controllerHelpers;
 
+import com.kovospace.paster.base.services.JwtService;
 import com.kovospace.paster.user.dtos.UserLoginRequestDTO;
 import com.kovospace.paster.user.dtos.UserLoginResponseDTO;
 import com.kovospace.paster.user.dtos.UserProfileRequestDTO;
@@ -18,11 +19,13 @@ public class UserControllerResponderImpl implements UserControllerResponder {
 
   private final UserService userService;
   private final ModelMapper modelMapper;
+  private final JwtService jwtService;
 
   @Autowired
-  public UserControllerResponderImpl(UserService userService, ModelMapper modelMapper) {
+  public UserControllerResponderImpl(UserService userService, ModelMapper modelMapper, JwtService jwtService) {
     this.userService = userService;
     this.modelMapper = modelMapper;
+    this.jwtService = jwtService;
   }
 
   @Override
@@ -49,8 +52,9 @@ public class UserControllerResponderImpl implements UserControllerResponder {
   }
 
   @Override
-  public ResponseEntity<UserProfileResponseDTO> getProfile(long userId)
+  public ResponseEntity<UserProfileResponseDTO> getProfile(String jwtToken)
       throws UserException {
+    long userId = jwtService.parse(jwtToken);
     return new ResponseEntity<UserProfileResponseDTO>(
         modelMapper.map(
             userService.getProfile(userId),
@@ -65,7 +69,7 @@ public class UserControllerResponderImpl implements UserControllerResponder {
       throws UserException {
     return new ResponseEntity<>(
         modelMapper.map(
-            userService.updateProfile(dto.getId(), dto.getAvatarFileName()),
+            userService.updateProfile(dto.getId(), dto.getAvatarFileName(), dto.getEmail()),
             UserProfileResponseDTO.class
         ),
         HttpStatus.ACCEPTED

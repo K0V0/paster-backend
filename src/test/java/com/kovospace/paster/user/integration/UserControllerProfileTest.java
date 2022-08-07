@@ -4,6 +4,7 @@ import com.kovospace.paster.KovoTest;
 import com.kovospace.paster.base.services.JwtService;
 import com.kovospace.paster.user.models.User;
 import com.kovospace.paster.user.repositories.UserRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -37,8 +38,14 @@ public class UserControllerProfileTest extends KovoTest {
         user.setName("Anatoli Datlov");
         user.setEmail("datlov@chnpp.cccp");
         user.setPasword(bCryptPasswordEncoder.encode("AZ-5"));
+        user.setAvatarFileName("grafit.gif");
         userRepository.save(user);
         user.setJwtToken(jwtService.generate(user));
         this.jwtToken = jwtService.getPrefix() + " " + user.getJwtToken();
+    }
+
+    @AfterEach
+    public void destruct() {
+        userRepository.deleteAll();
     }
 }

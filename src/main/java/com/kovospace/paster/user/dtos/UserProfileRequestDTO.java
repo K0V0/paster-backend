@@ -10,5 +10,6 @@ public class UserProfileRequestDTO extends RequestDTO {
     private long id;
     private String userName;
     private String avatarFileName;
+    private String email;
 
 }

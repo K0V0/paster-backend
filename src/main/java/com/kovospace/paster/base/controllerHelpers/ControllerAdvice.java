@@ -2,6 +2,7 @@ package com.kovospace.paster.base.controllerHelpers;
 
 import com.kovospace.paster.base.dtos.ErrorResponseDTO;
 import com.kovospace.paster.base.dtos.ErrorsResponseDTO;
+import com.kovospace.paster.base.exceptions.ApiKeyInvalidException;
 import com.kovospace.paster.base.exceptions.ApiKeyMissingException;
 import com.kovospace.paster.base.exceptions.FeatureNotImplementedException;
 import com.kovospace.paster.base.exceptions.WrongArgumentTypeException;
@@ -83,10 +84,16 @@ public class ControllerAdvice {
     return stringsService.getErrorResponseDTO("general.implementation.missing");
   }
 
-  @ResponseStatus(HttpStatus.UNAUTHORIZED) // 401
+  @ResponseStatus(HttpStatus.UNAUTHORIZED) // 403
   @ExceptionHandler(ApiKeyMissingException.class)
   public ErrorResponseDTO apiKeyMissing() {
     return stringsService.getErrorResponseDTO("general.endpoint.authentication.apikey.missing");
+  }
+
+  @ResponseStatus(HttpStatus.UNAUTHORIZED) // 403
+  @ExceptionHandler(ApiKeyInvalidException.class)
+  public ErrorResponseDTO apiKeyWrong() {
+    return stringsService.getErrorResponseDTO("general.endpoint.authentication.apikey.wrong");
   }
 
   @ResponseStatus(HttpStatus.BAD_REQUEST) // 400

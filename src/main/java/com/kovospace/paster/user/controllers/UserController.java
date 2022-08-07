@@ -65,13 +65,12 @@ public class UserController extends BaseController {
 
   /** user account management */
 
-  @GetMapping("/profile/{id}")
+  @GetMapping("/profile")
   public ResponseEntity<?> getUserProfile(
-          @RequestHeader(value = "Authorization") String token,
-          @PathVariable String id
+          @RequestHeader(value = "Authorization") String token
   ) throws UserException, WrongArgumentTypeException {
     try {
-      return responder.getProfile(Long.parseLong(id));
+      return responder.getProfile(token);
     } catch (NumberFormatException e) {
       throw new WrongArgumentTypeException();
     }

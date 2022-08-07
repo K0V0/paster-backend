@@ -16,7 +16,7 @@ public interface UserControllerResponder {
 
   ResponseEntity<UserLoginResponseDTO> register(UserRegisterRequestDTO dto) throws UserException;
 
-  ResponseEntity<UserProfileResponseDTO> getProfile(long userId) throws UserException;
+  ResponseEntity<UserProfileResponseDTO> getProfile(String jwtToken) throws UserException;
 
   ResponseEntity<UserProfileResponseDTO> updateProfile(UserProfileRequestDTO dto) throws UserException;
 

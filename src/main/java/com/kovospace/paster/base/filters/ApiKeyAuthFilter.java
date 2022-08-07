@@ -1,12 +1,12 @@
 package com.kovospace.paster.base.filters;
 
-import com.kovospace.paster.base.exceptions.ApiKeyInvalidException;
-import com.kovospace.paster.base.exceptions.ApiKeyMissingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kovospace.paster.base.services.ApiKeyService;
+import com.kovospace.paster.base.services.StringsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
-import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -21,14 +21,16 @@ import java.util.stream.Collectors;
 
 @Component
 @Order(2)
-public class ApiKeyAuthFilter extends OncePerRequestFilter {
+public class ApiKeyAuthFilter extends BaseFilter {
 
     private final String API_KEY_HEADER = "x-auth-token";
 
     private final ApiKeyService apiKeyService;
 
     @Autowired
-    public ApiKeyAuthFilter(ApiKeyService apiKeyService) {
+    public ApiKeyAuthFilter(ApiKeyService apiKeyService, ObjectMapper objectMapper, StringsService stringsService)
+    {
+        super(objectMapper, stringsService);
         this.apiKeyService = apiKeyService;
     }
 
@@ -36,30 +38,24 @@ public class ApiKeyAuthFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
     throws ServletException, IOException
     {
-        System.out.println("API key filter called");
-        System.out.println(request.getRequestURL());
-
         // standart request
         String token = request.getHeader(API_KEY_HEADER);
         if (token == null) {
             // websockets handshake
             token = getParametersFromURL(request.getQueryString()).get("apiKey");
-            System.out.println("API key filter - token not found in headers, try url params");
         }
         if (token == null || token.equals("")) {
-            System.out.println("API key filter - token is NULL");
-            throw new ApiKeyMissingException();
+            handleError(response, "general.endpoint.authentication.apikey.missing", HttpStatus.BAD_REQUEST);
+            return;
         }
 
         String ipAddress = request.getRemoteAddr();
-        System.out.println("API key filter - ipAddress: " + request.getRemoteAddr());
         boolean isValid = (ipAddress == null) ? apiKeyService.isValid(token) : apiKeyService.isValid(token, ipAddress);
         if (!isValid) {
-            System.out.println("API key filter - token is invalid - " + token);
-            throw new ApiKeyInvalidException();
+            handleError(response, "general.endpoint.authentication.apikey.wrong", HttpStatus.FORBIDDEN);
+            return;
         }
 
-        System.out.println("API key filter - continue filterChain");
         filterChain.doFilter(request, response);
     }
 
@@ -71,4 +67,5 @@ public class ApiKeyAuthFilter extends OncePerRequestFilter {
                         .collect(Collectors.toMap(k -> k[0], v -> v[1])))
                 .orElseGet(HashMap::new);
     }
+
 }

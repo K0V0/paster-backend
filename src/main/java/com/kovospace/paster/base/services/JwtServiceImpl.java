@@ -67,7 +67,6 @@ public class JwtServiceImpl implements JwtService {
                   .parseClaimsJws(jwtToken.replace(prefix, "").trim())
                   .getBody();
           return Long.parseLong(claims.get("userId").toString());
-
         }
         throw new JwtException("general.endpoint.authentication.jwt.prefix.wrong");
       }

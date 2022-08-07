@@ -9,5 +9,6 @@ import lombok.Setter;
 public class UserProfileResponseDTO extends ResponseDTO {
     private long id;
     private String name;
-    //private String avatarFileName;
+    private String avatarFileName;
+    private String email;
 }
