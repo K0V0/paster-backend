@@ -70,21 +70,26 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public User updateProfile(long userId, String filePath) throws UserException {
-    //TODO file upload
-    //repo.findById(userId).ifPresent(user -> {
-    Optional<User> userOpt = repo.findById(userId);
-    if (userOpt.isPresent()) {
-      if (filePath == null) { throw new UserProfileNothingUpdatedException(); }
-      User user = userOpt.get();
-      if (filePath != null) {
-        //TODO decide format of filepath + parse
-        user.setAvatarFileName(filePath);
-      }
-      repo.save(user);
-      return user;
-    }
-    throw new UserNotFoundException();
+  public User updateProfile(long userId, String filePath, String email) throws UserException {
+    return null;
   }
+
+//  @Override
+//  public User updateProfile(long userId, String filePath) throws UserException {
+//    //TODO file upload
+//    //repo.findById(userId).ifPresent(user -> {
+//    Optional<User> userOpt = repo.findById(userId);
+//    if (userOpt.isPresent()) {
+//      if (filePath == null) { throw new UserProfileNothingUpdatedException(); }
+//      User user = userOpt.get();
+//      if (filePath != null) {
+//        //TODO decide format of filepath + parse
+//        user.setAvatarFileName(filePath);
+//      }
+//      repo.save(user);
+//      return user;
+//    }
+//    throw new UserNotFoundException();
+//  }
 
 }
