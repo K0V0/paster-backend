@@ -4,7 +4,6 @@ import com.kovospace.paster.base.controllers.BaseController;
 import com.kovospace.paster.base.exceptions.FeatureNotImplementedException;
 import com.kovospace.paster.base.exceptions.WrongArgumentTypeException;
 import com.kovospace.paster.user.controllerHelpers.UserControllerResponder;
-import com.kovospace.paster.user.dtos.UserInfoChangeRequestDTO;
 import com.kovospace.paster.user.dtos.UserLoginRequestDTO;
 import com.kovospace.paster.user.dtos.UserLoginResponseDTO;
 import com.kovospace.paster.user.dtos.UserPassChangeRequestDTO;
@@ -19,7 +18,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -56,14 +54,22 @@ public class UserController extends BaseController {
     return responder.login(user);
   }
 
+  /** user account management */
+
   @PatchMapping("/login")
-  public ResponseEntity<?> passChange(@Valid @RequestBody UserPassChangeRequestDTO passChange)
-  throws FeatureNotImplementedException
+  public ResponseEntity<?> passChange(@Valid @RequestBody UserPassChangeRequestDTO user)
+  throws UserException
+  {
+    return responder.changePass(user);
+  }
+
+  //TODO zmazanie uctu potvrdzovat e-mailom
+  @DeleteMapping("/login")
+  public ResponseEntity<?> remove(@Valid @RequestBody UserRemoveRequestDTO userRemove)
+          throws FeatureNotImplementedException
   {
     throw new FeatureNotImplementedException();
   }
-
-  /** user account management */
 
   @GetMapping("/profile")
   public ResponseEntity<?> getUserProfile(
@@ -82,14 +88,6 @@ public class UserController extends BaseController {
           @Valid @RequestBody UserProfileRequestDTO dto
   ) throws UserException {
     return responder.updateProfile(dto);
-  }
-
-  //TODO zmazanie uctu potvrdzovat e-mailom
-  @DeleteMapping("/login")
-  public ResponseEntity<?> remove(@Valid @RequestBody UserRemoveRequestDTO userRemove)
-  throws FeatureNotImplementedException
-  {
-    throw new FeatureNotImplementedException();
   }
 
 }

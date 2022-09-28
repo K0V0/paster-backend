@@ -12,6 +12,8 @@ public interface UserService {
 
   User register(String name, String pass, String pass2, String email) throws UserException;
 
+  User changePassword(String email, String oldPass, String oldPass2, String newPass) throws UserException;
+
   boolean exist(long userId);
 
   User getProfile(long userId) throws UserException;

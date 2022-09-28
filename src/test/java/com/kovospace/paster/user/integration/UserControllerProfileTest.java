@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
-public class UserControllerProfileTest extends KovoTest {
+public abstract class UserControllerProfileTest extends KovoTest {
 
     protected String jwtToken;
     protected User user;

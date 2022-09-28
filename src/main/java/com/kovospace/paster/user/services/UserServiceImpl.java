@@ -13,7 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
 import java.util.Optional;
+
+import static com.kovospace.paster.user.services.UserServiceUtils.getUser;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -50,6 +53,24 @@ public class UserServiceImpl implements UserService {
     user.setName(name);
     user.setPasword(encoder.encode(pass));
     user.setEmail(email);
+    repo.save(user);
+    user.setJwtToken(jwtService.generate(user));
+    return user;
+  }
+
+  @Override
+  public User changePassword(String identification, String oldPass, String newPass, String newPass2) throws UserException {
+    User user = getUser(repo, identification);
+    if (user == null) {
+      throw new UserLoginBadCredentialsException();
+    }
+    if (!encoder.matches(oldPass, user.getPasword())) {
+      throw new UserLoginBadCredentialsException();
+    }
+    if (!Objects.equals(newPass, newPass2)) {
+      throw new UserRegisterPasswordsNotMatchException();
+    }
+    user.setPasword(encoder.encode(newPass));
     repo.save(user);
     user.setJwtToken(jwtService.generate(user));
     return user;

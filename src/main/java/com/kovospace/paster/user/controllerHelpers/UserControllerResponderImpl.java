@@ -3,6 +3,7 @@ package com.kovospace.paster.user.controllerHelpers;
 import com.kovospace.paster.base.services.JwtService;
 import com.kovospace.paster.user.dtos.UserLoginRequestDTO;
 import com.kovospace.paster.user.dtos.UserLoginResponseDTO;
+import com.kovospace.paster.user.dtos.UserPassChangeRequestDTO;
 import com.kovospace.paster.user.dtos.UserProfileRequestDTO;
 import com.kovospace.paster.user.dtos.UserProfileResponseDTO;
 import com.kovospace.paster.user.dtos.UserRegisterRequestDTO;
@@ -48,6 +49,18 @@ public class UserControllerResponderImpl implements UserControllerResponder {
             UserLoginResponseDTO.class
         ),
         HttpStatus.CREATED
+    );
+  }
+
+  @Override
+  public ResponseEntity<UserLoginResponseDTO> changePass(UserPassChangeRequestDTO dto)
+          throws UserException {
+    return new ResponseEntity<>(
+            modelMapper.map(
+                    userService.changePassword(dto.getIdentification(), dto.getOldPass(), dto.getNewPass(), dto.getNewPass2()),
+                    UserLoginResponseDTO.class
+            ),
+            HttpStatus.CREATED
     );
   }
 

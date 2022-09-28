@@ -2,6 +2,7 @@ package com.kovospace.paster.user.controllerHelpers;
 
 import com.kovospace.paster.user.dtos.UserLoginRequestDTO;
 import com.kovospace.paster.user.dtos.UserLoginResponseDTO;
+import com.kovospace.paster.user.dtos.UserPassChangeRequestDTO;
 import com.kovospace.paster.user.dtos.UserProfileRequestDTO;
 import com.kovospace.paster.user.dtos.UserProfileResponseDTO;
 import com.kovospace.paster.user.dtos.UserRegisterRequestDTO;
@@ -15,6 +16,8 @@ public interface UserControllerResponder {
       throws UserLoginBadCredentialsException, UserException;
 
   ResponseEntity<UserLoginResponseDTO> register(UserRegisterRequestDTO dto) throws UserException;
+
+  ResponseEntity<UserLoginResponseDTO> changePass(UserPassChangeRequestDTO dto) throws UserException;
 
   ResponseEntity<UserProfileResponseDTO> getProfile(String jwtToken) throws UserException;
 
