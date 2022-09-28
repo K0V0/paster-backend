@@ -16,7 +16,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.Objects;
+
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public abstract class ItemControllerTest extends KovoTest {
@@ -64,6 +68,14 @@ public abstract class ItemControllerTest extends KovoTest {
         return i;
     }
 
+    protected List<Item> itemsDbSaveTest() {
+        List<Item> items = itemRepository.findAllByUserOrderByCreatedAtDesc(user);
+        assertNotNull(items);
+        assertTrue(items.size() >= 1);
+        assertTrue(items.stream().allMatch(Objects::nonNull));
+        return items;
+    }
+
     protected ResultActions itemGetTest() throws Exception {
         assertNotNull(userRepository.findFirstByName(user.getName()));
         assertNotNull(itemRepository.findAllByUserOrderByCreatedAtDesc(user));
@@ -73,6 +85,14 @@ public abstract class ItemControllerTest extends KovoTest {
         return getRequest()
                 .withJwtToken(this.token)
                 .withUrl(getApiPrefix() + "/board/item/1")
+                .run()
+                .andExpect(status().is(200));
+    }
+
+    protected ResultActions itemsGetTest() throws Exception {
+        return getRequest()
+                .withJwtToken(this.token)
+                .withUrl(getApiPrefix() + "/board/items")
                 .run()
                 .andExpect(status().is(200));
     }

@@ -140,8 +140,8 @@ public class ItemControllerAddTest extends ItemControllerTest {
   public void itemSavedShort() throws Exception {
     ItemRequestDTO item = new ItemRequestDTO();
     item.setText("test string");
-
     itemPostTest(item, 201);
+    itemGetTest();
   }
 
   @Test
