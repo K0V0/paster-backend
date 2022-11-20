@@ -1,8 +1,8 @@
-package com.kovospace.paster.item.integration;
+package com.kovospace.paster.item.v2.integration;
 
 import com.kovospace.paster.KovoTest;
 import com.kovospace.paster.base.services.JwtService;
-import com.kovospace.paster.item.dtos.ItemRequestDTO;
+import com.kovospace.paster.item.dtos.v2.ItemRequestDTO;
 import com.kovospace.paster.item.models.Item;
 import com.kovospace.paster.item.repositories.ItemRepository;
 import com.kovospace.paster.user.models.User;
@@ -28,7 +28,7 @@ public abstract class ItemControllerTest extends KovoTest {
 
     @Override
     protected String getApiPrefix() {
-        return "/api/v1";
+        return "/api/v2";
     }
 
     protected User user;

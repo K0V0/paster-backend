@@ -1,15 +1,16 @@
-package com.kovospace.paster.item.controllers;
+package com.kovospace.paster.item.controllers.v1;
 
 import com.kovospace.paster.base.controllers.BaseController;
-import com.kovospace.paster.item.controllerHelpers.ItemControllerResponder;
-import com.kovospace.paster.item.dtos.ItemRequestDTO;
-import com.kovospace.paster.item.dtos.ItemResponseDTO;
+import com.kovospace.paster.item.controllerHelpers.v1.ItemControllerResponder;
+import com.kovospace.paster.item.dtos.v1.ItemResponseDTO;
 import com.kovospace.paster.item.dtos.ItemsResponseDTO;
+import com.kovospace.paster.item.dtos.v1.ItemRequestDTO;
 import com.kovospace.paster.item.exceptions.ItemException;
 import com.kovospace.paster.item.exceptions.ItemNotFoundException;
 import com.kovospace.paster.item.exceptions.UserNotFoundException;
 import io.jsonwebtoken.JwtException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -26,10 +27,11 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 @CrossOrigin
-@RestController
+@RestController("v1Controller")
 @RequestMapping("/api/v1/board")
 public class ItemController extends BaseController {
 
+  @Qualifier("v1Responder")
   private final ItemControllerResponder responder;
 
   @Autowired

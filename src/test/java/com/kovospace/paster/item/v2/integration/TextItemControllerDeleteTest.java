@@ -1,6 +1,6 @@
-package com.kovospace.paster.item.integration;
+package com.kovospace.paster.item.v2.integration;
 
-import com.kovospace.paster.item.dtos.ItemRequestDTO;
+import com.kovospace.paster.item.dtos.v2.TextItemRequestDTO;
 import com.kovospace.paster.item.models.Item;
 import com.kovospace.paster.user.models.User;
 import org.junit.jupiter.api.Order;
@@ -12,14 +12,14 @@ import static org.junit.Assert.assertEquals;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class ItemControllerDeleteTest extends ItemControllerTest {
+public class TextItemControllerDeleteTest extends ItemControllerTest {
 
     @Test
     @Order(1)
     @DirtiesContext
     public void deleteUserItem() throws Exception {
         String tst = "test text";
-        ItemRequestDTO item = new ItemRequestDTO();
+        TextItemRequestDTO item = new TextItemRequestDTO();
         item.setText(tst);
 
         itemPostTest(item, 201);
@@ -35,7 +35,7 @@ public class ItemControllerDeleteTest extends ItemControllerTest {
     @DirtiesContext
     public void deleteAlreadyDeletedUserItem() throws Exception {
         String tst = "test text";
-        ItemRequestDTO item = new ItemRequestDTO();
+        TextItemRequestDTO item = new TextItemRequestDTO();
         item.setText(tst);
 
         itemPostTest(item, 201);
@@ -54,7 +54,7 @@ public class ItemControllerDeleteTest extends ItemControllerTest {
     @DirtiesContext
     public void tryToDeleteNotOwningItem() throws Exception {
         String tst = "test text";
-        ItemRequestDTO item = new ItemRequestDTO();
+        TextItemRequestDTO item = new TextItemRequestDTO();
         item.setText(tst);
 
         itemPostTest(item, 201);
@@ -87,7 +87,7 @@ public class ItemControllerDeleteTest extends ItemControllerTest {
     @DirtiesContext
     public void deleteOldItemsAfter20() throws Exception {
         for (int i = 0; i < 21; i++) {
-            ItemRequestDTO item = new ItemRequestDTO();
+            TextItemRequestDTO item = new TextItemRequestDTO();
             item.setText("test string " + (i+1));
 
             itemPostTest(item, 201);

@@ -12,6 +12,6 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ItemsResponseDTO extends OkResponseDTO {
-  private List<ItemResponseDTO> items;
+public class ItemsResponseDTO<T> extends OkResponseDTO {
+  private List<T> items;
 }

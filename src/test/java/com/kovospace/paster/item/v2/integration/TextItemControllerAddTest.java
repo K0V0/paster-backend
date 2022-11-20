@@ -1,6 +1,6 @@
-package com.kovospace.paster.item.integration;
+package com.kovospace.paster.item.v2.integration;
 
-import com.kovospace.paster.item.dtos.ItemRequestDTO;
+import com.kovospace.paster.item.dtos.v2.TextItemRequestDTO;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
@@ -15,7 +15,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 //TODO testy na problemy s jwtTokenom
-public class ItemControllerAddTest extends ItemControllerTest {
+public class TextItemControllerAddTest extends ItemControllerTest {
 
   @Test
   @Order(1)
@@ -80,7 +80,7 @@ public class ItemControllerAddTest extends ItemControllerTest {
   @Test
   @Order(6)
   public void contentNull() throws Exception {
-    ItemRequestDTO item = new ItemRequestDTO();
+    TextItemRequestDTO item = new TextItemRequestDTO();
 
     postRequest()
             .withJwtToken(this.token)
@@ -98,7 +98,7 @@ public class ItemControllerAddTest extends ItemControllerTest {
   @Test
   @Order(7)
   public void contentIsEmpty() throws Exception {
-    ItemRequestDTO item = new ItemRequestDTO();
+    TextItemRequestDTO item = new TextItemRequestDTO();
     item.setText("");
 
     postRequest()
@@ -118,7 +118,7 @@ public class ItemControllerAddTest extends ItemControllerTest {
   @Order(8)
   public void maximumSizeReached() throws Exception {
     String tst = generate(() -> "a").limit(maxTextLength + 1).collect(joining());
-    ItemRequestDTO item = new ItemRequestDTO();
+    TextItemRequestDTO item = new TextItemRequestDTO();
     item.setText(tst);
 
     postRequest()
@@ -138,7 +138,7 @@ public class ItemControllerAddTest extends ItemControllerTest {
   @Order(9)
   @DirtiesContext
   public void itemSavedShort() throws Exception {
-    ItemRequestDTO item = new ItemRequestDTO();
+    TextItemRequestDTO item = new TextItemRequestDTO();
     item.setText("test string");
 
     itemPostTest(item, 201);
@@ -149,7 +149,7 @@ public class ItemControllerAddTest extends ItemControllerTest {
   @DirtiesContext
   public void itemSaved() throws Exception {
     String tst = generate(() -> "a").limit(maxTextLength - 1).collect(joining());
-    ItemRequestDTO item = new ItemRequestDTO();
+    TextItemRequestDTO item = new TextItemRequestDTO();
     item.setText(tst);
 
     itemPostTest(item, 201);
@@ -163,7 +163,7 @@ public class ItemControllerAddTest extends ItemControllerTest {
   @Order(11)
   @DirtiesContext
   public void platformNotSet() throws Exception {
-    ItemRequestDTO item = new ItemRequestDTO();
+    TextItemRequestDTO item = new TextItemRequestDTO();
     item.setText("test");
 
     itemPostTest(item, 201);
@@ -178,7 +178,7 @@ public class ItemControllerAddTest extends ItemControllerTest {
   @Order(12)
   @DirtiesContext
   public void platformWrong() throws Exception {
-    ItemRequestDTO item = new ItemRequestDTO();
+    TextItemRequestDTO item = new TextItemRequestDTO();
     item.setText("test");
     item.setPlatform("kokotina");
 
@@ -203,7 +203,7 @@ public class ItemControllerAddTest extends ItemControllerTest {
   @Order(13)
   @DirtiesContext
   public void platformOK() throws Exception {
-    ItemRequestDTO item = new ItemRequestDTO();
+    TextItemRequestDTO item = new TextItemRequestDTO();
     item.setText("test");
     item.setPlatform("webapp");
 
@@ -246,7 +246,7 @@ public class ItemControllerAddTest extends ItemControllerTest {
   @Order(17)
   @DirtiesContext
   public void deviceNameOK() throws Exception {
-    ItemRequestDTO item = new ItemRequestDTO();
+    TextItemRequestDTO item = new TextItemRequestDTO();
     item.setText("test");
     item.setDeviceName("dummyDevice");
 
@@ -261,7 +261,7 @@ public class ItemControllerAddTest extends ItemControllerTest {
   @Order(18)
   @DirtiesContext
   public void deviceNameSetEmpty() throws Exception {
-    ItemRequestDTO item = new ItemRequestDTO();
+    TextItemRequestDTO item = new TextItemRequestDTO();
     item.setText("test");
     item.setDeviceName("");
 
@@ -276,7 +276,7 @@ public class ItemControllerAddTest extends ItemControllerTest {
   @Order(19)
   @DirtiesContext
   public void deviceNameSetNull() throws Exception {
-    ItemRequestDTO item = new ItemRequestDTO();
+    TextItemRequestDTO item = new TextItemRequestDTO();
     item.setText("test");
     item.setDeviceName("");
 
