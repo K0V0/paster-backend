@@ -1,6 +1,6 @@
 package com.kovospace.paster.item.models;
 
-import com.kovospace.paster.item.converters.PlatformEnumConverter;
+import com.kovospace.paster.item.mappings.converters.PlatformEnumConverter;
 import com.kovospace.paster.item.dtos.PlatformEnum;
 import com.kovospace.paster.user.models.User;
 import lombok.Getter;
@@ -19,8 +19,13 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
-import javax.persistence.Transient;
 import java.sql.Timestamp;
+
+/** Contract
+ * String data not empty, File file empty       => TEXT data
+ * String data empty, File file not empty       => not yet uploaded/corrupted file
+ * String data not empty, File file not empty   => uploaded file
+ */
 
 @Entity
 @Getter
@@ -40,18 +45,10 @@ public class Item {
   private User user;
 
   @Column(length = 4194304)
-  private String text;
+  private String data;
 
   @CreationTimestamp
   private Timestamp createdAt;
-
-  @Deprecated
-  @Transient
-  private String preview;
-
-  @Deprecated
-  @Transient
-  private boolean isLarge;
 
   /** API v2 functionality */
 

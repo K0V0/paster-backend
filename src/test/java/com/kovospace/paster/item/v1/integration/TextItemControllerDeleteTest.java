@@ -71,7 +71,7 @@ public class TextItemControllerDeleteTest extends ItemControllerTest {
 
         Item fraudedItem = new Item();
         fraudedItem.setUser(victimUser);
-        fraudedItem.setText("not great not terrible");
+        fraudedItem.setData("not great not terrible");
         itemRepository.save(fraudedItem);
 
         assertEquals(2, itemRepository.findAll().size());
@@ -96,10 +96,10 @@ public class TextItemControllerDeleteTest extends ItemControllerTest {
         assertEquals(20, itemRepository.findAll().size());
         assertEquals("test string 2", itemRepository
                 .findAllByUserOrderByCreatedAtDesc(userRepository.findAll().get(0))
-                .get(19).getText());
+                .get(19).getData());
         assertEquals("test string 21", itemRepository
                 .findAllByUserOrderByCreatedAtDesc(userRepository.findAll().get(0))
-                .get(0).getText());
+                .get(0).getData());
     }
 
 }

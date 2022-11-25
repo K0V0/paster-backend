@@ -5,20 +5,25 @@ import com.kovospace.paster.item.dtos.PlatformEnum;
 import lombok.Getter;
 import lombok.Setter;
 
-/**
- * String data:
- * in case of short text, this text should be placed here
- * in case of long text, text preview will be placed here AND flag set
- * in case of file, URL will be placed here AND corresponding flag set
+/** Contract
+ * short text => both String data and String dataPreview filled
+ * long text => only String dataPreview filled
+ * uncomplete/corrupted file => only boolean isFile set
+ * completed file => String data is filled with URL, boolean isFile is set
+ * file has preview => String dataPreview is filled with URL to preview, boolean isFile is set. File needs to be completed.
  */
+
+//TODO for not completed/corrupted file, implement endpoint to get state
+//TODO for large text, implement endpoint to query whole text
+
 @Getter
 @Setter
 public class ItemResponseDTO extends OkResponseDTO {
   private long id;
+  private String dataPreview;
   private String data;
   private long timestamp;
   private PlatformEnum platform;
   private String deviceName;
   private boolean isFile;
-  private boolean isLargeText;
 }

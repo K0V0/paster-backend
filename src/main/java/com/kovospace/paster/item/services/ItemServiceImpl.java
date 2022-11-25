@@ -10,19 +10,14 @@ import com.kovospace.paster.item.models.Item;
 import com.kovospace.paster.item.repositories.ItemRepository;
 import com.kovospace.paster.user.models.User;
 import com.kovospace.paster.user.repositories.UserRepository;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class ItemServiceImpl implements ItemService {
-
-  @Value("${board.preview-length}")
-  private int previewLength;
 
   private final ItemRepository itemRepo;
   private final UserRepository userRepo;
@@ -36,18 +31,7 @@ public class ItemServiceImpl implements ItemService {
   public List<Item> getAllOfUser(long userId) throws UserNotFoundException {
     User user = userRepo.findById(userId)
             .orElseThrow(UserNotFoundException::new);
-    return itemRepo.findAllByUserOrderByCreatedAtDesc(user)
-            .stream()
-            .map(item -> {
-              if (item.getText().length() >= previewLength) {
-                item.setPreview(item.getText().substring(0, previewLength) + "...");
-                item.setLarge(true);
-              } else {
-                item.setPreview(item.getText());
-              }
-              //item.setText(""); // povodna logika WTF ??
-              return item; })
-            .collect(Collectors.toList());
+    return itemRepo.findAllByUserOrderByCreatedAtDesc(user);
   }
 
   // TODO unit/integracny test
@@ -68,7 +52,7 @@ public class ItemServiceImpl implements ItemService {
             .orElseThrow(UserNotFoundException::new);
     Item item = new Item();
     item.setUser(user);
-    item.setText(text);
+    item.setData(text);
     item.setPlatform(convertToPlatformEnum(platform));
     item.setDeviceName(deviceName);
     itemRepo.save(item);

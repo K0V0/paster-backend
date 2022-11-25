@@ -169,7 +169,7 @@ public class TextItemControllerAddTest extends ItemControllerTest {
     itemPostTest(item, 201);
 
     itemGetTest()
-            .andExpect(jsonPath("$.text", is("test")))
+            .andExpect(jsonPath("$.data", is("test")))
             .andExpect(jsonPath("$.platform", is("UNKNOWN")));
     ;
   }
@@ -210,7 +210,7 @@ public class TextItemControllerAddTest extends ItemControllerTest {
     itemPostTest(item, 201);
     itemDbSaveTest();
     itemGetTest()
-            .andExpect(jsonPath("$.text", is("test")))
+            .andExpect(jsonPath("$.data", is("test")))
             .andExpect(jsonPath("$.platform", is("WEBAPP")));
   }
 
@@ -253,7 +253,7 @@ public class TextItemControllerAddTest extends ItemControllerTest {
     itemPostTest(item, 201);
     itemDbSaveTest();
     itemGetTest()
-            .andExpect(jsonPath("$.text", is("test")))
+            .andExpect(jsonPath("$.data", is("test")))
             .andExpect(jsonPath("$.deviceName", is("dummyDevice")));
   }
 
@@ -268,7 +268,7 @@ public class TextItemControllerAddTest extends ItemControllerTest {
     itemPostTest(item, 201);
     itemDbSaveTest();
     itemGetTest()
-            .andExpect(jsonPath("$.text", is("test")))
+            .andExpect(jsonPath("$.data", is("test")))
             .andExpect(jsonPath("$.deviceName", is("")));
   }
 
@@ -283,7 +283,7 @@ public class TextItemControllerAddTest extends ItemControllerTest {
     itemPostTest(item, 201);
     itemDbSaveTest();
     itemGetTest()
-            .andExpect(jsonPath("$.text", is("test")))
+            .andExpect(jsonPath("$.data", is("test")))
             .andExpect(jsonPath("$.deviceName", is("")));
   }
 

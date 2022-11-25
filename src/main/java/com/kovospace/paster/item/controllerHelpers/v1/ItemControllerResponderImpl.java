@@ -2,13 +2,13 @@ package com.kovospace.paster.item.controllerHelpers.v1;
 
 import com.kovospace.paster.base.services.JwtService;
 import com.kovospace.paster.base.services.WebsocketService;
-import com.kovospace.paster.item.mappings.v1.ItemModelMapper;
 import com.kovospace.paster.item.dtos.v1.ItemResponseDTO;
 import com.kovospace.paster.item.dtos.ItemsResponseDTO;
 import com.kovospace.paster.item.dtos.v1.ItemRequestDTO;
 import com.kovospace.paster.item.exceptions.ItemException;
 import com.kovospace.paster.item.exceptions.ItemNotFoundException;
 import com.kovospace.paster.item.exceptions.UserNotFoundException;
+import com.kovospace.paster.item.mappings.conversions.v1.ItemToItemResponseDTOConversion;
 import com.kovospace.paster.item.services.ItemService;
 import io.jsonwebtoken.JwtException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,50 +24,42 @@ public class ItemControllerResponderImpl implements ItemControllerResponder {
 
   private final ItemService itemService;
   private final JwtService jwtService;
-  @Qualifier("v1ItemModelMapper")
-  private final ItemModelMapper modelMapper;
   private final WebsocketService websocketService;
+
+  @Qualifier("v1ItemToItemResponseDTOConversion")
+  private final ItemToItemResponseDTOConversion conversion;
 
   @Autowired
   public ItemControllerResponderImpl(
       ItemService itemService,
       JwtService jwtService,
-      ItemModelMapper modelMapper,
-      WebsocketService websocketService
-  ) {
+      WebsocketService websocketService,
+      ItemToItemResponseDTOConversion conversion) {
     this.itemService = itemService;
     this.jwtService = jwtService;
-    this.modelMapper = modelMapper;
     this.websocketService = websocketService;
+    this.conversion = conversion;
   }
 
   @Override
   public ResponseEntity<ItemsResponseDTO> getItems(String token)
           throws JwtException, UserNotFoundException {
     long userId = jwtService.parse(token);
-    return new ResponseEntity<ItemsResponseDTO>(
-        new ItemsResponseDTO(
-            itemService.getAllOfUser(userId)
-                .stream()
-                .map(i -> modelMapper.map(i, ItemResponseDTO.class))
-                .collect(Collectors.toList())
-        ),
-        HttpStatus.OK
-    );
-
+    return new ResponseEntity<>(
+            new ItemsResponseDTO<>(itemService.getAllOfUser(userId)
+                    .stream()
+                    .map(conversion)
+                    .collect(Collectors.toList())),
+            HttpStatus.OK);
   }
 
   @Override
   public ResponseEntity<ItemResponseDTO> getItem(String token, long itemId)
       throws JwtException, ItemNotFoundException {
     long userId = jwtService.parse(token);
-    return new ResponseEntity<ItemResponseDTO>(
-      modelMapper.map(
-          itemService.getItemOfUser(userId, itemId),
-          ItemResponseDTO.class
-      ),
-      HttpStatus.OK
-    );
+    return new ResponseEntity<>(
+            conversion.apply(itemService.getItemOfUser(userId, itemId)),
+            HttpStatus.OK);
   }
 
   @Override
