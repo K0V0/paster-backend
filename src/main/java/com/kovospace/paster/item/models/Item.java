@@ -1,7 +1,7 @@
 package com.kovospace.paster.item.models;
 
-import com.kovospace.paster.item.mappings.converters.PlatformEnumConverter;
 import com.kovospace.paster.item.dtos.PlatformEnum;
+import com.kovospace.paster.item.mappings.attributeConverters.PlatformEnumConverter;
 import com.kovospace.paster.user.models.User;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,7 +16,6 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import java.sql.Timestamp;
@@ -53,7 +52,6 @@ public class Item {
   /** API v2 functionality */
 
   @OneToOne(cascade = CascadeType.ALL)
-  @JoinColumn(name = "fileId", referencedColumnName = "fileId")
   private File file;
 
 }

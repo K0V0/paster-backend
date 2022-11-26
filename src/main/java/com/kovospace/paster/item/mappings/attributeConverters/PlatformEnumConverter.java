@@ -1,4 +1,4 @@
-package com.kovospace.paster.item.mappings.converters;
+package com.kovospace.paster.item.mappings.attributeConverters;
 
 import com.kovospace.paster.item.dtos.PlatformEnum;
 

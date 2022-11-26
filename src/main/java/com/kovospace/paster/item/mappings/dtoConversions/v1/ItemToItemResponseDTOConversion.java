@@ -1,7 +1,7 @@
-package com.kovospace.paster.item.mappings.conversions.v1;
+package com.kovospace.paster.item.mappings.dtoConversions.v1;
 
 import com.kovospace.paster.item.dtos.v1.ItemResponseDTO;
-import com.kovospace.paster.item.mappings.conversions.ItemToItemResponseDTOConversionUtil;
+import com.kovospace.paster.item.mappings.dtoConversions.ItemToItemResponseDTOConversionUtil;
 import com.kovospace.paster.item.models.Item;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +16,7 @@ public class ItemToItemResponseDTOConversion implements Function<Item, ItemRespo
 
     @Override
     public ItemResponseDTO apply(Item entity) {
-        if (entity == null) return null;
+        if (entity == null || entity.getData() == null) return null;
         this.entity = entity;
         conversionContext = new ItemToItemResponseDTOConversionUtil(entity);
         response = new ItemResponseDTO();

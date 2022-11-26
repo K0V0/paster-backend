@@ -1,4 +1,4 @@
-package com.kovospace.paster.item.mappings.conversions;
+package com.kovospace.paster.item.mappings.dtoConversions;
 
 import com.kovospace.paster.item.models.Item;
 import org.springframework.beans.factory.annotation.Value;

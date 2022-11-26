@@ -14,4 +14,8 @@ import java.util.Set;
 public class ItemValues {
     private Set<String> extensionsWithPreview;
     private int textPreviewLength;
+    private int freeUserItemsLimit;
+    private String fileUploadsDir;
+    private String fileTempDir;
+    private int fileChunkSize;
 }

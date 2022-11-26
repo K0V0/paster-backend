@@ -4,6 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
@@ -13,16 +16,27 @@ import javax.persistence.OneToOne;
 public class File {
 
     @Id
-    private String fileId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
-    @OneToOne(mappedBy = "file")
+    /** without extension */
+    private String fileName;
+
+    @OneToOne(mappedBy = "file", fetch = FetchType.EAGER)
     private Item item;
 
-    private String filePath;
-    private String fileName;
-    private long chunksCount;
-    private long chunkNumber;
-    private long chunkSize;
+    private String originalFileName;
+    private Long chunksCount;
+    private Long chunkNumber;
+    private Long chunkSize;
     private String mimeType;
     private String extension;
+    private String filePath;
+
+    public String getFullFileName() {
+        return extension == null
+                ? filePath
+                : String.format("%s.%s", fileName, extension);
+    }
+
 }

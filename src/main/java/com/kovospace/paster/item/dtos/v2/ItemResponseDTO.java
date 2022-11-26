@@ -10,11 +10,11 @@ import lombok.Setter;
  * long text => only String dataPreview filled
  * uncomplete/corrupted file => only boolean isFile set
  * completed file => String data is filled with URL, boolean isFile is set
- * file has preview => String dataPreview is filled with URL to preview, boolean isFile is set. File needs to be completed.
+ * file has preview => String dataPreview is filled with URL to preview, boolean isFile is set. File has to be in completed state.
  */
 
-//TODO for not completed/corrupted file, implement endpoint to get state
 //TODO for large text, implement endpoint to query whole text
+//TODO use this endpoint to load original file if file has preview
 
 @Getter
 @Setter

@@ -1,15 +1,18 @@
 package com.kovospace.paster.item.controllers.v2;
 
 import com.kovospace.paster.base.controllers.BaseController;
-import com.kovospace.paster.base.exceptions.FeatureNotImplementedException;
 import com.kovospace.paster.item.controllerHelpers.v2.ItemControllerResponder;
-import com.kovospace.paster.item.dtos.v2.ItemResponseDTO;
 import com.kovospace.paster.item.dtos.ItemsResponseDTO;
-import com.kovospace.paster.item.dtos.v2.FileItemRequestDTO;
+import com.kovospace.paster.item.dtos.v2.FileItemInitiateRequestDTO;
+import com.kovospace.paster.item.dtos.v2.FileItemUploadChunkRequestDTO;
+import com.kovospace.paster.item.dtos.v2.FileItemUploadResponseDTO;
+import com.kovospace.paster.item.dtos.v2.FileResponseDTO;
+import com.kovospace.paster.item.dtos.v2.ItemResponseDTO;
 import com.kovospace.paster.item.dtos.v2.TextItemRequestDTO;
 import com.kovospace.paster.item.exceptions.ItemException;
 import com.kovospace.paster.item.exceptions.ItemNotFoundException;
 import com.kovospace.paster.item.exceptions.UserNotFoundException;
+import com.kovospace.paster.item.exceptions.v2.FileException;
 import io.jsonwebtoken.JwtException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -65,14 +68,31 @@ public class ItemController extends BaseController {
     return new ResponseEntity<>(HttpStatus.CREATED);
   }
 
-  @PostMapping("/file")
-  public ResponseEntity<Void> add(
+  /** get full file in case of only preview sent to client */
+  @GetMapping("/file/{id}")
+  public ResponseEntity<FileResponseDTO> getFile(
           @RequestHeader(value = "Authorization") String token,
-          @Valid @RequestBody FileItemRequestDTO dto
-  ) throws JwtException, UserNotFoundException, FeatureNotImplementedException {
-    throw new FeatureNotImplementedException();
-    //responder.addTextItem(token, dto);
-    //return new ResponseEntity<>(HttpStatus.CREATED);
+          @PathVariable long id
+  ) throws FileException, ItemNotFoundException {
+    return responder.getFile(token, id);
+  }
+
+  /** just initiate request - provide some details/defaults about file and upcoming transfer */
+  @PostMapping("/file")
+  public ResponseEntity<FileItemUploadResponseDTO> addFile(
+          @RequestHeader(value = "Authorization") String token,
+          @Valid @RequestBody FileItemInitiateRequestDTO dto
+  ) throws JwtException, UserNotFoundException, FileException, ItemNotFoundException {
+    return responder.initiateFileItem(token, dto);
+  }
+
+  /** file transfer by chunks */
+  @PutMapping("/file")
+  public ResponseEntity<FileItemUploadResponseDTO> uploadChunk(
+          @RequestHeader(value = "Authorization") String token,
+          @Valid @RequestBody FileItemUploadChunkRequestDTO dto
+  ) throws JwtException, ItemNotFoundException {
+    return responder.uploadFileChunk(token, dto);
   }
 
   @PutMapping("/item/{id}")

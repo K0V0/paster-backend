@@ -1,4 +1,4 @@
-package com.kovospace.paster.item.mappings.conversions.v2;
+package com.kovospace.paster.item.mappings.dtoConversions.v2;
 
 import org.springframework.stereotype.Component;
 

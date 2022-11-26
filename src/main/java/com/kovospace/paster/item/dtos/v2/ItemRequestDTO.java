@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.GroupSequence;
-import java.util.Optional;
 
 @Getter
 @Setter
@@ -21,11 +20,5 @@ public abstract class ItemRequestDTO {
   private String platform;
 
   private String deviceName;
-
-  public void setPlatform(String platform) {
-    this.platform = Optional.ofNullable(platform)
-            .map(String::toUpperCase)
-            .orElse(PlatformEnum.UNKNOWN.name());
-  }
 
 }

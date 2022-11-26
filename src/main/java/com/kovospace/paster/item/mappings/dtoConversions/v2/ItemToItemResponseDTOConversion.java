@@ -1,7 +1,7 @@
-package com.kovospace.paster.item.mappings.conversions.v2;
+package com.kovospace.paster.item.mappings.dtoConversions.v2;
 
 import com.kovospace.paster.item.dtos.v2.ItemResponseDTO;
-import com.kovospace.paster.item.mappings.conversions.ItemToItemResponseDTOConversionUtil;
+import com.kovospace.paster.item.mappings.dtoConversions.ItemToItemResponseDTOConversionUtil;
 import com.kovospace.paster.item.models.Item;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

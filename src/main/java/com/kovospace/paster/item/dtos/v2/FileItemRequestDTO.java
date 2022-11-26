@@ -1,19 +1,29 @@
 package com.kovospace.paster.item.dtos.v2;
 
+import com.kovospace.paster.base.dtoHelpers.FirstOrder;
+import com.kovospace.paster.base.dtoHelpers.SecondOrder;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.web.multipart.MultipartFile;
+
+import javax.validation.GroupSequence;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
-public class FileItemRequestDTO extends ItemRequestDTO {
-    private MultipartFile file;
-    //TODO - fileId v tvare <user_id>-<md5hash>
-    private String fileId;
-    private String fileName;
-    private long chunksCount;
-    private long chunkNumber;
-    private long chunkSize;
+@GroupSequence({
+        FileItemRequestDTO.class,
+        FirstOrder.class,
+        SecondOrder.class,
+})
+public abstract class FileItemRequestDTO extends ItemRequestDTO {
+
+    @NotNull(message = "item.fileupload.initiation.originalFilename.missing", groups = FirstOrder.class)
+    @NotBlank(message = "item.fileupload.initiation.originalFilename.empty", groups = SecondOrder.class)
+    private String originalFileName;
+
+    @NotNull(message = "item.fileupload.initiation.filetype.missing", groups = FirstOrder.class)
+    @NotBlank(message = "item.fileupload.initiation.filetype.empty", groups = SecondOrder.class)
     private String mimeType;
-    private String extension;
+
 }
