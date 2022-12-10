@@ -7,9 +7,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 
 public class MockMvcSarcophagus {
 
@@ -90,8 +92,14 @@ public class MockMvcSarcophagus {
             case POST:
                 mockHttpServletRequestBuilder = post(this.url);
                 break;
+            case PUT:
+                mockHttpServletRequestBuilder = put(this.url);
+                break;
             case DELETE:
                 mockHttpServletRequestBuilder = delete(this.url);
+                break;
+            case PATCH:
+                mockHttpServletRequestBuilder = patch(this.url);
                 break;
             default:
                 throw new Exception("Unsupported/unknown http method.");

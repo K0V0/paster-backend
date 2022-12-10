@@ -174,30 +174,49 @@ public abstract class KovoTest {
 
   protected MockMvcSarcophagus postRequest() {
     mocks();
-    return new MockMvcSarcophagus(mockMvc)
-            .withHttpMethod(HttpMethod.POST)
-            .withUrl(API_PREFIX + ENDPOINT)
-            .withApiKey(DUMMY_API_KEY, API_KEY_HEADER);
+    return request(HttpMethod.POST, 0);
   }
 
   protected MockMvcSarcophagus getRequest() {
     mocks();
-    return new MockMvcSarcophagus(mockMvc)
-           .withHttpMethod(HttpMethod.GET)
-           .withUrl(API_PREFIX + ENDPOINT)
-           .withApiKey(DUMMY_API_KEY, API_KEY_HEADER);
+    return request(HttpMethod.GET, 0);
+  }
+
+  protected MockMvcSarcophagus getRequest(long id) {
+    mocks();
+    return request(HttpMethod.GET, id);
   }
 
   protected MockMvcSarcophagus deleteRequest(long itemId) {
     mocks();
-    return new MockMvcSarcophagus(mockMvc)
-            .withHttpMethod(HttpMethod.DELETE)
-            .withUrl(API_PREFIX + ENDPOINT + "/" + itemId)
-            .withApiKey(DUMMY_API_KEY, API_KEY_HEADER);
+    return request(HttpMethod.DELETE, itemId);
+  }
+
+  protected MockMvcSarcophagus patchRequest(long itemId) {
+    mocks();
+    return request(HttpMethod.PATCH, itemId);
   }
 
   private void mocks() {
     //Mockito.when(apiKeyService.isValid(any())).thenReturn(true);
+  }
+
+  protected MockMvcSarcophagus request(HttpMethod httpMethod, long id) {
+    return request(httpMethod, id, null);
+  }
+
+  protected MockMvcSarcophagus request(HttpMethod httpMethod, long id, String url) {
+    return new MockMvcSarcophagus(mockMvc)
+            .withHttpMethod(httpMethod)
+            .withUrl(getUrl(url, id))
+            .withApiKey(DUMMY_API_KEY, API_KEY_HEADER);
+  }
+
+  private String getUrl(String url, long id) {
+    if (url != null && url.trim().length() > 0) {
+      return url;
+    }
+    return String.format("%s%s%s", API_PREFIX, ENDPOINT, id == 0 ? "" : String.format("/%s", id));
   }
 
 }

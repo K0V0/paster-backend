@@ -20,6 +20,8 @@ general.websocket.user.missing = "User not found."
 general.services.time.arithmetic.length = "Result too long."
 general.services.time.arithmetic.entrophy = "Value of 'from' must be less than 'to'."
 
+general.request.fields.notSameState = "Fields are not in the same state. Must be either filled or null."
+
 user.login.username.required = "Username is required."
 user.login.username.empty = "Username field is empty."
 user.login.username.format.whitespaces.denied = "Whitespaces not allowed anywhere in username."
@@ -58,5 +60,23 @@ item.response.missing = "Item not found."
 item.response.access.denied = "User not found or You have no right to access these items."
 item.response.delete.unnecessary = "Item does not exist or already deleted."
 
+item.fileupload.initiation.originalFilename.missing = "Missing original file name."
+item.fileupload.initiation.originalFilename.empty = "Empty original file name."
+item.fileupload.initiation.filetype.missing = "Missing file MIME type."
+item.fileupload.initiation.filetype.empty = "Empty file MIME type."
+item.fileupload.initiation.identificators.invalid = "fileId and ItemId mus be both filled or null."
+item.fileupload.initiation.chunk.info.invalid = "chunksCount and chunkSize must be both filled or null."
+item.fileupload.initiation.dto.invalid = ""
+item.fileupload.upload.file.missing = "Missing file."
+item.fileupload.upload.chunk.number.missing = "Missing currently uploaded chunk number."
+item.fileupload.upload.chunk.number.empty = "Empty currently uploaded chunk number."
+item.fileupload.upload.file.id.missing = "Missing file id."
+item.fileupload.upload.file.id.empty = "Empty file id."
+item.fileupload.upload.item.id.missing = "Missing item id."
+item.fileupload.upload.item.id.empty = "Empty item id."
+
+item.filerepo.creation.wrong = "Error creating new file."
+item.filerepo.file.missing = "Requested file does not exist."
+item.filerepo.file.completion = "Requested file is not completed yet."
 
 

@@ -1,7 +1,6 @@
 package com.kovospace.paster.base.websockets.controllers;
 
 import com.google.gson.Gson;
-import com.kovospace.paster.base.configurations.SecurityConfig;
 import com.kovospace.paster.base.configurations.websocketConfig.WsServerSpringConfigurator;
 import com.kovospace.paster.base.services.ApiKeyService;
 import com.kovospace.paster.base.services.JwtService;
