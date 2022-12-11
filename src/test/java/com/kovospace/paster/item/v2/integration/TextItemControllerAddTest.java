@@ -278,13 +278,27 @@ public class TextItemControllerAddTest extends ItemControllerTest {
   public void deviceNameSetNull() throws Exception {
     TextItemRequestDTO item = new TextItemRequestDTO();
     item.setText("test");
-    item.setDeviceName("");
+    item.setDeviceName(null);
 
     itemPostTest(item, 201);
     itemDbSaveTest();
     itemGetTest()
             .andExpect(jsonPath("$.data", is("test")))
-            .andExpect(jsonPath("$.deviceName", is("")));
+            .andExpect(jsonPath("$.deviceName").doesNotExist());
+  }
+
+  @Test
+  @Order(19)
+  @DirtiesContext
+  public void deviceNameNotSet() throws Exception {
+    TextItemRequestDTO item = new TextItemRequestDTO();
+    item.setText("test");
+
+    itemPostTest(item, 201);
+    itemDbSaveTest();
+    itemGetTest()
+            .andExpect(jsonPath("$.data", is("test")))
+            .andExpect(jsonPath("$.deviceName").doesNotExist());
   }
 
 }

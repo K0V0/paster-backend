@@ -107,12 +107,10 @@ public class ItemToItemResponseDTOConversionUtil {
     }
 
     private void setDeviceName() {
-        //TODO maybe some default name for device if unknown
-        deviceName = item.getDeviceName() == null ? "" : item.getDeviceName();
+        deviceName = item.getDeviceName();
     }
 
     private void setPreviewText() {
-        //if (isFile) return;
         previewText = Optional.ofNullable(item.getData())
                 .map(txt -> txt.length() > PREVIEW_TEXT_LIMIT
                         ? String.format("%s%s", txt.substring(0, PREVIEW_TEXT_LIMIT), TRUNCATE_SYMBOL)

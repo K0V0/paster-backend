@@ -33,8 +33,7 @@ public class FileItemControllerGetV1CompatibilityTest extends FileItemController
                 //TODO false hodnoty nevyrenderuje podobne ako null ?? pozret vlastnosti springu
                 //.andExpect(jsonPath("$.isLarge", is(false)))
                 .andExpect(jsonPath("$.platform", is("UNKNOWN")))
-                //TODO opravit toto chovanie v dalsej verzii api preboha
-                .andExpect(jsonPath("$.deviceName", is("")));
+                .andExpect(jsonPath("$.deviceName").doesNotExist());
     }
 
     @org.junit.jupiter.api.Test

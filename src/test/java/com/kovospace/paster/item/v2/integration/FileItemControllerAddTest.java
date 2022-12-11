@@ -41,8 +41,7 @@ public class FileItemControllerAddTest extends FileItemControllerTest {
         itemGetTest()
                 .andExpect(jsonPath("$.id", is(1)))
                 .andExpect(jsonPath("$.dataPreview").doesNotExist())
-                //TODO opravit toto chovanie v dalsej verzii api preboha
-                .andExpect(jsonPath("$.deviceName", is("")))
+                .andExpect(jsonPath("$.deviceName").doesNotExist())
                 .andExpect(jsonPath("$.platform", is("UNKNOWN")))
                 .andExpect(jsonPath("$.data").doesNotExist())
                 .andExpect(jsonPath("$.timestamp").exists())
