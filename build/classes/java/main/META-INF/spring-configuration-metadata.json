@@ -1,0 +1,118 @@
+{
+  "groups": [
+    {
+      "name": "app",
+      "type": "com.kovospace.paster.base.configurations.values.ApiKeySettingsValues",
+      "sourceType": "com.kovospace.paster.base.configurations.values.ApiKeySettingsValues"
+    },
+    {
+      "name": "app",
+      "type": "com.kovospace.paster.base.configurations.values.LanguageSettingsValues",
+      "sourceType": "com.kovospace.paster.base.configurations.values.LanguageSettingsValues"
+    },
+    {
+      "name": "board",
+      "type": "com.kovospace.paster.base.configurations.values.BoardValues",
+      "sourceType": "com.kovospace.paster.base.configurations.values.BoardValues"
+    },
+    {
+      "name": "item",
+      "type": "com.kovospace.paster.base.configurations.values.ItemValues",
+      "sourceType": "com.kovospace.paster.base.configurations.values.ItemValues"
+    },
+    {
+      "name": "jwt",
+      "type": "com.kovospace.paster.base.configurations.values.JwtSettingsValues",
+      "sourceType": "com.kovospace.paster.base.configurations.values.JwtSettingsValues"
+    }
+  ],
+  "properties": [
+    {
+      "name": "app.api-key-header",
+      "type": "java.lang.String",
+      "sourceType": "com.kovospace.paster.base.configurations.values.ApiKeySettingsValues"
+    },
+    {
+      "name": "app.api-key-token",
+      "type": "java.lang.String",
+      "sourceType": "com.kovospace.paster.base.configurations.values.ApiKeySettingsValues"
+    },
+    {
+      "name": "app.default-language-code",
+      "type": "java.lang.String",
+      "sourceType": "com.kovospace.paster.base.configurations.values.LanguageSettingsValues"
+    },
+    {
+      "name": "app.language-header",
+      "type": "java.lang.String",
+      "sourceType": "com.kovospace.paster.base.configurations.values.LanguageSettingsValues"
+    },
+    {
+      "name": "board.preview-length",
+      "type": "java.lang.Integer",
+      "sourceType": "com.kovospace.paster.base.configurations.values.BoardValues",
+      "defaultValue": 0
+    },
+    {
+      "name": "board.preview-max-length",
+      "type": "java.lang.Integer",
+      "sourceType": "com.kovospace.paster.base.configurations.values.BoardValues",
+      "defaultValue": 0
+    },
+    {
+      "name": "item.extensions-with-preview",
+      "type": "java.util.Set<java.lang.String>",
+      "sourceType": "com.kovospace.paster.base.configurations.values.ItemValues"
+    },
+    {
+      "name": "item.file-chunk-size",
+      "type": "java.lang.Integer",
+      "sourceType": "com.kovospace.paster.base.configurations.values.ItemValues",
+      "defaultValue": 0
+    },
+    {
+      "name": "item.file-temp-dir",
+      "type": "java.lang.String",
+      "sourceType": "com.kovospace.paster.base.configurations.values.ItemValues"
+    },
+    {
+      "name": "item.file-uploads-dir",
+      "type": "java.lang.String",
+      "sourceType": "com.kovospace.paster.base.configurations.values.ItemValues"
+    },
+    {
+      "name": "item.free-user-items-limit",
+      "type": "java.lang.Integer",
+      "sourceType": "com.kovospace.paster.base.configurations.values.ItemValues",
+      "defaultValue": 0
+    },
+    {
+      "name": "item.text-preview-length",
+      "type": "java.lang.Integer",
+      "sourceType": "com.kovospace.paster.base.configurations.values.ItemValues",
+      "defaultValue": 0
+    },
+    {
+      "name": "jwt.header-type",
+      "type": "java.lang.String",
+      "sourceType": "com.kovospace.paster.base.configurations.values.JwtSettingsValues"
+    },
+    {
+      "name": "jwt.prefix",
+      "type": "java.lang.String",
+      "sourceType": "com.kovospace.paster.base.configurations.values.JwtSettingsValues"
+    },
+    {
+      "name": "jwt.secret-key",
+      "type": "java.lang.String",
+      "sourceType": "com.kovospace.paster.base.configurations.values.JwtSettingsValues"
+    },
+    {
+      "name": "jwt.valid-days",
+      "type": "java.lang.Integer",
+      "sourceType": "com.kovospace.paster.base.configurations.values.JwtSettingsValues",
+      "defaultValue": 0
+    }
+  ],
+  "hints": []
+}

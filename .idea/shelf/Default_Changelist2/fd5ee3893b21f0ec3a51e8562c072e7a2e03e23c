@@ -1,0 +1,29 @@
+
+4
+java:S57869"Remove this 'public' modifier.(ûİ®
+4
+java:S5786@"Remove this 'public' modifier.(Ë•ÚÉ
+9
+java:S5786Q"Remove this 'public' modifier.(ÚÒ–†ÿÿÿÿÿ
+9
+java:S5786Z"Remove this 'public' modifier.(‘Ìüÿÿÿÿ
+9
+java:S5786c"Remove this 'public' modifier.(ßö¨ıÿÿÿÿ
+4
+java:S5786l"Remove this 'public' modifier.(–™Î¼
+9
+java:S5786x"Remove this 'public' modifier.(ğìòüÿÿÿÿ
+:
+java:S5786"Remove this 'public' modifier.(şÖ‚şÿÿÿÿ
+:
+java:S5786Š"Remove this 'public' modifier.(Ş¸şÿÿÿÿ
+4
+java:S5786"Remove this 'public' modifier.(“ëÊ¯
+q
+java:S3415K"VSwap these 2 arguments so they are in the correct order: expected value, actual value.(šó“Çûÿÿÿÿ
+}
+java:S5778R"bRefactor the code of the lambda to have only one invocation possibly throwing a runtime exception.(®å×Ñıÿÿÿÿ
+}
+java:S5778["bRefactor the code of the lambda to have only one invocation possibly throwing a runtime exception.(®å×Ñıÿÿÿÿ
+}
+java:S5778d"bRefactor the code of the lambda to have only one invocation possibly throwing a runtime exception.(®å×Ñıÿÿÿÿ

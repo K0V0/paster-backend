@@ -1,0 +1,10 @@
+
+o	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ò¶ 
+v
+java:S1450"`Remove the "conversionContext" field and declare it as a local variable in the relevant methods.(±üãë
+w
+java:S1450"URemove the "entity" field and declare it as a local variable in the relevant methods.(Ë±å‡ûÿÿÿÿ8Œ„ÿÅÏ0
+m
+java:S1450"WRemove the "response" field and declare it as a local variable in the relevant methods.(³İü
+L
+java:S1068"*Remove this unused "entity" private field.(Ë±å‡ûÿÿÿÿ8„ÿÅÏ0

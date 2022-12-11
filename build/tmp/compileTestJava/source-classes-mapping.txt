@@ -1,0 +1,53 @@
+com/kovospace/paster/item/v1/integration/TextItemControllerDeleteTest.java
+ com.kovospace.paster.item.v1.integration.TextItemControllerDeleteTest
+com/kovospace/paster/user/integration/UserControllerRegisterTest.java
+ com.kovospace.paster.user.integration.UserControllerRegisterTest
+ com.kovospace.paster.user.integration.UserControllerRegisterTest$UserRegisterDtoPreparer
+com/kovospace/paster/item/v2/integration/v1compatibility/FileItemControllerDeleteV1CompatibilityTest.java
+ com.kovospace.paster.item.v2.integration.v1compatibility.FileItemControllerDeleteV1CompatibilityTest
+com/kovospace/paster/item/v2/integration/ItemControllerTest.java
+ com.kovospace.paster.item.v2.integration.ItemControllerTest
+com/kovospace/paster/base/unit/TimeServiceTest.java
+ com.kovospace.paster.base.unit.TimeServiceTest
+com/kovospace/paster/item/v2/integration/v1compatibility/FileItemControllerV1CompatibilityTest.java
+ com.kovospace.paster.item.v2.integration.v1compatibility.FileItemControllerV1CompatibilityTest
+com/kovospace/paster/item/v1/integration/TextItemControllerAddTest.java
+ com.kovospace.paster.item.v1.integration.TextItemControllerAddTest
+com/kovospace/paster/item/v2/integration/TextItemControllerAddTest.java
+ com.kovospace.paster.item.v2.integration.TextItemControllerAddTest
+com/kovospace/paster/item/v2/integration/TextItemControllerDeleteTest.java
+ com.kovospace.paster.item.v2.integration.TextItemControllerDeleteTest
+com/kovospace/paster/user/integration/UserControllerLoginTest.java
+ com.kovospace.paster.user.integration.UserControllerLoginTest
+ com.kovospace.paster.user.integration.UserControllerLoginTest$UserLoginDtoPreparer
+com/kovospace/paster/base/unit/JwtServiceTest.java
+ com.kovospace.paster.base.unit.JwtServiceTest
+com/kovospace/paster/item/v2/integration/FileItemControllerContinueTest.java
+ com.kovospace.paster.item.v2.integration.FileItemControllerContinueTest
+com/kovospace/paster/item/v2/unit/ItemUnitTest.java
+ com.kovospace.paster.item.v2.unit.ItemUnitTest
+com/kovospace/paster/item/v2/integration/FileItemControllerTest.java
+ com.kovospace.paster.item.v2.integration.FileItemControllerTest
+com/kovospace/paster/base/integration/LanguageSwitchingTest.java
+ com.kovospace.paster.base.integration.LanguageSwitchingTest
+com/kovospace/paster/item/v2/integration/FileItemControllerGetTest.java
+ com.kovospace.paster.item.v2.integration.FileItemControllerGetTest
+com/kovospace/paster/KovoTest.java
+ com.kovospace.paster.KovoTest
+ com.kovospace.paster.KovoTest$DtoModifier
+ com.kovospace.paster.KovoTest$DtoPreparer
+com/kovospace/paster/item/v2/integration/v1compatibility/FileItemControllerGetV1CompatibilityTest.java
+ com.kovospace.paster.item.v2.integration.v1compatibility.FileItemControllerGetV1CompatibilityTest
+com/kovospace/paster/item/v2/integration/FileItemControllerDeleteTest.java
+ com.kovospace.paster.item.v2.integration.FileItemControllerDeleteTest
+com/kovospace/paster/item/v2/integration/FileItemControllerAddTest.java
+ com.kovospace.paster.item.v2.integration.FileItemControllerAddTest
+com/kovospace/paster/item/v2/unit/FilesystemOperationsServiceTest.java
+ com.kovospace.paster.item.v2.unit.FilesystemOperationsServiceTest
+com/kovospace/paster/item/v1/builders/ItemRequestDTOBuilder.java
+ com.kovospace.paster.item.v1.builders.ItemRequestDTOBuilder
+com/kovospace/paster/item/v1/integration/ItemControllerTest.java
+ com.kovospace.paster.item.v1.integration.ItemControllerTest
+com/kovospace/paster/MockMvcSarcophagus.java
+ com.kovospace.paster.MockMvcSarcophagus
+ com.kovospace.paster.MockMvcSarcophagus$1

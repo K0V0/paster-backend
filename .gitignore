@@ -25,3 +25,9 @@ hs_err_pid*
 # folder with uploads
 uploads/
 testUploads/
+
+# folder with jars and ears
+!build/libs/paster-0.0.1-SNAPSHOT.jar
+!build/libs/paster-0.0.1-SNAPSHOT-plain.jar
+!gradle/wrapper/gradle-wrapper.jar
+

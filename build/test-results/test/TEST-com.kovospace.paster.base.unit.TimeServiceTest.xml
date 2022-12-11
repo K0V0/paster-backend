@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.kovospace.paster.base.unit.TimeServiceTest" tests="9" skipped="0" failures="0" errors="0" timestamp="2022-12-11T13:51:29" hostname="kovo-flex5" time="0.146">
+  <properties/>
+  <testcase name="getTimeOk()" classname="com.kovospace.paster.base.unit.TimeServiceTest" time="0.138"/>
+  <testcase name="getTimeAfterOk()" classname="com.kovospace.paster.base.unit.TimeServiceTest" time="0.0"/>
+  <testcase name="getTimeBetweenOk()" classname="com.kovospace.paster.base.unit.TimeServiceTest" time="0.0"/>
+  <testcase name="getTimeBetweenWrongOrder()" classname="com.kovospace.paster.base.unit.TimeServiceTest" time="0.003"/>
+  <testcase name="getTimeBetweenDifferenceTooBig()" classname="com.kovospace.paster.base.unit.TimeServiceTest" time="0.001"/>
+  <testcase name="getDateCorrect()" classname="com.kovospace.paster.base.unit.TimeServiceTest" time="0.0"/>
+  <testcase name="getDateAfterCorrect()" classname="com.kovospace.paster.base.unit.TimeServiceTest" time="0.0"/>
+  <testcase name="zeroCannotBreakGetDaysAfter()" classname="com.kovospace.paster.base.unit.TimeServiceTest" time="0.0"/>
+  <testcase name="negativeCannotBreakGetDaysAfter()" classname="com.kovospace.paster.base.unit.TimeServiceTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

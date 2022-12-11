@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.kovospace.paster.user.integration.UserControllerLoginTest" tests="21" skipped="0" failures="0" errors="0" timestamp="2022-12-11T13:49:52" hostname="kovo-flex5" time="1.354">
+  <properties/>
+  <testcase name="endpointNotFound()" classname="com.kovospace.paster.user.integration.UserControllerLoginTest" time="0.023"/>
+  <testcase name="getRequestNotAllowed()" classname="com.kovospace.paster.user.integration.UserControllerLoginTest" time="0.021"/>
+  <testcase name="requestBodyEmpty()" classname="com.kovospace.paster.user.integration.UserControllerLoginTest" time="0.022"/>
+  <testcase name="requestBodyMalformed()" classname="com.kovospace.paster.user.integration.UserControllerLoginTest" time="0.022"/>
+  <testcase name="requestBodyWrongMediaType()" classname="com.kovospace.paster.user.integration.UserControllerLoginTest" time="0.021"/>
+  <testcase name="requestJsonEmpty()" classname="com.kovospace.paster.user.integration.UserControllerLoginTest" time="0.028"/>
+  <testcase name="usernameAndPasswordNull()" classname="com.kovospace.paster.user.integration.UserControllerLoginTest" time="0.024"/>
+  <testcase name="usernameAndPasswordEmpty()" classname="com.kovospace.paster.user.integration.UserControllerLoginTest" time="0.031"/>
+  <testcase name="usernameNull()" classname="com.kovospace.paster.user.integration.UserControllerLoginTest" time="0.022"/>
+  <testcase name="usernameEmpty()" classname="com.kovospace.paster.user.integration.UserControllerLoginTest" time="0.022"/>
+  <testcase name="passwordNull()" classname="com.kovospace.paster.user.integration.UserControllerLoginTest" time="0.022"/>
+  <testcase name="passwordEmpty()" classname="com.kovospace.paster.user.integration.UserControllerLoginTest" time="0.022"/>
+  <testcase name="passwordShort()" classname="com.kovospace.paster.user.integration.UserControllerLoginTest" time="0.026"/>
+  <testcase name="usernameAreSpaces()" classname="com.kovospace.paster.user.integration.UserControllerLoginTest" time="0.022"/>
+  <testcase name="passwordAreSpaces()" classname="com.kovospace.paster.user.integration.UserControllerLoginTest" time="0.02"/>
+  <testcase name="usernameBeginWithSpace()" classname="com.kovospace.paster.user.integration.UserControllerLoginTest" time="0.021"/>
+  <testcase name="usernameWithSpace()" classname="com.kovospace.paster.user.integration.UserControllerLoginTest" time="0.022"/>
+  <testcase name="usernameEndsWithSpace()" classname="com.kovospace.paster.user.integration.UserControllerLoginTest" time="0.021"/>
+  <testcase name="userNotFound()" classname="com.kovospace.paster.user.integration.UserControllerLoginTest" time="0.021"/>
+  <testcase name="usersPasswordWrong()" classname="com.kovospace.paster.user.integration.UserControllerLoginTest" time="0.412"/>
+  <testcase name="userLoginOK()" classname="com.kovospace.paster.user.integration.UserControllerLoginTest" time="0.469"/>
+  <system-out><![CDATA[2022-12-11 14:49:52.786  INFO 52453 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Neither @ContextConfiguration nor @ContextHierarchy found for test class [com.kovospace.paster.user.integration.UserControllerLoginTest], using SpringBootContextLoader
+2022-12-11 14:49:52.787  INFO 52453 --- [    Test worker] o.s.t.c.support.AbstractContextLoader    : Could not detect default resource locations for test class [com.kovospace.paster.user.integration.UserControllerLoginTest]: no resource found for suffixes {-context.xml, Context.groovy}.
+2022-12-11 14:49:52.788  INFO 52453 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.kovospace.paster.user.integration.UserControllerLoginTest]: UserControllerLoginTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2022-12-11 14:49:52.793  INFO 52453 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.kovospace.paster.PasterApplication for test class com.kovospace.paster.user.integration.UserControllerLoginTest
+2022-12-11 14:49:52.796  INFO 52453 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.security.test.context.support.WithSecurityContextTestExecutionListener, org.springframework.security.test.context.support.ReactorContextTestExecutionListener, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener, org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.event.ApplicationEventsTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener, org.springframework.test.context.event.EventPublishingTestExecutionListener]
+2022-12-11 14:49:52.797  INFO 52453 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@6b97988f, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@69c7ba31, org.springframework.test.context.event.ApplicationEventsTestExecutionListener@3435acd5, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener@5acb213f, org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@dcf8909, org.springframework.test.context.support.DirtiesContextTestExecutionListener@598dbcb3, org.springframework.test.context.transaction.TransactionalTestExecutionListener@40c7f053, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@4386f3ad, org.springframework.security.test.context.support.WithSecurityContextTestExecutionListener@32f0bd15, org.springframework.test.context.event.EventPublishingTestExecutionListener@62ce7dc, org.springframework.security.test.context.support.ReactorContextTestExecutionListener@7996ca22, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener@df95526, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener@3ad64999, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener@5ba54b18, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener@142d4d94, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener@533a6a52, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener@5ba86b2d]
+cors filter called
+localeeeeeeee
+API key filter called
+http://localhost/api/v1/user/logi
+API key filter - ipAddress: 127.0.0.1
+API key filter - continue filterChain
+JWT token filter called
+cors filter called
+localeeeeeeee
+API key filter called
+http://localhost/api/v1/user/login
+API key filter - ipAddress: 127.0.0.1
+API key filter - continue filterChain
+JWT token filter called
+cors filter called
+localeeeeeeee
+API key filter called
+http://localhost/api/v1/user/login
+API key filter - ipAddress: 127.0.0.1
+API key filter - continue filterChain
+JWT token filter called
+cors filter called
+localeeeeeeee
+API key filter called
+http://localhost/api/v1/user/login
+API key filter - ipAddress: 127.0.0.1
+API key filter - continue filterChain
+JWT token filter called
+cors filter called
+localeeeeeeee
+API key filter called
+http://localhost/api/v1/user/login
+API key filter - ipAddress: 127.0.0.1
+API key filter - continue filterChain
+JWT token filter called
+2022-12-11 14:49:52.913  WARN 52453 --- [    Test worker] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.HttpMediaTypeNotSupportedException: Content type 'application/octet-stream' not supported]
+cors filter called
+localeeeeeeee
+API key filter called
+http://localhost/api/v1/user/login
+API key filter - ipAddress: 127.0.0.1
+API key filter - continue filterChain
+JWT token filter called
+cors filter called
+localeeeeeeee
+API key filter called
+http://localhost/api/v1/user/login
+API key filter - ipAddress: 127.0.0.1
+API key filter - continue filterChain
+JWT token filter called
+cors filter called
+localeeeeeeee
+API key filter called
+http://localhost/api/v1/user/login
+API key filter - ipAddress: 127.0.0.1
+API key filter - continue filterChain
+JWT token filter called
+cors filter called
+localeeeeeeee
+API key filter called
+http://localhost/api/v1/user/login
+API key filter - ipAddress: 127.0.0.1
+API key filter - continue filterChain
+JWT token filter called
+cors filter called
+localeeeeeeee
+API key filter called
+http://localhost/api/v1/user/login
+API key filter - ipAddress: 127.0.0.1
+API key filter - continue filterChain
+JWT token filter called
+cors filter called
+localeeeeeeee
+API key filter called
+http://localhost/api/v1/user/login
+API key filter - ipAddress: 127.0.0.1
+API key filter - continue filterChain
+JWT token filter called
+cors filter called
+localeeeeeeee
+API key filter called
+http://localhost/api/v1/user/login
+API key filter - ipAddress: 127.0.0.1
+API key filter - continue filterChain
+JWT token filter called
+cors filter called
+localeeeeeeee
+API key filter called
+http://localhost/api/v1/user/login
+API key filter - ipAddress: 127.0.0.1
+API key filter - continue filterChain
+JWT token filter called
+cors filter called
+localeeeeeeee
+API key filter called
+http://localhost/api/v1/user/login
+API key filter - ipAddress: 127.0.0.1
+API key filter - continue filterChain
+JWT token filter called
+cors filter called
+localeeeeeeee
+API key filter called
+http://localhost/api/v1/user/login
+API key filter - ipAddress: 127.0.0.1
+API key filter - continue filterChain
+JWT token filter called
+cors filter called
+localeeeeeeee
+API key filter called
+http://localhost/api/v1/user/login
+API key filter - ipAddress: 127.0.0.1
+API key filter - continue filterChain
+JWT token filter called
+cors filter called
+localeeeeeeee
+API key filter called
+http://localhost/api/v1/user/login
+API key filter - ipAddress: 127.0.0.1
+API key filter - continue filterChain
+JWT token filter called
+cors filter called
+localeeeeeeee
+API key filter called
+http://localhost/api/v1/user/login
+API key filter - ipAddress: 127.0.0.1
+API key filter - continue filterChain
+JWT token filter called
+cors filter called
+localeeeeeeee
+API key filter called
+http://localhost/api/v1/user/login
+API key filter - ipAddress: 127.0.0.1
+API key filter - continue filterChain
+JWT token filter called
+cors filter called
+localeeeeeeee
+API key filter called
+http://localhost/api/v1/user/login
+API key filter - ipAddress: 127.0.0.1
+API key filter - continue filterChain
+JWT token filter called
+cors filter called
+localeeeeeeee
+API key filter called
+http://localhost/api/v1/user/login
+API key filter - ipAddress: 127.0.0.1
+API key filter - continue filterChain
+JWT token filter called
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

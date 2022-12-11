@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.kovospace.paster.base.unit.JwtServiceTest" tests="9" skipped="0" failures="0" errors="0" timestamp="2022-12-11T13:51:29" hostname="kovo-flex5" time="0.039">
+  <properties/>
+  <testcase name="generation()" classname="com.kovospace.paster.base.unit.JwtServiceTest" time="0.01"/>
+  <testcase name="hasValidData()" classname="com.kovospace.paster.base.unit.JwtServiceTest" time="0.003"/>
+  <testcase name="tokenSignatureIsMalformed()" classname="com.kovospace.paster.base.unit.JwtServiceTest" time="0.004"/>
+  <testcase name="tokenBearerPrefixIsMissing()" classname="com.kovospace.paster.base.unit.JwtServiceTest" time="0.003"/>
+  <testcase name="tokenHeaderIsMalformed()" classname="com.kovospace.paster.base.unit.JwtServiceTest" time="0.004"/>
+  <testcase name="tokenBodyIsMalformed()" classname="com.kovospace.paster.base.unit.JwtServiceTest" time="0.004"/>
+  <testcase name="tokenIsMissing()" classname="com.kovospace.paster.base.unit.JwtServiceTest" time="0.003"/>
+  <testcase name="tokenIsMissing2()" classname="com.kovospace.paster.base.unit.JwtServiceTest" time="0.003"/>
+  <testcase name="tokenIsMissing3()" classname="com.kovospace.paster.base.unit.JwtServiceTest" time="0.003"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

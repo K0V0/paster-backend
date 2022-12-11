@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=edge"/>
+<title>Test results - TextItemControllerDeleteTest</title>
+<link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
+<link href="../css/style.css" rel="stylesheet" type="text/css"/>
+<script src="../js/report.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="content">
+<h1>TextItemControllerDeleteTest</h1>
+<div class="breadcrumbs">
+<a href="../index.html">all</a> &gt; 
+<a href="../packages/com.kovospace.paster.item.v1.integration.html">com.kovospace.paster.item.v1.integration</a> &gt; TextItemControllerDeleteTest</div>
+<div id="summary">
+<table>
+<tr>
+<td>
+<div class="summaryGroup">
+<table>
+<tr>
+<td>
+<div class="infoBox" id="tests">
+<div class="counter">4</div>
+<p>tests</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="failures">
+<div class="counter">0</div>
+<p>failures</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="ignored">
+<div class="counter">0</div>
+<p>ignored</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="duration">
+<div class="counter">1.916s</div>
+<p>duration</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+<div class="infoBox success" id="successRate">
+<div class="percent">100%</div>
+<p>successful</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="tabs">
+<ul class="tabLinks">
+<li>
+<a href="#tab0">Tests</a>
+</li>
+<li>
+<a href="#tab1">Standard output</a>
+</li>
+</ul>
+<div id="tab0" class="tab">
+<h2>Tests</h2>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Duration</th>
+<th>Result</th>
+</tr>
+</thead>
+<tr>
+<td class="success">deleteAlreadyDeletedUserItem()</td>
+<td class="success">0.319s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">deleteOldItemsAfter20()</td>
+<td class="success">0.601s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">deleteUserItem()</td>
+<td class="success">0.461s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">tryToDeleteNotOwningItem()</td>
+<td class="success">0.535s</td>
+<td class="success">passed</td>
+</tr>
+</table>
+</div>
+<div id="tab1" class="tab">
+<h2>Standard output</h2>
+<span class="code">
+<pre>2022-12-11 14:49:54.161  INFO 52453 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Neither @ContextConfiguration nor @ContextHierarchy found for test class [com.kovospace.paster.item.v1.integration.TextItemControllerDeleteTest], using SpringBootContextLoader
+2022-12-11 14:49:54.162  INFO 52453 --- [    Test worker] o.s.t.c.support.AbstractContextLoader    : Could not detect default resource locations for test class [com.kovospace.paster.item.v1.integration.TextItemControllerDeleteTest]: no resource found for suffixes {-context.xml, Context.groovy}.
+2022-12-11 14:49:54.163  INFO 52453 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.kovospace.paster.item.v1.integration.TextItemControllerDeleteTest]: TextItemControllerDeleteTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2022-12-11 14:49:54.173  INFO 52453 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.kovospace.paster.PasterApplication for test class com.kovospace.paster.item.v1.integration.TextItemControllerDeleteTest
+2022-12-11 14:49:54.176  INFO 52453 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.security.test.context.support.WithSecurityContextTestExecutionListener, org.springframework.security.test.context.support.ReactorContextTestExecutionListener, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener, org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.event.ApplicationEventsTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener, org.springframework.test.context.event.EventPublishingTestExecutionListener]
+2022-12-11 14:49:54.177  INFO 52453 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@2aafe9d2, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@2b38c2e4, org.springframework.test.context.event.ApplicationEventsTestExecutionListener@10af69cb, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener@7b7bee70, org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@2e4f69b4, org.springframework.test.context.support.DirtiesContextTestExecutionListener@430da17b, org.springframework.test.context.transaction.TransactionalTestExecutionListener@288779e0, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@cab1aee, org.springframework.security.test.context.support.WithSecurityContextTestExecutionListener@59fcd006, org.springframework.test.context.event.EventPublishingTestExecutionListener@77d4a43b, org.springframework.security.test.context.support.ReactorContextTestExecutionListener@648f9b58, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener@30a7814d, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener@f641bbf, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener@5d438314, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener@450e86bf, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener@49afcaba, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener@66b999d3]
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v2.5.4)
+
+2022-12-11 14:49:54.213  INFO 52453 --- [    Test worker] c.k.p.i.v.i.TextItemControllerDeleteTest : Starting TextItemControllerDeleteTest using Java 14.0.2 on kovo-flex5 with PID 52453 (started by matej in /home/matej/Dokumenty/PROJEKTY GitHub/paster-backend)
+2022-12-11 14:49:54.214  INFO 52453 --- [    Test worker] c.k.p.i.v.i.TextItemControllerDeleteTest : No active profile set, falling back to default profiles: default
+2022-12-11 14:49:54.513  INFO 52453 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2022-12-11 14:49:54.560  INFO 52453 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 46 ms. Found 5 JPA repository interfaces.
+2022-12-11 14:49:54.643  INFO 52453 --- [    Test worker] beddedDataSourceBeanFactoryPostProcessor : Replacing 'dataSource' DataSource bean with embedded version
+2022-12-11 14:49:54.828  INFO 52453 --- [    Test worker] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 0 (http)
+2022-12-11 14:49:54.830  INFO 52453 --- [    Test worker] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-12-11 14:49:54.830  INFO 52453 --- [    Test worker] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.52]
+2022-12-11 14:49:54.854  INFO 52453 --- [    Test worker] o.a.c.c.C.[Tomcat-1].[localhost].[/]     : Initializing Spring embedded WebApplicationContext
+2022-12-11 14:49:54.854  INFO 52453 --- [    Test worker] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 637 ms
+2022-12-11 14:49:54.917  INFO 52453 --- [    Test worker] o.s.j.d.e.EmbeddedDatabaseFactory        : Starting embedded database: url='jdbc:h2:mem:b8b1d9a6-c4a2-403e-bfd9-9c6065bc8919;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=false', username='sa'
+2022-12-11 14:49:54.990  INFO 52453 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-12-11 14:49:54.999  INFO 52453 --- [    Test worker] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+2022-12-11 14:49:55.155  INFO 52453 --- [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-12-11 14:49:55.155  INFO 52453 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-12-11 14:49:55.395  WARN 52453 --- [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-12-11 14:49:55.594  INFO 52453 --- [    Test worker] f.a.AutowiredAnnotationBeanPostProcessor : Autowired annotation is not supported on static fields: private static long com.kovospace.paster.item.mappings.dtoConversions.v2.ItemToFileItemUploadResponseDTOConversion.DEFAULT_CHUNK_SIZE
+2022-12-11 14:49:55.669  INFO 52453 --- [    Test worker] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: ae4afddc-0026-4b92-b49a-281458277227
+
+2022-12-11 14:49:55.931  INFO 52453 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@169c382a, org.springframework.security.web.context.SecurityContextPersistenceFilter@75984016, org.springframework.security.web.header.HeaderWriterFilter@288a60a9, com.kovospace.paster.base.filters.SimpleCorsFilter@1f587e63, org.springframework.web.filter.CorsFilter@1e18a381, org.springframework.security.web.authentication.logout.LogoutFilter@65ae1ede, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@3c06f25c, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@4772425d, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@38e3f822, org.springframework.security.web.session.SessionManagementFilter@21a6880b, org.springframework.security.web.access.ExceptionTranslationFilter@328f7b12, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@2f0c2f8b]
+2022-12-11 14:49:55.947  INFO 52453 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@55a61ef7, org.springframework.security.web.context.SecurityContextPersistenceFilter@527d8816, org.springframework.security.web.header.HeaderWriterFilter@5b7dbb8a, org.springframework.security.web.csrf.CsrfFilter@7dadadd0, org.springframework.security.web.authentication.logout.LogoutFilter@75381be5, com.kovospace.paster.base.filters.ApiKeyAuthFilter@13209edb, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@4c460e3f, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@7a515dd6, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@74610b58, org.springframework.security.web.session.SessionManagementFilter@42ae6ebe, org.springframework.security.web.access.ExceptionTranslationFilter@642f514f, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@48bbe089]
+2022-12-11 14:49:55.950  INFO 52453 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@5a3568e6, org.springframework.security.web.context.SecurityContextPersistenceFilter@6cf494a8, org.springframework.security.web.header.HeaderWriterFilter@2ff03cf3, org.springframework.security.web.csrf.CsrfFilter@78c0478b, org.springframework.security.web.authentication.logout.LogoutFilter@25c82f9a, com.kovospace.paster.base.filters.JwtAuthFilter@be1cf86, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@4630a9db, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@6889024a, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@a1283a0, org.springframework.security.web.session.SessionManagementFilter@167265f2, org.springframework.security.web.access.ExceptionTranslationFilter@545fd623, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@301ba04f]
+2022-12-11 14:49:56.414  INFO 52453 --- [    Test worker] o.a.c.c.C.[Tomcat-1].[localhost].[/]     : Initializing Spring TestDispatcherServlet ''
+2022-12-11 14:49:56.414  INFO 52453 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2022-12-11 14:49:56.416  INFO 52453 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
+2022-12-11 14:49:56.442  INFO 52453 --- [    Test worker] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 40569 (http) with context path ''
+2022-12-11 14:49:56.449  INFO 52453 --- [    Test worker] c.k.p.i.v.i.TextItemControllerDeleteTest : Started TextItemControllerDeleteTest in 2.268 seconds (JVM running for 17.12)
+cors filter called
+localeeeeeeee
+API key filter called
+http://localhost/api/v1/board/item
+API key filter - ipAddress: 127.0.0.1
+API key filter - continue filterChain
+JWT token filter called
+notify changes
+1
+[]
+cors filter called
+localeeeeeeee
+API key filter called
+http://localhost/api/v1/board/item/1
+API key filter - ipAddress: 127.0.0.1
+API key filter - continue filterChain
+JWT token filter called
+cors filter called
+localeeeeeeee
+API key filter called
+http://localhost/api/v1/board/item/1
+API key filter - ipAddress: 127.0.0.1
+API key filter - continue filterChain
+JWT token filter called
+notify changes
+1
+[]
+2022-12-11 14:49:56.909  INFO 52453 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2022-12-11 14:49:56.909  INFO 52453 --- [    Test worker] .SchemaDropperImpl$DelayedDropActionImpl : HHH000477: Starting delayed evictData of schema as part of SessionFactory shut-down'
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v2.5.4)
+
+2022-12-11 14:49:56.956  INFO 52453 --- [    Test worker] c.k.p.i.v.i.TextItemControllerDeleteTest : Starting TextItemControllerDeleteTest using Java 14.0.2 on kovo-flex5 with PID 52453 (started by matej in /home/matej/Dokumenty/PROJEKTY GitHub/paster-backend)
+2022-12-11 14:49:56.957  INFO 52453 --- [    Test worker] c.k.p.i.v.i.TextItemControllerDeleteTest : No active profile set, falling back to default profiles: default
+2022-12-11 14:49:57.233  INFO 52453 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2022-12-11 14:49:57.275  INFO 52453 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 41 ms. Found 5 JPA repository interfaces.
+2022-12-11 14:49:57.324  INFO 52453 --- [    Test worker] beddedDataSourceBeanFactoryPostProcessor : Replacing 'dataSource' DataSource bean with embedded version
+2022-12-11 14:49:57.511  INFO 52453 --- [    Test worker] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 0 (http)
+2022-12-11 14:49:57.512  INFO 52453 --- [    Test worker] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-12-11 14:49:57.513  INFO 52453 --- [    Test worker] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.52]
+2022-12-11 14:49:57.534  INFO 52453 --- [    Test worker] o.a.c.c.C.[Tomcat-1].[localhost].[/]     : Initializing Spring embedded WebApplicationContext
+2022-12-11 14:49:57.534  INFO 52453 --- [    Test worker] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 572 ms
+2022-12-11 14:49:57.584  INFO 52453 --- [    Test worker] o.s.j.d.e.EmbeddedDatabaseFactory        : Starting embedded database: url='jdbc:h2:mem:9d018e88-093e-4bc1-96e4-bfe92f541ce3;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=false', username='sa'
+2022-12-11 14:49:57.649  INFO 52453 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-12-11 14:49:57.658  INFO 52453 --- [    Test worker] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+2022-12-11 14:49:57.813  INFO 52453 --- [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-12-11 14:49:57.813  INFO 52453 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-12-11 14:49:58.021  WARN 52453 --- [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-12-11 14:49:58.178  INFO 52453 --- [    Test worker] f.a.AutowiredAnnotationBeanPostProcessor : Autowired annotation is not supported on static fields: private static long com.kovospace.paster.item.mappings.dtoConversions.v2.ItemToFileItemUploadResponseDTOConversion.DEFAULT_CHUNK_SIZE
+2022-12-11 14:49:58.259  INFO 52453 --- [    Test worker] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 41bde8a5-136c-4e29-b32d-bb770f911e21
+
+2022-12-11 14:49:58.493  INFO 52453 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@206c340, org.springframework.security.web.context.SecurityContextPersistenceFilter@764aea3, org.springframework.security.web.header.HeaderWriterFilter@133aec8f, com.kovospace.paster.base.filters.SimpleCorsFilter@6f20169, org.springframework.web.filter.CorsFilter@2e8e79c1, org.springframework.security.web.authentication.logout.LogoutFilter@77ec0e08, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@77a1e7d3, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@333b233c, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@7bef85ea, org.springframework.security.web.session.SessionManagementFilter@6861cc69, org.springframework.security.web.access.ExceptionTranslationFilter@6752ecf0, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@43a13ae8]
+2022-12-11 14:49:58.504  INFO 52453 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@4bff12e3, org.springframework.security.web.context.SecurityContextPersistenceFilter@12bf2c4b, org.springframework.security.web.header.HeaderWriterFilter@2d361101, org.springframework.security.web.csrf.CsrfFilter@5fa17090, org.springframework.security.web.authentication.logout.LogoutFilter@5e0892aa, com.kovospace.paster.base.filters.ApiKeyAuthFilter@32ba5eb9, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@19ed391d, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@4ce9d38, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@1aa95780, org.springframework.security.web.session.SessionManagementFilter@46cee1f2, org.springframework.security.web.access.ExceptionTranslationFilter@72ef26df, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@456b4a1d]
+2022-12-11 14:49:58.507  INFO 52453 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@757d6893, org.springframework.security.web.context.SecurityContextPersistenceFilter@56d4a217, org.springframework.security.web.header.HeaderWriterFilter@2cba0a7e, org.springframework.security.web.csrf.CsrfFilter@1703c86b, org.springframework.security.web.authentication.logout.LogoutFilter@31774c71, com.kovospace.paster.base.filters.JwtAuthFilter@78243ead, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@ab4522c, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@76a150fe, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@d68b0cf, org.springframework.security.web.session.SessionManagementFilter@5f1d790f, org.springframework.security.web.access.ExceptionTranslationFilter@374d6e37, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@1c227ef5]
+2022-12-11 14:49:58.871  INFO 52453 --- [    Test worker] o.a.c.c.C.[Tomcat-1].[localhost].[/]     : Initializing Spring TestDispatcherServlet ''
+2022-12-11 14:49:58.871  INFO 52453 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2022-12-11 14:49:58.873  INFO 52453 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
+2022-12-11 14:49:58.897  INFO 52453 --- [    Test worker] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 40985 (http) with context path ''
+2022-12-11 14:49:58.903  INFO 52453 --- [    Test worker] c.k.p.i.v.i.TextItemControllerDeleteTest : Started TextItemControllerDeleteTest in 1.98 seconds (JVM running for 19.574)
+cors filter called
+localeeeeeeee
+API key filter called
+http://localhost/api/v1/board/item
+API key filter - ipAddress: 127.0.0.1
+API key filter - continue filterChain
+JWT token filter called
+notify changes
+1
+[]
+cors filter called
+localeeeeeeee
+API key filter called
+http://localhost/api/v1/board/item/1
+API key filter - ipAddress: 127.0.0.1
+API key filter - continue filterChain
+JWT token filter called
+cors filter called
+localeeeeeeee
+API key filter called
+http://localhost/api/v1/board/item/1
+API key filter - ipAddress: 127.0.0.1
+API key filter - continue filterChain
+JWT token filter called
+2022-12-11 14:49:59.225  INFO 52453 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2022-12-11 14:49:59.225  INFO 52453 --- [    Test worker] .SchemaDropperImpl$DelayedDropActionImpl : HHH000477: Starting delayed evictData of schema as part of SessionFactory shut-down'
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v2.5.4)
+
+2022-12-11 14:49:59.265  INFO 52453 --- [    Test worker] c.k.p.i.v.i.TextItemControllerDeleteTest : Starting TextItemControllerDeleteTest using Java 14.0.2 on kovo-flex5 with PID 52453 (started by matej in /home/matej/Dokumenty/PROJEKTY GitHub/paster-backend)
+2022-12-11 14:49:59.266  INFO 52453 --- [    Test worker] c.k.p.i.v.i.TextItemControllerDeleteTest : No active profile set, falling back to default profiles: default
+2022-12-11 14:49:59.529  INFO 52453 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2022-12-11 14:49:59.568  INFO 52453 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 37 ms. Found 5 JPA repository interfaces.
+2022-12-11 14:49:59.611  INFO 52453 --- [    Test worker] beddedDataSourceBeanFactoryPostProcessor : Replacing 'dataSource' DataSource bean with embedded version
+2022-12-11 14:49:59.805  INFO 52453 --- [    Test worker] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 0 (http)
+2022-12-11 14:49:59.807  INFO 52453 --- [    Test worker] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-12-11 14:49:59.807  INFO 52453 --- [    Test worker] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.52]
+2022-12-11 14:49:59.826  INFO 52453 --- [    Test worker] o.a.c.c.C.[Tomcat-1].[localhost].[/]     : Initializing Spring embedded WebApplicationContext
+2022-12-11 14:49:59.826  INFO 52453 --- [    Test worker] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 558 ms
+2022-12-11 14:49:59.877  INFO 52453 --- [    Test worker] o.s.j.d.e.EmbeddedDatabaseFactory        : Starting embedded database: url='jdbc:h2:mem:eec97c99-1a3d-41b0-9f76-855db3290c99;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=false', username='sa'
+2022-12-11 14:49:59.940  INFO 52453 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-12-11 14:49:59.948  INFO 52453 --- [    Test worker] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+2022-12-11 14:50:00.077  INFO 52453 --- [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-12-11 14:50:00.078  INFO 52453 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-12-11 14:50:00.286  WARN 52453 --- [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-12-11 14:50:00.443  INFO 52453 --- [    Test worker] f.a.AutowiredAnnotationBeanPostProcessor : Autowired annotation is not supported on static fields: private static long com.kovospace.paster.item.mappings.dtoConversions.v2.ItemToFileItemUploadResponseDTOConversion.DEFAULT_CHUNK_SIZE
+2022-12-11 14:50:00.511  INFO 52453 --- [    Test worker] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: fcebbb4c-6d80-40fb-8464-a8da8c8f3fe1
+
+2022-12-11 14:50:00.779  INFO 52453 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@144c9876, org.springframework.security.web.context.SecurityContextPersistenceFilter@5df069e3, org.springframework.security.web.header.HeaderWriterFilter@74b904bb, com.kovospace.paster.base.filters.SimpleCorsFilter@4738ea2e, org.springframework.web.filter.CorsFilter@65c1f29e, org.springframework.security.web.authentication.logout.LogoutFilter@6e081fa1, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@4390437, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@389944d7, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@23413dbd, org.springframework.security.web.session.SessionManagementFilter@4e98dc06, org.springframework.security.web.access.ExceptionTranslationFilter@5920060c, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@7d64a1e0]
+2022-12-11 14:50:00.790  INFO 52453 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@2c19ee14, org.springframework.security.web.context.SecurityContextPersistenceFilter@5f32c4e1, org.springframework.security.web.header.HeaderWriterFilter@4687738f, org.springframework.security.web.csrf.CsrfFilter@4bb47817, org.springframework.security.web.authentication.logout.LogoutFilter@3e965e8c, com.kovospace.paster.base.filters.ApiKeyAuthFilter@5694f4ba, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@4ef0604d, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@33167917, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@5f10cc1d, org.springframework.security.web.session.SessionManagementFilter@372e66d3, org.springframework.security.web.access.ExceptionTranslationFilter@27b6dca6, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@6235f288]
+2022-12-11 14:50:00.793  INFO 52453 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@4560dcd7, org.springframework.security.web.context.SecurityContextPersistenceFilter@1b1e3123, org.springframework.security.web.header.HeaderWriterFilter@8f99b44, org.springframework.security.web.csrf.CsrfFilter@25f35ba4, org.springframework.security.web.authentication.logout.LogoutFilter@6f81838f, com.kovospace.paster.base.filters.JwtAuthFilter@44e3fe0c, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@1ec8a92c, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@5a2f320a, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@549a43c6, org.springframework.security.web.session.SessionManagementFilter@248f706d, org.springframework.security.web.access.ExceptionTranslationFilter@16926824, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@1106530c]
+2022-12-11 14:50:01.130  INFO 52453 --- [    Test worker] o.a.c.c.C.[Tomcat-1].[localhost].[/]     : Initializing Spring TestDispatcherServlet ''
+2022-12-11 14:50:01.131  INFO 52453 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2022-12-11 14:50:01.138  INFO 52453 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2022-12-11 14:50:01.162  INFO 52453 --- [    Test worker] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 37955 (http) with context path ''
+2022-12-11 14:50:01.168  INFO 52453 --- [    Test worker] c.k.p.i.v.i.TextItemControllerDeleteTest : Started TextItemControllerDeleteTest in 1.935 seconds (JVM running for 21.839)
+cors filter called
+localeeeeeeee
+API key filter called
+http://localhost/api/v1/board/item
+API key filter - ipAddress: 127.0.0.1
+API key filter - continue filterChain
+JWT token filter called
+notify changes
+1
+[]
+cors filter called
+localeeeeeeee
+API key filter called
+http://localhost/api/v1/board/item/1
+API key filter - ipAddress: 127.0.0.1
+API key filter - continue filterChain
+JWT token filter called
+cors filter called
+localeeeeeeee
+API key filter called
+http://localhost/api/v1/board/item/2
+API key filter - ipAddress: 127.0.0.1
+API key filter - continue filterChain
+JWT token filter called
+2022-12-11 14:50:01.704  INFO 52453 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2022-12-11 14:50:01.704  INFO 52453 --- [    Test worker] .SchemaDropperImpl$DelayedDropActionImpl : HHH000477: Starting delayed evictData of schema as part of SessionFactory shut-down'
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v2.5.4)
+
+2022-12-11 14:50:01.742  INFO 52453 --- [    Test worker] c.k.p.i.v.i.TextItemControllerDeleteTest : Starting TextItemControllerDeleteTest using Java 14.0.2 on kovo-flex5 with PID 52453 (started by matej in /home/matej/Dokumenty/PROJEKTY GitHub/paster-backend)
+2022-12-11 14:50:01.743  INFO 52453 --- [    Test worker] c.k.p.i.v.i.TextItemControllerDeleteTest : No active profile set, falling back to default profiles: default
+2022-12-11 14:50:01.955  INFO 52453 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2022-12-11 14:50:01.991  INFO 52453 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 34 ms. Found 5 JPA repository interfaces.
+2022-12-11 14:50:02.027  INFO 52453 --- [    Test worker] beddedDataSourceBeanFactoryPostProcessor : Replacing 'dataSource' DataSource bean with embedded version
+2022-12-11 14:50:02.183  INFO 52453 --- [    Test worker] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 0 (http)
+2022-12-11 14:50:02.184  INFO 52453 --- [    Test worker] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-12-11 14:50:02.185  INFO 52453 --- [    Test worker] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.52]
+2022-12-11 14:50:02.202  INFO 52453 --- [    Test worker] o.a.c.c.C.[Tomcat-1].[localhost].[/]     : Initializing Spring embedded WebApplicationContext
+2022-12-11 14:50:02.202  INFO 52453 --- [    Test worker] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 456 ms
+2022-12-11 14:50:02.250  INFO 52453 --- [    Test worker] o.s.j.d.e.EmbeddedDatabaseFactory        : Starting embedded database: url='jdbc:h2:mem:56510f31-75b9-41cd-9e05-c250fb1eccd1;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=false', username='sa'
+2022-12-11 14:50:02.311  INFO 52453 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-12-11 14:50:02.319  INFO 52453 --- [    Test worker] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+2022-12-11 14:50:02.432  INFO 52453 --- [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-12-11 14:50:02.433  INFO 52453 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-12-11 14:50:02.631  WARN 52453 --- [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-12-11 14:50:02.779  INFO 52453 --- [    Test worker] f.a.AutowiredAnnotationBeanPostProcessor : Autowired annotation is not supported on static fields: private static long com.kovospace.paster.item.mappings.dtoConversions.v2.ItemToFileItemUploadResponseDTOConversion.DEFAULT_CHUNK_SIZE
+2022-12-11 14:50:02.848  INFO 52453 --- [    Test worker] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: affa9f83-af4a-4a0f-bfa9-95ee62813030
+
+2022-12-11 14:50:03.064  INFO 52453 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@13385e48, org.springframework.security.web.context.SecurityContextPersistenceFilter@1e7259fb, org.springframework.security.web.header.HeaderWriterFilter@1a691e76, com.kovospace.paster.base.filters.SimpleCorsFilter@28b9281a, org.springframework.web.filter.CorsFilter@4522fa, org.springframework.security.web.authentication.logout.LogoutFilter@10c3910f, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@735a59a5, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@21927316, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@1dff8fbf, org.springframework.security.web.session.SessionManagementFilter@63bbccdb, org.springframework.security.web.access.ExceptionTranslationFilter@56777656, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@681a1aa7]
+2022-12-11 14:50:03.074  INFO 52453 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@570924f1, org.springframework.security.web.context.SecurityContextPersistenceFilter@4d764ccc, org.springframework.security.web.header.HeaderWriterFilter@3398894e, org.springframework.security.web.csrf.CsrfFilter@3c0bf18d, org.springframework.security.web.authentication.logout.LogoutFilter@6e8aff8b, com.kovospace.paster.base.filters.ApiKeyAuthFilter@2de853ba, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@5a56d989, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@2df3f974, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@6c54d088, org.springframework.security.web.session.SessionManagementFilter@2e12571a, org.springframework.security.web.access.ExceptionTranslationFilter@5a69bbd0, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@533a11ae]
+2022-12-11 14:50:03.076  INFO 52453 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@62bcc2a0, org.springframework.security.web.context.SecurityContextPersistenceFilter@7aa150b7, org.springframework.security.web.header.HeaderWriterFilter@62ae4492, org.springframework.security.web.csrf.CsrfFilter@47997f0e, org.springframework.security.web.authentication.logout.LogoutFilter@5fc01899, com.kovospace.paster.base.filters.JwtAuthFilter@2a90970e, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@28561a56, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@384c511a, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@56b81b68, org.springframework.security.web.session.SessionManagementFilter@76cc206f, org.springframework.security.web.access.ExceptionTranslationFilter@6c67d845, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@43daccd9]
+2022-12-11 14:50:03.393  INFO 52453 --- [    Test worker] o.a.c.c.C.[Tomcat-1].[localhost].[/]     : Initializing Spring TestDispatcherServlet ''
+2022-12-11 14:50:03.393  INFO 52453 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2022-12-11 14:50:03.394  INFO 52453 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2022-12-11 14:50:03.415  INFO 52453 --- [    Test worker] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 44417 (http) with context path ''
+2022-12-11 14:50:03.421  INFO 52453 --- [    Test worker] c.k.p.i.v.i.TextItemControllerDeleteTest : Started TextItemControllerDeleteTest in 1.708 seconds (JVM running for 24.092)
+cors filter called
+localeeeeeeee
+API key filter called
+http://localhost/api/v1/board/item
+API key filter - ipAddress: 127.0.0.1
+API key filter - continue filterChain
+JWT token filter called
+notify changes
+1
+[]
+cors filter called
+localeeeeeeee
+API key filter called
+http://localhost/api/v1/board/item
+API key filter - ipAddress: 127.0.0.1
+API key filter - continue filterChain
+JWT token filter called
+notify changes
+1
+[]
+cors filter called
+localeeeeeeee
+API key filter called
+http://localhost/api/v1/board/item
+API key filter - ipAddress: 127.0.0.1
+API key filter - continue filterChain
+JWT token filter called
+notify changes
+1
+[]
+cors filter called
+localeeeeeeee
+API key filter called
+http://localhost/api/v1/board/item
+API key filter - ipAddress: 127.0.0.1
+API key filter - continue filterChain
+JWT token filter called
+notify changes
+1
+[]
+cors filter called
+localeeeeeeee
+API key filter called
+http://localhost/api/v1/board/item
+API key filter - ipAddress: 127.0.0.1
+API key filter - continue filterChain
+JWT token filter called
+notify changes
+1
+[]
+cors filter called
+localeeeeeeee
+API key filter called
+http://localhost/api/v1/board/item
+API key filter - ipAddress: 127.0.0.1
+API key filter - continue filterChain
+JWT token filter called
+notify changes
+1
+[]
+cors filter called
+localeeeeeeee
+API key filter called
+http://localhost/api/v1/board/item
+API key filter - ipAddress: 127.0.0.1
+API key filter - continue filterChain
+JWT token filter called
+notify changes
+1
+[]
+cors filter called
+localeeeeeeee
+API key filter called
+http://localhost/api/v1/board/item
+API key filter - ipAddress: 127.0.0.1
+API key filter - continue filterChain
+JWT token filter called
+notify changes
+1
+[]
+cors filter called
+localeeeeeeee
+API key filter called
+http://localhost/api/v1/board/item
+API key filter - ipAddress: 127.0.0.1
+API key filter - continue filterChain
+JWT token filter called
+notify changes
+1
+[]
+cors filter called
+localeeeeeeee
+API key filter called
+http://localhost/api/v1/board/item
+API key filter - ipAddress: 127.0.0.1
+API key filter - continue filterChain
+JWT token filter called
+notify changes
+1
+[]
+cors filter called
+localeeeeeeee
+API key filter called
+http://localhost/api/v1/board/item
+API key filter - ipAddress: 127.0.0.1
+API key filter - continue filterChain
+JWT token filter called
+notify changes
+1
+[]
+cors filter called
+localeeeeeeee
+API key filter called
+http://localhost/api/v1/board/item
+API key filter - ipAddress: 127.0.0.1
+API key filter - continue filterChain
+JWT token filter called
+notify changes
+1
+[]
+cors filter called
+localeeeeeeee
+API key filter called
+http://localhost/api/v1/board/item
+API key filter - ipAddress: 127.0.0.1
+API key filter - continue filterChain
+JWT token filter called
+notify changes
+1
+[]
+cors filter called
+localeeeeeeee
+API key filter called
+http://localhost/api/v1/board/item
+API key filter - ipAddress: 127.0.0.1
+API key filter - continue filterChain
+JWT token filter called
+notify changes
+1
+[]
+cors filter called
+localeeeeeeee
+API key filter called
+http://localhost/api/v1/board/item
+API key filter - ipAddress: 127.0.0.1
+API key filter - continue filterChain
+JWT token filter called
+notify changes
+1
+[]
+cors filter called
+localeeeeeeee
+API key filter called
+http://localhost/api/v1/board/item
+API key filter - ipAddress: 127.0.0.1
+API key filter - continue filterChain
+JWT token filter called
+notify changes
+1
+[]
+cors filter called
+localeeeeeeee
+API key filter called
+http://localhost/api/v1/board/item
+API key filter - ipAddress: 127.0.0.1
+API key filter - continue filterChain
+JWT token filter called
+notify changes
+1
+[]
+cors filter called
+localeeeeeeee
+API key filter called
+http://localhost/api/v1/board/item
+API key filter - ipAddress: 127.0.0.1
+API key filter - continue filterChain
+JWT token filter called
+notify changes
+1
+[]
+cors filter called
+localeeeeeeee
+API key filter called
+http://localhost/api/v1/board/item
+API key filter - ipAddress: 127.0.0.1
+API key filter - continue filterChain
+JWT token filter called
+notify changes
+1
+[]
+cors filter called
+localeeeeeeee
+API key filter called
+http://localhost/api/v1/board/item
+API key filter - ipAddress: 127.0.0.1
+API key filter - continue filterChain
+JWT token filter called
+notify changes
+1
+[]
+cors filter called
+localeeeeeeee
+API key filter called
+http://localhost/api/v1/board/item
+API key filter - ipAddress: 127.0.0.1
+API key filter - continue filterChain
+JWT token filter called
+notify changes
+1
+[]
+2022-12-11 14:50:04.024  INFO 52453 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2022-12-11 14:50:04.025  INFO 52453 --- [    Test worker] .SchemaDropperImpl$DelayedDropActionImpl : HHH000477: Starting delayed evictData of schema as part of SessionFactory shut-down'
+</pre>
+</span>
+</div>
+</div>
+<div id="footer">
+<p>
+<div>
+<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines
+<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+</label>
+</div>Generated by 
+<a href="http://www.gradle.org">Gradle 6.9.1</a> at 11. 12. 2022, 14:51:31</p>
+</div>
+</div>
+</body>
+</html>
