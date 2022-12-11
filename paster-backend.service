@@ -1,0 +1,20 @@
+[Unit]
+Description=Spring Boot Paster Backend
+After=syslog.target
+After=network.target[Service]
+User=paster-backend
+Type=simple
+
+[Service]
+Environment="MYSQL_URL=jdbc:mysql://127.0.0.1/paster?serverTimezone=UTC"
+Environment="MYSQL_USER=paster"
+Environment="MYSQL_PASS=password"
+Environment="SECRET_KEY=bxjMP5G_LzXaBFI4eH1Y4TNStAIX6DLT0KNdt4DKm74"
+ExecStart=/usr/bin/java -jar /var/www/paster-backend/build/libs/paster-0.0.1-SNAPSHOT.jar
+Restart=always
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=PasterBackendJava
+
+[Install]
+WantedBy=multi-user.target
