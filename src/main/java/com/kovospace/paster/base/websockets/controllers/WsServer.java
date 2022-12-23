@@ -30,7 +30,6 @@ import java.io.IOException;
 import java.util.Optional;
 
 // TODO bacha na restart aplikacie, websocket session ids idu zase od nuly - defenzivne programovanie
-// TODO nejaky logging namiesto sout()
 
 @Component
 @CrossOrigin
@@ -55,7 +54,7 @@ public class WsServer {
       ApiKeyService apiKeyService,
       Gson gson
   ) {
-    logger.debug("sebsocket server controller constructed");
+    logger.debug("Websocket server controller constructed");
     this.wsSessionHandler = wsSessionHandler;
     this.jwtService = jwtService;
     this.apiKeyService = apiKeyService;
@@ -64,7 +63,7 @@ public class WsServer {
 
   @OnOpen
   public void onOpen(Session session) throws WsException, JwtException {
-    System.out.println("websocket connection open");
+    logger.debug("Websocket connection open");
     String apiKey = getParamOrThrow("apiKey", new ApiKeyNotIncludedException(), session);
     if (!apiKeyService.isValid(apiKey)) { throw new ApiKeyNotValidException(); }
     String jwtToken = getParamOrThrow("jwtToken", new JwtTokenNotIncludedException(), session);
@@ -76,20 +75,20 @@ public class WsServer {
 
   @OnMessage
   public void onMessage(Session session, WsRequestDTO wsRequestDTO) {
-    System.out.println("on message");
-    System.out.println(wsRequestDTO.getMessage());
+    String message = wsRequestDTO.getMessage();
+    logger.debug(String.format("websocket onMessage handler fired with message %s", message));
   }
 
   @OnClose
   public void onClose(Session session) {
     wsSessionHandler.removeSession(session);
-    System.out.println("websocket session closed");
+    logger.debug("websocket session closed");
   }
 
   @OnError
   public void onError(Session session, Throwable throwable) throws IOException {
     if (throwable instanceof WsException || throwable instanceof JwtException || throwable instanceof AuthenticationException) {
-      System.out.println("send error message, but continue");
+      logger.debug("websocket send error message, but continue");
       session.getAsyncRemote().sendText(throwable.getMessage());
     } else {
       session.close();

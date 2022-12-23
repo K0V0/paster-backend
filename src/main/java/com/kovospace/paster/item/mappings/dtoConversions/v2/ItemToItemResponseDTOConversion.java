@@ -47,7 +47,7 @@ public class ItemToItemResponseDTOConversion implements Function<Item, ItemRespo
 
     private String getPreviewData() {
         if (conversionUtil.isLongText()) return conversionUtil.getPreviewText();
-        if (conversionUtil.isFileWithPreview()) return fileToFilePreviewConversion.apply(entity.getData());
+        if (conversionUtil.isFileWithPreview()) return fileToFilePreviewConversion.apply(entity);
         return null;
     }
 

@@ -1,6 +1,8 @@
 package com.kovospace.paster.base.services;
 
 import com.kovospace.paster.base.dtos.ErrorResponseDTO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +22,8 @@ import java.util.stream.Stream;
 
 @Service
 public class StringsServiceImpl implements StringsService {
+
+    private static final Logger logger = LoggerFactory.getLogger(StringsServiceImpl.class);
 
     private static final String DEFAULT_LOCALE = "en";
     private static final Map<String, List<String>> LOCALES_MAP = new HashMap<String, List<String>>(){{
@@ -52,7 +56,7 @@ public class StringsServiceImpl implements StringsService {
                         )));
                 result.put(locale, tmp);
             } catch (IOException e) {
-                // todo zalogovat
+                logger.debug("Cannot find translation / code parsing error", e);
             }
         }
         values = Collections.unmodifiableMap(result);

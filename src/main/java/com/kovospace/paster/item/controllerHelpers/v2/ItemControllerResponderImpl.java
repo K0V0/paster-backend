@@ -49,8 +49,10 @@ public class ItemControllerResponderImpl implements ItemControllerResponder {
           ItemService itemService,
           JwtService jwtService,
           WebsocketService websocketService,
-          FilesystemOperationsService filesystemOperationsService, ItemToItemResponseDTOConversion itemToItemResponseDTOConversion,
-          FileToFileResponseDTOConversion fileToFileResponseDTOConversion, ItemToFileItemUploadResponseDTOConversion itemToFileItemUploadResponseDTOConversion
+          FilesystemOperationsService filesystemOperationsService,
+          ItemToItemResponseDTOConversion itemToItemResponseDTOConversion,
+          FileToFileResponseDTOConversion fileToFileResponseDTOConversion,
+          ItemToFileItemUploadResponseDTOConversion itemToFileItemUploadResponseDTOConversion
   ) {
     this.itemService = itemService;
     this.jwtService = jwtService;

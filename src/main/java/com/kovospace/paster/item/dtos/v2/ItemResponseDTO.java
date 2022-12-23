@@ -13,7 +13,7 @@ import lombok.Setter;
  * file has preview => String dataPreview is filled with URL to preview, boolean isFile is set. File has to be in completed state.
  */
 
-//TODO for large text, implement endpoint to query whole text
+//TODO for large text, implement endpoint to query whole text (do api V3)
 //TODO use this endpoint to load original file if file has preview
 
 @Getter

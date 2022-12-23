@@ -5,8 +5,37 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ba70abb7-35e5-4c3c-b248-d79f23837430" name="Default Changelist" comment="UPDATE gitignore include folder for JARs">
-      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradlew" beforeDir="false" afterPath="$PROJECT_DIR$/gradlew" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/kovospace/paster/item/mappings/enums/FiletypeGroupsEnum.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/kovospace/paster/item/services/filePreviewService/FilePreviewServiceBase.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/kovospace/paster/item/services/filePreviewService/services/ImagePreveiwServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/kovospace/paster/item/services/filePreviewService/services/ImagePreviewService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/6.9.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.9.1/executionHistory/executionHistory.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/6.9.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.9.1/executionHistory/executionHistory.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/6.9.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.9.1/fileHashes/fileHashes.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/6.9.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.9.1/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/6.9.1/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.9.1/javaCompile/javaCompile.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/0/e/0e5f22fbf725baf626f559973f55a71249acce61" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/4/1/41226c29d93051f1f9a33450c68d901976b4b792" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/6/8/68ca6d58b00f27ed286f7880b3ab804369b337d7" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/7/c/7c9534a15063ef9801c67364572f2799a0fa72ac" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/9/9/99b19c326ab06a659a03b4037f0e836f602db429" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/a/f/af69f51c9bcc8d9c6dd3ffbfe20d261c538fd6b6" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/d/d/dd7791969d77b6b07c3311ac7b73d4ed22f42818" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/tmp/bootJar/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/build/tmp/bootJar/MANIFEST.MF" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kovospace/paster/base/services/StringsServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kovospace/paster/base/services/StringsServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kovospace/paster/base/services/WebsocketServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kovospace/paster/base/services/WebsocketServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kovospace/paster/base/utils/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kovospace/paster/base/utils/Utils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kovospace/paster/base/websockets/controllers/WsServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kovospace/paster/base/websockets/controllers/WsServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kovospace/paster/item/controllerHelpers/v2/ItemControllerResponderImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kovospace/paster/item/controllerHelpers/v2/ItemControllerResponderImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kovospace/paster/item/dtos/v2/ItemResponseDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kovospace/paster/item/dtos/v2/ItemResponseDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kovospace/paster/item/mappings/dtoConversions/v2/FileToFilePreviewConversion.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kovospace/paster/item/mappings/dtoConversions/v2/FileToFilePreviewConversion.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kovospace/paster/item/mappings/dtoConversions/v2/ItemToItemResponseDTOConversion.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kovospace/paster/item/mappings/dtoConversions/v2/ItemToItemResponseDTOConversion.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kovospace/paster/item/services/filePreviewService/FilePreviewService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kovospace/paster/item/services/filePreviewService/FilePreviewService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kovospace/paster/item/services/filePreviewService/FilePreviewServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kovospace/paster/item/services/filePreviewService/FilePreviewServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kovospace/paster/item/services/filePreviewService/conversions/ImagePreviewConversion.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kovospace/paster/item/services/filePreviewService/conversions/images/JpegPreviewConversion.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,6 +75,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Enum" />
         <option value="Interface" />
         <option value="Class" />
       </list>
@@ -57,7 +87,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="develop/fileUploadRemoveModelMapper" />
+        <entry key="$PROJECT_DIR$" value="main" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -66,12 +96,12 @@
   <component name="GitRewordedCommitMessages">
     <option name="commitMessagesMapping">
       <RewordedCommitMessageMapping>
-        <option name="originalMessage" value="prekopnuty prvy priechod na initiate upload endpoint" />
-        <option name="rewordedMessage" value="implement basic APIv2, implement backward compatibility for APIv1, integration tests" />
+        <option name="originalMessage" value="UPDATE gitignore include folder for JARs" />
+        <option name="rewordedMessage" value="UPDATE gitignore include folder for JARs" />
       </RewordedCommitMessageMapping>
     </option>
     <option name="currentCommit" value="1" />
-    <option name="onto" value="75d56296d6ddc54f299fe48e66c75aaed2e311e7" />
+    <option name="onto" value="f99bbb10a9243d703be6abba6994614c58b1e929" />
   </component>
   <component name="GitSEFilterConfiguration">
     <file-type-list>
@@ -111,10 +141,10 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;SONARLINT_PRECOMMIT_ANALYSIS&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/matej/Dokumenty/PROJEKTY GitHub/paster-backend/src/test/java/com/kovospace/paster/item/v1&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/matej/Dokumenty/PROJEKTY GitHub/paster-android&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
   }
 }</component>
@@ -535,27 +565,6 @@
       <workItem from="1640279639581" duration="1471000" />
       <workItem from="1640283022100" duration="362000" />
     </task>
-    <task id="LOCAL-00096" summary="TEST filters refactor debug messages to api key filter 2">
-      <created>1654041509968</created>
-      <option name="number" value="00096" />
-      <option name="presentableId" value="LOCAL-00096" />
-      <option name="project" value="LOCAL" />
-      <updated>1654041509968</updated>
-    </task>
-    <task id="LOCAL-00097" summary="TEST filters refactor debug messages to api key filter 3">
-      <created>1654042532139</created>
-      <option name="number" value="00097" />
-      <option name="presentableId" value="LOCAL-00097" />
-      <option name="project" value="LOCAL" />
-      <updated>1654042532140</updated>
-    </task>
-    <task id="LOCAL-00098" summary="CHANGE errors response format for fields validation &amp; data errors type">
-      <created>1654440283630</created>
-      <option name="number" value="00098" />
-      <option name="presentableId" value="LOCAL-00098" />
-      <option name="project" value="LOCAL" />
-      <updated>1654440283631</updated>
-    </task>
     <task id="LOCAL-00099" summary="CHANGE errors response format for fields validation &amp; data errors type">
       <created>1654447550971</created>
       <option name="number" value="00099" />
@@ -878,7 +887,28 @@
       <option name="project" value="LOCAL" />
       <updated>1670765548750</updated>
     </task>
-    <option name="localTasksCounter" value="145" />
+    <task id="LOCAL-00145" summary="UPDATE gitignore include folder for JARs">
+      <created>1670766907987</created>
+      <option name="number" value="00145" />
+      <option name="presentableId" value="LOCAL-00145" />
+      <option name="project" value="LOCAL" />
+      <updated>1670766907987</updated>
+    </task>
+    <task id="LOCAL-00146" summary="UPDATE gitignore include folder for JARs">
+      <created>1670767295982</created>
+      <option name="number" value="00146" />
+      <option name="presentableId" value="LOCAL-00146" />
+      <option name="project" value="LOCAL" />
+      <updated>1670767295982</updated>
+    </task>
+    <task id="LOCAL-00147" summary="UPDATE gitignore include folder for JARs">
+      <created>1670767818210</created>
+      <option name="number" value="00147" />
+      <option name="presentableId" value="LOCAL-00147" />
+      <option name="project" value="LOCAL" />
+      <updated>1670767818210</updated>
+    </task>
+    <option name="localTasksCounter" value="148" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -909,7 +939,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="develop/fileUploadRemoveModelMapper" />
+                        <option value="main" />
                       </list>
                     </value>
                   </entry>
@@ -927,17 +957,17 @@
             <list>
               <RecentGroup>
                 <option name="FILTER_VALUES">
+                  <option value="main" />
+                </option>
+              </RecentGroup>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
                   <option value="develop/fileUploadRemoveModelMapper" />
                 </option>
               </RecentGroup>
               <RecentGroup>
                 <option name="FILTER_VALUES">
                   <option value="develop/fixes" />
-                </option>
-              </RecentGroup>
-              <RecentGroup>
-                <option name="FILTER_VALUES">
-                  <option value="main" />
                 </option>
               </RecentGroup>
               <RecentGroup>
