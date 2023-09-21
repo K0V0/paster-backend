@@ -50,14 +50,12 @@
     {
       "name": "board.preview-length",
       "type": "java.lang.Integer",
-      "sourceType": "com.kovospace.paster.base.configurations.values.BoardValues",
-      "defaultValue": 0
+      "sourceType": "com.kovospace.paster.base.configurations.values.BoardValues"
     },
     {
       "name": "board.preview-max-length",
       "type": "java.lang.Integer",
-      "sourceType": "com.kovospace.paster.base.configurations.values.BoardValues",
-      "defaultValue": 0
+      "sourceType": "com.kovospace.paster.base.configurations.values.BoardValues"
     },
     {
       "name": "item.extensions-with-preview",
@@ -67,8 +65,7 @@
     {
       "name": "item.file-chunk-size",
       "type": "java.lang.Integer",
-      "sourceType": "com.kovospace.paster.base.configurations.values.ItemValues",
-      "defaultValue": 0
+      "sourceType": "com.kovospace.paster.base.configurations.values.ItemValues"
     },
     {
       "name": "item.file-temp-dir",
@@ -83,14 +80,12 @@
     {
       "name": "item.free-user-items-limit",
       "type": "java.lang.Integer",
-      "sourceType": "com.kovospace.paster.base.configurations.values.ItemValues",
-      "defaultValue": 0
+      "sourceType": "com.kovospace.paster.base.configurations.values.ItemValues"
     },
     {
       "name": "item.text-preview-length",
       "type": "java.lang.Integer",
-      "sourceType": "com.kovospace.paster.base.configurations.values.ItemValues",
-      "defaultValue": 0
+      "sourceType": "com.kovospace.paster.base.configurations.values.ItemValues"
     },
     {
       "name": "jwt.header-type",
@@ -110,8 +105,7 @@
     {
       "name": "jwt.valid-days",
       "type": "java.lang.Integer",
-      "sourceType": "com.kovospace.paster.base.configurations.values.JwtSettingsValues",
-      "defaultValue": 0
+      "sourceType": "com.kovospace.paster.base.configurations.values.JwtSettingsValues"
     }
   ],
   "hints": []

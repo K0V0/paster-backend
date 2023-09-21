@@ -11,6 +11,7 @@ import com.kovospace.paster.user.dtos.UserPassChangeRequestDTO;
 import com.kovospace.paster.user.dtos.UserRegisterRequestDTO;
 import com.kovospace.paster.user.dtos.UserRemoveRequestDTO;
 import com.kovospace.paster.user.exceptions.UserException;
+import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -31,6 +32,8 @@ import javax.validation.Valid;
 @CrossOrigin
 @RestController
 @RequestMapping("/api/v1/user")
+@Api( value = "YourControllerName",
+      description = "Description of your controller")
 public class UserController extends BaseController {
 
   private final UserControllerResponder responder;
@@ -69,6 +72,7 @@ public class UserController extends BaseController {
   public ResponseEntity<UserLoginResponseDTO> login(
 
           @Valid @RequestBody
+          @Parameter(description = "User creation request", required = true)
           //TODO oanotovať DTOčka
           // https://stackoverflow.com/questions/69210490/how-to-annotate-dto-so-that-it-shows-up-in-swaggerui-schema
           UserLoginRequestDTO user
