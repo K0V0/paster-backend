@@ -1,7 +1,9 @@
 plugins {
-    id 'org.springframework.boot' version '2.5.4'
-    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
+    id 'org.springframework.boot' version '2.7.0'
+    // swagger documentation
+    //id 'org.springdoc.openapi-gradle-plugin' version '1.7.0'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 }
 
 java {
@@ -73,8 +75,25 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-websocket'
     //implementation 'org.webjars:sockjs-client:1.0.2'
     //implementation 'org.webjars:stomp-websocket:2.3.3'
+
+    // swagger
+    //implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.7.0'
+    implementation 'io.springfox:springfox-swagger2:3.0.0'
+    implementation 'io.springfox:springfox-swagger-ui:3.0.0'
+    implementation 'io.springfox:springfox-data-rest:3.0.0'
 }
 
 test {
     useJUnitPlatform()
 }
+
+// swagger configuration
+//openApi {
+//    outputDir = file("$buildDir/generated/swagger")
+//    apiDocsUrl = 'https://your-api-url.com/v3/api-docs'
+//    outputFileName = 'swagger'
+//}
+
+//bootRun {
+//    mainClassName = 'com.kovospace.paster.PasterApplication'
+//}
