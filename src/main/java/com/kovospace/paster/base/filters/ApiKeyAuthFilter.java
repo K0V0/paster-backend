@@ -3,6 +3,7 @@ package com.kovospace.paster.base.filters;
 import com.kovospace.paster.base.exceptions.ApiKeyInvalidException;
 import com.kovospace.paster.base.exceptions.ApiKeyMissingException;
 import com.kovospace.paster.base.services.ApiKeyService;
+import com.kovospace.paster.base.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -17,13 +18,15 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Component
 @Order(2)
 public class ApiKeyAuthFilter extends OncePerRequestFilter {
 
-    private final String API_KEY_HEADER = "x-auth-token";
+    private static final Pattern SWAGGER_ADDR_PATTERN = Pattern.compile("\\/swagger-ui\\/.*");
+    private static final String API_KEY_HEADER = "x-auth-token";
 
     private final ApiKeyService apiKeyService;
 
@@ -38,6 +41,10 @@ public class ApiKeyAuthFilter extends OncePerRequestFilter {
     {
         System.out.println("API key filter called");
         System.out.println(request.getRequestURL());
+
+      //  if (Utils.isSwaggerEndpoint(request.getRequestURI())) {
+        //    filterChain.doFilter(request, response);
+        //}
 
         // standart request
         String token = request.getHeader(API_KEY_HEADER);

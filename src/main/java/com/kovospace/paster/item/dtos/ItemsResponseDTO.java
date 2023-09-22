@@ -14,4 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 public class ItemsResponseDTO<T> extends OkResponseDTO {
   private List<T> items;
+
+    public ItemsResponseDTO(T collect) {
+    }
 }

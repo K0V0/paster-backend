@@ -41,7 +41,8 @@ public class SecurityConfig {
                     .authorizeRequests()
                     .antMatchers(HttpMethod.OPTIONS).permitAll()
                     .antMatchers(HttpMethod.GET, "/websocket").permitAll()
-                    .antMatchers("/swagger-ui.html", "/v3/api-docs", "/swagger-ui/**", "/swagger-resources/**", "/public-api").permitAll()
+                    //TODO dat tiez do vynimok z filtrov do properties
+                    .antMatchers("/swagger-ui.html", "/v3/api-docs", "/swagger-ui/**", "/swagger-resources/**").permitAll()
                     .and()
                     .addFilterBefore(
                             simpleCorsFilter,

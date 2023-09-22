@@ -1,7 +1,5 @@
 package com.kovospace.paster.base.configurations;
 
-import com.kovospace.paster.base.annotations.swagger.PublicEndpoint;
-import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -12,11 +10,9 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
-import java.util.Collections;
-
 @Configuration
 @EnableSwagger2
-@OpenAPIDefinition
+//@OpenAPIDefinition
 public class SwaggerConfig {
 
     @Bean
@@ -24,8 +20,8 @@ public class SwaggerConfig {
         return new Docket(DocumentationType.SWAGGER_2)
                 .groupName("public-api")
                 .select()
-                //.apis(RequestHandlerSelectors.any())
-                .apis(RequestHandlerSelectors.basePackage("com.kovospace.paster.user.controllers"))
+                .apis(RequestHandlerSelectors.any())
+                //.apis(RequestHandlerSelectors.basePackage("com.kovospace.paster.user.controllers"))
                 //.apis(RequestHandlerSelectors.withMethodAnnotation(PublicEndpoint.class))
                 .paths(PathSelectors.any())
                 .build()

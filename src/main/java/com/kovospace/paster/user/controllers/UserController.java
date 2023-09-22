@@ -18,6 +18,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -73,9 +74,7 @@ public class UserController extends BaseController {
 
           @Valid @RequestBody
           @Parameter(description = "User creation request", required = true)
-          //TODO oanotovať DTOčka
-          // https://stackoverflow.com/questions/69210490/how-to-annotate-dto-so-that-it-shows-up-in-swaggerui-schema
-          UserLoginRequestDTO user
+          final UserLoginRequestDTO user
 
   )
   throws UserException
