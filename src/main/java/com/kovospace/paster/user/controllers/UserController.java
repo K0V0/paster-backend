@@ -1,5 +1,6 @@
 package com.kovospace.paster.user.controllers;
 
+import com.kovospace.paster.base.annotations.swagger.PublicEndpoint;
 import com.kovospace.paster.base.controllers.BaseController;
 import com.kovospace.paster.base.exceptions.FeatureNotImplementedException;
 import com.kovospace.paster.user.controllerHelpers.UserControllerResponder;
@@ -10,6 +11,8 @@ import com.kovospace.paster.user.dtos.UserPassChangeRequestDTO;
 import com.kovospace.paster.user.dtos.UserRegisterRequestDTO;
 import com.kovospace.paster.user.dtos.UserRemoveRequestDTO;
 import com.kovospace.paster.user.exceptions.UserException;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -41,9 +44,27 @@ public class UserController extends BaseController {
     return responder.register(user);
   }
 
+  @PublicEndpoint
   @PostMapping("/login")
-  public ResponseEntity<UserLoginResponseDTO> login(@Valid @RequestBody UserLoginRequestDTO user)
-  throws UserException
+  @Operation(
+          summary = "Login user",
+          description = "Logs in a user with the provided credentials.")
+  @ApiResponse(
+          responseCode = "200",
+          description = "User logged in successfully")
+  @ApiResponse(
+          responseCode = "400",
+          description = "Bad request")
+  @ApiResponse(
+          responseCode = "401",
+          description = "Unauthorized")
+  public ResponseEntity<UserLoginResponseDTO> login(
+
+          @Valid @RequestBody
+          final UserLoginRequestDTO user
+
+  )
+          throws UserException
   {
     return responder.login(user);
   }

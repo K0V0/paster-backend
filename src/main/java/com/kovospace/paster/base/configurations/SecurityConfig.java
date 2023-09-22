@@ -17,8 +17,12 @@ import org.springframework.web.filter.CorsFilter;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    @Configuration
-    @Order(1)
+    //TODO dat tiez do vynimok z filtrov do properties
+    private final static String[] SWAGGER_PATTERNS =
+            { "swagger-ui.html", "/v3/api-docs**", "swagger-ui**", "swagger-resources**" };
+
+    //@Configuration
+    //@Order(1)
     public static class BasicAndExceptions extends WebSecurityConfigurerAdapter {
 
         private final SimpleCorsFilter simpleCorsFilter;
@@ -41,6 +45,7 @@ public class SecurityConfig {
                     .authorizeRequests()
                     .antMatchers(HttpMethod.OPTIONS).permitAll()
                     .antMatchers(HttpMethod.GET, "/websocket").permitAll()
+                    .antMatchers(SWAGGER_PATTERNS).permitAll()
                     .and()
                     .addFilterBefore(
                             simpleCorsFilter,
@@ -48,8 +53,8 @@ public class SecurityConfig {
         }
     }
 
-    @Configuration
-    @Order(2)
+    //@Configuration
+    //@Order(2)
     public static class ApiKeyWebSecurity extends WebSecurityConfigurerAdapter {
 
         private final ApiKeyAuthFilter apiKeyAuthFilter;
@@ -65,6 +70,7 @@ public class SecurityConfig {
                     .authorizeRequests()
                     .antMatchers(HttpMethod.OPTIONS).permitAll()
                     .antMatchers(HttpMethod.GET, "/websocket").permitAll()
+                    .antMatchers(SWAGGER_PATTERNS).permitAll()
                     .and()
                     .addFilterBefore(
                             apiKeyAuthFilter,
@@ -72,8 +78,8 @@ public class SecurityConfig {
         }
     }
 
-    @Configuration
-    @Order(3)
+    //@Configuration
+    //@Order(3)
     public static class JwtTokenWebSecurity extends WebSecurityConfigurerAdapter {
 
         private final JwtAuthFilter jwtAuthFilter;
@@ -90,6 +96,7 @@ public class SecurityConfig {
                     .antMatchers(HttpMethod.POST, "/api/v*/user/**").permitAll()
                     .antMatchers(HttpMethod.GET, "/api/v*/user/**").permitAll()
                     .antMatchers(HttpMethod.GET, "/websocket").permitAll()
+                    .antMatchers(SWAGGER_PATTERNS).permitAll()
                     .anyRequest().authenticated()
                     .and()
                     .addFilterBefore(

@@ -15,8 +15,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Optional;
 
-@Component
-@Order(3)
+//@Component
+//@Order(3)
 public class JwtAuthFilter extends OncePerRequestFilter {
 
   private final JwtService jwtService;

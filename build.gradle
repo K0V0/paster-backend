@@ -73,6 +73,12 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-websocket'
     //implementation 'org.webjars:sockjs-client:1.0.2'
     //implementation 'org.webjars:stomp-websocket:2.3.3'
+
+    // swagger
+    implementation "io.springfox:springfox-boot-starter:3.0.0"
+    implementation 'io.springfox:springfox-swagger2:3.0.0'
+    implementation 'io.springfox:springfox-swagger-ui:3.0.0'
+    implementation 'io.springfox:springfox-data-rest:3.0.0'
 }
 
 test {

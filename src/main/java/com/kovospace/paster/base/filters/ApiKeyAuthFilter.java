@@ -19,8 +19,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Component
-@Order(2)
+//@Component
+//@Order(2)
 public class ApiKeyAuthFilter extends OncePerRequestFilter {
 
     private final String API_KEY_HEADER = "x-auth-token";
