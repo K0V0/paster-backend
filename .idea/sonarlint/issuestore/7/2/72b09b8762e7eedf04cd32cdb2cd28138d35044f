@@ -1,6 +1,0 @@
-
-o	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(≈“¸«
-s
-java:S3008"]Rename this field "DEFAULT_CHUNK_SIZE" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ùÃ≠ê
-g
-java:S1450"RRemove the "dto" field and declare it as a local variable in the relevant methods.(ì√€#

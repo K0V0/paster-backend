@@ -31,3 +31,6 @@ testUploads/
 !build/libs/paster-0.0.1-SNAPSHOT-plain.jar
 !gradle/wrapper/gradle-wrapper.jar
 
+.idea/
+.gradle/
+build/
