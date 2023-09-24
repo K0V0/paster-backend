@@ -48,13 +48,14 @@ public class ApiKeyAuthFilter extends OncePerRequestFilter {
         }
         if (token == null || token.equals("")) {
             System.out.println("API key filter - token is NULL");
-            throw new ApiKeyMissingException();
+            //TODO docasne deaktivovane kvoli swagger api
+            //throw new ApiKeyMissingException();
         }
 
         String ipAddress = request.getRemoteAddr();
         System.out.println("API key filter - ipAddress: " + request.getRemoteAddr());
         boolean isValid = (ipAddress == null) ? apiKeyService.isValid(token) : apiKeyService.isValid(token, ipAddress);
-        if (!isValid) {
+        if (!isValid && token != null) { //TODO swagger UI hack
             System.out.println("API key filter - token is invalid - " + token);
             throw new ApiKeyInvalidException();
         }

@@ -4,6 +4,7 @@ import com.kovospace.paster.base.filters.ApiKeyAuthFilter;
 import com.kovospace.paster.base.filters.JwtAuthFilter;
 import com.kovospace.paster.base.filters.SimpleCorsFilter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
@@ -14,12 +15,17 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.filter.CorsFilter;
 
+import java.util.List;
+
 @EnableWebSecurity
 public class SecurityConfig {
 
+    @Value("#{'${app.swagger-ui.paths}'.split(',')}")
+    private List<String> swaggerUiPaths;
+
     @Configuration
     @Order(1)
-    public static class BasicAndExceptions extends WebSecurityConfigurerAdapter {
+    public class BasicAndExceptions extends WebSecurityConfigurerAdapter {
 
         private final SimpleCorsFilter simpleCorsFilter;
 
@@ -39,8 +45,9 @@ public class SecurityConfig {
                     .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                     .and()
                     .authorizeRequests()
+                    .antMatchers(swaggerUiPaths.toArray(new String[0])).permitAll()
                     .antMatchers(HttpMethod.OPTIONS).permitAll()
-                    .antMatchers(HttpMethod.GET, "/websocket").permitAll()
+                    .antMatchers(HttpMethod.GET, "/websocket").permitAll() //TODO do konštánt
                     .and()
                     .addFilterBefore(
                             simpleCorsFilter,
@@ -50,7 +57,7 @@ public class SecurityConfig {
 
     @Configuration
     @Order(2)
-    public static class ApiKeyWebSecurity extends WebSecurityConfigurerAdapter {
+    public class ApiKeyWebSecurity extends WebSecurityConfigurerAdapter {
 
         private final ApiKeyAuthFilter apiKeyAuthFilter;
 
@@ -63,8 +70,9 @@ public class SecurityConfig {
         protected void configure(HttpSecurity httpSecurity) throws Exception {
             httpSecurity
                     .authorizeRequests()
+                    .antMatchers(swaggerUiPaths.toArray(new String[0])).permitAll()
                     .antMatchers(HttpMethod.OPTIONS).permitAll()
-                    .antMatchers(HttpMethod.GET, "/websocket").permitAll()
+                    .antMatchers(HttpMethod.GET, "/websocket").permitAll() //TODO konštanty
                     .and()
                     .addFilterBefore(
                             apiKeyAuthFilter,
@@ -74,7 +82,7 @@ public class SecurityConfig {
 
     @Configuration
     @Order(3)
-    public static class JwtTokenWebSecurity extends WebSecurityConfigurerAdapter {
+    public class JwtTokenWebSecurity extends WebSecurityConfigurerAdapter {
 
         private final JwtAuthFilter jwtAuthFilter;
 
@@ -87,8 +95,9 @@ public class SecurityConfig {
         protected void configure(HttpSecurity httpSecurity) throws Exception {
             httpSecurity
                     .authorizeRequests()
-                    .antMatchers(HttpMethod.POST, "/api/v*/user/**").permitAll()
-                    .antMatchers(HttpMethod.GET, "/api/v*/user/**").permitAll()
+                    .antMatchers(swaggerUiPaths.toArray(new String[0])).permitAll()
+                    .antMatchers(HttpMethod.POST, "/api/v*/user/**").permitAll() //TODO do konštánt
+                    .antMatchers(HttpMethod.GET, "/api/v*/user/**").permitAll() //TODO do konštánt
                     .antMatchers(HttpMethod.GET, "/websocket").permitAll()
                     .anyRequest().authenticated()
                     .and()
