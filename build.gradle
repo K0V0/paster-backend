@@ -74,8 +74,12 @@ dependencies {
     //implementation 'org.webjars:sockjs-client:1.0.2'
     //implementation 'org.webjars:stomp-websocket:2.3.3'
 
-    // Swagger/SpringDoc
-    implementation 'org.springdoc:springdoc-openapi-ui:1.7.0'
+    // Swagger
+    //implementation 'org.springdoc:springdoc-openapi-ui:1.7.0'
+    implementation "io.springfox:springfox-boot-starter:3.0.0"
+    implementation 'io.springfox:springfox-swagger2:3.0.0'
+    implementation 'io.springfox:springfox-swagger-ui:3.0.0'
+    // implementation 'io.springfox:springfox-data-rest:3.0.0'
 }
 
 test {
