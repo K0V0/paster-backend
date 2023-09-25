@@ -1,7 +1,29 @@
 plugins {
     id 'java'
     id 'org.springframework.boot' version '2.7.0'
+    id "org.openapi.generator" version "7.0.1"
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+}
+
+openApiGenerate {
+    generatorName.set("java")
+    inputSpec.set("$rootDir/swaggerDefinitions/public-api-V3.yml")
+    outputDir.set("$rootDir/swaggerGeneratedClasses")
+    apiPackage.set("org.paster.api")
+    //invokerPackage.set("org.paster.invoker")
+    modelPackage.set("org.paster.model")
+    configOptions.set([
+            dateLibrary: "java8",
+            interfaceOnly: "true",
+            withXml: "false",
+            skipDefaultInterface: "true",
+            delegatePattern: "false",
+            "inline-schema-options": "RESOLVE_INLINE_ENUMS=true"
+    ])
+//    generatorOptions = [
+//            "inline-schema-options": "ARRAY_ITEM_SUFFIX=_array_item,MAP_ITEM_SUFFIX=_map_item,RESOLVE_INLINE_ENUMS=true"
+//    ]
+    validateSpec = false
 }
 
 java {
@@ -75,13 +97,9 @@ dependencies {
     //implementation 'org.webjars:stomp-websocket:2.3.3'
 
     // Swagger
-    implementation group: 'io.swagger.core.v3', name: 'swagger-core', version: '2.1.10'
-    //implementation "org.springdoc:springdoc-openapi-ui:1.6.12"
+    implementation group: 'io.swagger.core.v3', name: 'swagger-core', version: '2.2.16'
     //implementation 'org.springdoc:springdoc-openapi-ui:1.7.0'
     implementation "io.springfox:springfox-boot-starter:3.0.0"
-    //implementation 'io.springfox:springfox-swagger2:3.0.0'
-    //implementation 'io.springfox:springfox-swagger-ui:3.0.0'
-    // implementation 'io.springfox:springfox-data-rest:3.0.0'
 }
 
 test {

@@ -22,7 +22,6 @@ import java.util.stream.Stream;
 
 import static com.kovospace.paster.base.utils.Utils.exceptionHandler;
 
-//@Component
 public abstract class DocumentGenerator<RESULT_OBJ> implements CommandLineRunner {
 
     protected enum DocumentVersion {

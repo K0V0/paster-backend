@@ -1,8 +1,16 @@
 package com.kovospace.paster.item.dtos;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
+import java.io.Serializable;
 import java.util.Arrays;
 
-public enum PlatformEnum {
+// springDoc
+//@Schema(enumAsRef = true, ref = "#/components/schemas/PlatformEnum")
+//@Schema(enumAsRef = true)
+
+
+public enum PlatformEnum implements Serializable {
     WEBAPP,
     MOBILE_ANDROID,
     MOBILE_APPLE,

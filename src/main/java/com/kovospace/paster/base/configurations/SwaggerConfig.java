@@ -4,8 +4,11 @@ import com.kovospace.paster.base.annotations.swagger.PublicEndpoint;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
+import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.service.ApiInfo;
+import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 
@@ -30,7 +33,8 @@ public class SwaggerConfig {
                 .select()
                 .apis(RequestHandlerSelectors.withMethodAnnotation(PublicEndpoint.class))
                 .paths(PathSelectors.any())
-                .build();
+                .build()
+                .apiInfo(apiInfo("paster.cloud public API spec"));
     }
 
     @Bean
@@ -41,6 +45,15 @@ public class SwaggerConfig {
                 .select()
                 .apis(RequestHandlerSelectors.basePackage(BASE_PACKAGE))
                 .paths(PathSelectors.any())
+                .build()
+                .apiInfo(apiInfo("paster.cloud developer's API spec"));
+    }
+
+    private ApiInfo apiInfo(final String title) {
+        return new ApiInfoBuilder()
+                .contact(new Contact("Matej Kováč", "https://kovo.space", "kovo.mato@gmail.com"))
+                .title(title)
+                .version("1.0")
                 .build();
     }
 

@@ -50,8 +50,9 @@ public class InfoController extends BaseController {
 
             @Parameter(
                     name = "platformEnum",
-                    description = "The platform enum",
-                    schema = @Schema(implementation = PlatformEnum.class)
+                    description = "The platform enum"//,
+                    //schema = @Schema(implementation = PlatformEnum.class, defaultValue = "UNKNOWN")
+
             )
             @RequestParam(name = "platformEnum")
             final PlatformEnum platformEnum
