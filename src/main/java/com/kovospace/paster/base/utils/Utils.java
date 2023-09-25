@@ -22,4 +22,18 @@ public class Utils {
     public interface ExceptionCallback<T> {
         T execute() throws Exception;
     }
+
+    public static String getConvertedPlatformValue(Object input) {
+        if (input == null) {
+            return null;
+        }
+
+        if (input instanceof Enum<?>) {
+            return ((Enum<?>) input).name();
+        } else if (input instanceof String) {
+            return (String) input;
+        } else {
+            throw new IllegalArgumentException("Unsupported input type: " + input.getClass());
+        }
+    }
 }

@@ -1,5 +1,6 @@
 package com.kovospace.paster.item.controllers.v2;
 
+import com.kovospace.paster.base.annotations.swagger.PublicEndpoint;
 import com.kovospace.paster.base.controllers.BaseController;
 import com.kovospace.paster.item.controllerHelpers.v2.ItemControllerResponder;
 import com.kovospace.paster.item.dtos.ItemsResponseDTO;
@@ -59,6 +60,7 @@ public class ItemController extends BaseController {
     return responder.getItem(token, id);
   }
 
+  @PublicEndpoint
   @PostMapping("/item")
   public ResponseEntity<Void> add(
       @RequestHeader(value = "Authorization") String token,

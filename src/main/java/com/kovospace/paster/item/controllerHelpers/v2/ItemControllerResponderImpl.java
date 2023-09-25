@@ -28,6 +28,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.stream.Collectors;
 
+import static com.kovospace.paster.base.utils.Utils.getConvertedPlatformValue;
 import static com.kovospace.paster.base.utils.Utils.isFilled;
 
 @Component("v2Responder")
@@ -98,7 +99,7 @@ public class ItemControllerResponderImpl implements ItemControllerResponder {
           throws JwtException, UserNotFoundException
   {
     long userId = jwtService.parse(token);
-    itemService.addTextItem(userId, dto.getText(), dto.getPlatform(), dto.getDeviceName());
+    itemService.addTextItem(userId, dto.getText(), getConvertedPlatformValue(dto.getPlatform()), dto.getDeviceName());
     websocketService.notifyForChanges(userId);
   }
 

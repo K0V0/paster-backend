@@ -1,16 +1,17 @@
 package com.kovospace.paster.base.swagger;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.swagger.models.Swagger;
+import io.swagger.v3.core.util.Json;
+import io.swagger.v3.core.util.Yaml;
+import io.swagger.v3.oas.models.OpenAPI;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
+import springfox.documentation.oas.mappers.ServiceModelToOpenApiMapper;
 import springfox.documentation.service.Documentation;
 import springfox.documentation.spring.web.DocumentationCache;
-import springfox.documentation.spring.web.json.Json;
-import springfox.documentation.swagger2.mappers.ServiceModelToSwagger2Mapper;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -30,13 +31,13 @@ public class DocumentGenerator implements CommandLineRunner {
     private String storagePath;
 
     private DocumentationCache documentationCache;
-    private ServiceModelToSwagger2Mapper mapper;
+    private ServiceModelToOpenApiMapper mapper;
     private ObjectMapper objectMapper;
 
     @Autowired
     public DocumentGenerator(
             final DocumentationCache documentationCache,
-            final ServiceModelToSwagger2Mapper mapper,
+            final ServiceModelToOpenApiMapper mapper,
             final ObjectMapper objectMapper
     ) {
         this.documentationCache = documentationCache;
@@ -88,15 +89,14 @@ public class DocumentGenerator implements CommandLineRunner {
 
     private BiFunction<Map.Entry<String, Documentation>, ExpectedDocumentType, String> converter =
             (documentationEntry, expectedDocumentType) -> {
-                final Swagger swagger = mapper.mapDocumentation(
+                final OpenAPI swagger = mapper.mapDocumentation(
                         documentationCache.documentationByGroup(documentationEntry.getKey()));
                 switch (expectedDocumentType) {
                     case JSON:
-                        return exceptionHandler(() -> objectMapper.writeValueAsString(swagger));
+                        return exceptionHandler(() -> Json.pretty(swagger));
                     case YAML:
                     default:
-                        //return objectMapper.writeValueAsString(Json.mapper().convertValue(swagger, Json.class));
-                        return null;
+                        return exceptionHandler(() -> Yaml.pretty().writeValueAsString(swagger));
                 }
             };
 }

@@ -24,7 +24,7 @@ import javax.validation.constraints.Size;
 public class ItemRequestDTO {
 
   @EnumValidator(enumClazz = PlatformEnum.class, groups = FirstOrder.class)
-  private String platform;
+  protected String platform;
 
   private String deviceName;
 
