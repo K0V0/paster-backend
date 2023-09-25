@@ -1,0 +1,254 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Api Documentation",
+    "version" : "1.0",
+    "title" : "Api Documentation",
+    "termsOfService" : "urn:tos",
+    "contact" : {
+      "name" : "",
+      "url" : "",
+      "email" : ""
+    },
+    "license" : {
+      "name" : "Apache 2.0",
+      "url" : "http://www.apache.org/licenses/LICENSE-2.0"
+    }
+  },
+  "host" : "",
+  "basePath" : "/",
+  "tags" : [ {
+    "name" : "info-controller",
+    "description" : "Info Controller"
+  }, {
+    "name" : "item-controller",
+    "description" : "Item Controller"
+  }, {
+    "name" : "user-controller",
+    "description" : "User Controller"
+  } ],
+  "schemes" : [ ],
+  "consumes" : [ ],
+  "produces" : [ "application/json" ],
+  "paths" : {
+    "/api/info/checkPlatform" : {
+      "post" : {
+        "tags" : [ "info-controller" ],
+        "summary" : "Check Platform",
+        "description" : "Given platform is listed and supported",
+        "operationId" : "checkPlatformUsingPOST_1",
+        "schemes" : [ ],
+        "consumes" : [ "application/json" ],
+        "produces" : [ ],
+        "parameters" : [ {
+          "name" : "platformEnum",
+          "in" : "query",
+          "description" : "The platform enum",
+          "required" : true,
+          "type" : "string",
+          "enum" : [ "DESKTOP_APPLE", "DESKTOP_LINUX", "DESKTOP_WINDOWS", "MOBILE_ANDROID", "MOBILE_APPLE", "UNKNOWN", "WEBAPP" ]
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Platform checked successfully",
+            "examples" : { },
+            "headers" : { },
+            "schema" : {
+              "type" : "string"
+            },
+            "responseSchema" : {
+              "type" : "string",
+              "format" : ""
+            }
+          },
+          "201" : {
+            "description" : "Created",
+            "examples" : { },
+            "headers" : { }
+          },
+          "401" : {
+            "description" : "Unauthorized",
+            "examples" : { },
+            "headers" : { }
+          },
+          "403" : {
+            "description" : "Forbidden",
+            "examples" : { },
+            "headers" : { }
+          },
+          "404" : {
+            "description" : "Given platform does not exists",
+            "examples" : { },
+            "headers" : { }
+          }
+        },
+        "security" : [ ]
+      }
+    },
+    "/api/v1/user/login" : {
+      "post" : {
+        "tags" : [ "user-controller" ],
+        "summary" : "Login user",
+        "description" : "Logs in a user with the provided credentials.",
+        "operationId" : "loginUsingPOST_1",
+        "schemes" : [ ],
+        "consumes" : [ "application/json" ],
+        "produces" : [ ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "user",
+          "description" : "The user login request.",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/UserLoginRequestDTO"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "User logged in successfully",
+            "examples" : { },
+            "headers" : { },
+            "schema" : {
+              "$ref" : "#/definitions/UserLoginResponseDTO"
+            },
+            "responseSchema" : {
+              "$ref" : "#/definitions/UserLoginResponseDTO"
+            }
+          },
+          "201" : {
+            "description" : "Created",
+            "examples" : { },
+            "headers" : { }
+          },
+          "400" : {
+            "description" : "Bad request",
+            "examples" : { },
+            "headers" : { }
+          },
+          "401" : {
+            "description" : "Unauthorized",
+            "examples" : { },
+            "headers" : { }
+          },
+          "403" : {
+            "description" : "Forbidden",
+            "examples" : { },
+            "headers" : { }
+          },
+          "404" : {
+            "description" : "Not Found",
+            "examples" : { },
+            "headers" : { }
+          }
+        },
+        "security" : [ ]
+      }
+    },
+    "/api/v2/board/item" : {
+      "post" : {
+        "tags" : [ "item-controller" ],
+        "summary" : "add",
+        "operationId" : "addUsingPOST_2",
+        "schemes" : [ ],
+        "consumes" : [ "application/json" ],
+        "produces" : [ ],
+        "parameters" : [ {
+          "name" : "Authorization",
+          "in" : "header",
+          "description" : "Authorization",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "dto",
+          "description" : "dto",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/TextItemRequestDTO"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "examples" : { },
+            "headers" : { }
+          },
+          "201" : {
+            "description" : "Created",
+            "examples" : { },
+            "headers" : { }
+          },
+          "401" : {
+            "description" : "Unauthorized",
+            "examples" : { },
+            "headers" : { }
+          },
+          "403" : {
+            "description" : "Forbidden",
+            "examples" : { },
+            "headers" : { }
+          },
+          "404" : {
+            "description" : "Not Found",
+            "examples" : { },
+            "headers" : { }
+          }
+        },
+        "security" : [ ]
+      }
+    }
+  },
+  "securityDefinitions" : { },
+  "definitions" : {
+    "TextItemRequestDTO" : {
+      "type" : "object",
+      "required" : [ "text" ],
+      "properties" : {
+        "deviceName" : {
+          "type" : "string"
+        },
+        "platform" : {
+          "type" : "string",
+          "enum" : [ "DESKTOP_APPLE", "DESKTOP_LINUX", "DESKTOP_WINDOWS", "MOBILE_ANDROID", "MOBILE_APPLE", "UNKNOWN", "WEBAPP" ]
+        },
+        "text" : {
+          "type" : "string",
+          "minLength" : 1,
+          "maxLength" : 4194304
+        }
+      },
+      "title" : "TextItemRequestDTO"
+    },
+    "UserLoginRequestDTO" : {
+      "type" : "object",
+      "properties" : {
+        "name" : {
+          "type" : "string",
+          "example" : "",
+          "description" : "User's username",
+          "pattern" : "^\\S+$"
+        },
+        "pass" : {
+          "type" : "string",
+          "example" : "",
+          "description" : "User's password"
+        }
+      },
+      "title" : "UserLoginRequestDTO"
+    },
+    "UserLoginResponseDTO" : {
+      "type" : "object",
+      "properties" : {
+        "jwtToken" : {
+          "type" : "string",
+          "example" : "",
+          "description" : "JWT token for user authentication"
+        },
+        "status" : {
+          "type" : "string"
+        }
+      },
+      "title" : "UserLoginResponseDTO"
+    }
+  }
+}

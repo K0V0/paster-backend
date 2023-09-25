@@ -1,4 +1,4 @@
-package com.kovospace.paster.base.swagger;
+package com.kovospace.paster.base.swagger.base;
 
 public enum ExpectedDocumentType {
     YAML("yml"),

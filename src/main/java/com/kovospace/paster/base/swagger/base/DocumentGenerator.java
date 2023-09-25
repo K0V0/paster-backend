@@ -1,15 +1,13 @@
-package com.kovospace.paster.base.swagger;
+package com.kovospace.paster.base.swagger.base;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kovospace.paster.base.swagger.documentationMapperAdapter.DocumentationMapperAdapter;
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.core.util.Yaml;
-import io.swagger.v3.oas.models.OpenAPI;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
-import springfox.documentation.oas.mappers.ServiceModelToOpenApiMapper;
 import springfox.documentation.service.Documentation;
 import springfox.documentation.spring.web.DocumentationCache;
 
@@ -24,26 +22,23 @@ import java.util.stream.Stream;
 
 import static com.kovospace.paster.base.utils.Utils.exceptionHandler;
 
-@Component
-public class DocumentGenerator implements CommandLineRunner {
+//@Component
+public abstract class DocumentGenerator<RESULT_OBJ> implements CommandLineRunner {
+
+    protected enum DocumentVersion {
+        V2, V3
+    }
 
     @Value("${app.swagger.generated.files.path}")
     private String storagePath;
 
+    @Autowired
     private DocumentationCache documentationCache;
-    private ServiceModelToOpenApiMapper mapper;
+    @Autowired
     private ObjectMapper objectMapper;
 
-    @Autowired
-    public DocumentGenerator(
-            final DocumentationCache documentationCache,
-            final ServiceModelToOpenApiMapper mapper,
-            final ObjectMapper objectMapper
-    ) {
-        this.documentationCache = documentationCache;
-        this.mapper = mapper;
-        this.objectMapper = objectMapper;
-    }
+    protected abstract DocumentationMapperAdapter<RESULT_OBJ> getMapper();
+    protected abstract DocumentVersion getDocumentVersion();
 
     @Override
     public void run(String... args) throws IOException {
@@ -65,8 +60,10 @@ public class DocumentGenerator implements CommandLineRunner {
 
     private String getOutputFilePath(final Map.Entry<String, Documentation> documentation, final String extension) {
         return StringUtils.isEmpty(storagePath)
-                ? String.format("%s.%s", documentation.getKey(), extension)
-                : String.format("%s/%s.%s", storagePath, documentation.getKey(), extension);
+                ? String.format(
+                        "%s-%s.%s", documentation.getKey(), getDocumentVersion().name(), extension)
+                : String.format(
+                        "%s/%s-%s.%s", storagePath, documentation.getKey(), getDocumentVersion().name(), extension);
     }
 
     private void writeFile(final String document, final String filePath) {
@@ -89,7 +86,7 @@ public class DocumentGenerator implements CommandLineRunner {
 
     private BiFunction<Map.Entry<String, Documentation>, ExpectedDocumentType, String> converter =
             (documentationEntry, expectedDocumentType) -> {
-                final OpenAPI swagger = mapper.mapDocumentation(
+                final RESULT_OBJ swagger = getMapper().mapDocumentation(
                         documentationCache.documentationByGroup(documentationEntry.getKey()));
                 switch (expectedDocumentType) {
                     case JSON:
