@@ -1,7 +1,9 @@
+
 plugins {
     id 'java'
     id 'org.springframework.boot' version '2.7.0'
     id "org.openapi.generator" version "7.0.1"
+    id "org.springdoc.openapi-gradle-plugin" version "1.6.0"
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 }
 
@@ -20,10 +22,13 @@ openApiGenerate {
             delegatePattern: "false",
             "inline-schema-options": "RESOLVE_INLINE_ENUMS=true"
     ])
-//    generatorOptions = [
-//            "inline-schema-options": "ARRAY_ITEM_SUFFIX=_array_item,MAP_ITEM_SUFFIX=_map_item,RESOLVE_INLINE_ENUMS=true"
-//    ]
     validateSpec = false
+}
+
+openApi {
+    apiDocsUrl.set("https://localhost:4004/v3/api-docs")
+    outputDir.set(file("$rootDir/swaggerDefinitions"))
+    outputFileName.set("swagger.yaml")
 }
 
 java {
@@ -98,8 +103,7 @@ dependencies {
 
     // Swagger
     implementation group: 'io.swagger.core.v3', name: 'swagger-core', version: '2.2.16'
-    //implementation 'org.springdoc:springdoc-openapi-ui:1.7.0'
-    implementation "io.springfox:springfox-boot-starter:3.0.0"
+    implementation 'org.springdoc:springdoc-openapi-ui:1.7.0'
 }
 
 test {
