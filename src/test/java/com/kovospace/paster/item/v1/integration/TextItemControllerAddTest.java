@@ -1,5 +1,6 @@
 package com.kovospace.paster.item.v1.integration;
 
+import com.kovospace.paster.item.dtos.PlatformEnum;
 import com.kovospace.paster.item.dtos.v1.ItemRequestDTO;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -162,7 +163,25 @@ public class TextItemControllerAddTest extends ItemControllerTest {
   @Test
   @Order(11)
   @DirtiesContext
+  public void platformNotPresent() throws Exception {
+    // in this case, platform attribute is nmot tpresent at all
+    final String requestJson = "{" +
+              "\"deviceName\":null," +
+              "\"text\":\"test\"" +
+            "}";
+
+    itemPostTest(requestJson, 201);
+
+    itemGetTest()
+            .andExpect(jsonPath("$.text", is("test")))
+            .andExpect(jsonPath("$.platform", is("UNKNOWN")));
+  }
+
+  @Test
+  @Order(11)
+  @DirtiesContext
   public void platformNotSet() throws Exception {
+    // in this case, platform attribute is present but is null
     ItemRequestDTO item = new ItemRequestDTO();
     item.setText("test");
 
@@ -171,21 +190,22 @@ public class TextItemControllerAddTest extends ItemControllerTest {
     itemGetTest()
             .andExpect(jsonPath("$.text", is("test")))
             .andExpect(jsonPath("$.platform", is("UNKNOWN")));
-    ;
   }
 
   @Test
   @Order(12)
   @DirtiesContext
   public void platformWrong() throws Exception {
-    ItemRequestDTO item = new ItemRequestDTO();
-    item.setText("test");
-    item.setPlatform("kokotina");
+    final String requestJson = "{" +
+              "\"platform\":\"kokotina\"," +
+              "\"deviceName\":null," +
+              "\"text\":\"test\"" +
+            "}";
 
     postRequest()
             .withJwtToken(this.token)
             .withMediaType(MediaType.APPLICATION_JSON)
-            .withMediaContent(objectMapper.writeValueAsBytes(item))
+            .withMediaContent(requestJson.getBytes())
             .run()
             .andExpect(status().is(400))
             .andExpect(jsonPath("$.messages.length()", is(1)))
@@ -205,7 +225,7 @@ public class TextItemControllerAddTest extends ItemControllerTest {
   public void platformOK() throws Exception {
     ItemRequestDTO item = new ItemRequestDTO();
     item.setText("test");
-    item.setPlatform("webapp");
+    item.setPlatform(PlatformEnum.WEBAPP.name());
 
     itemPostTest(item, 201);
     itemDbSaveTest();

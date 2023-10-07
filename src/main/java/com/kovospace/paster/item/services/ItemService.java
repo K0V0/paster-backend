@@ -1,5 +1,6 @@
 package com.kovospace.paster.item.services;
 
+import com.kovospace.paster.item.dtos.PlatformEnum;
 import com.kovospace.paster.item.exceptions.ItemException;
 import com.kovospace.paster.item.exceptions.ItemNotFoundException;
 import com.kovospace.paster.item.exceptions.UserNotFoundException;
@@ -15,9 +16,9 @@ public interface ItemService {
 
   Item getItemOfUser(long userId, long itemId) throws ItemNotFoundException;
 
-  void addTextItem(long userId, String text, String platform, String deviceName) throws UserNotFoundException;
+  void addTextItem(long userId, String text, PlatformEnum platform, String deviceName) throws UserNotFoundException;
 
-  Item initiateFile(long userId, String platform, String deviceName,
+  Item initiateFile(long userId, PlatformEnum platform, String deviceName,
                     String originalFileName, String mimeType, Long chunksCount, Long chunkSize) throws UserNotFoundException, FileCreationException, FileException;
 
   Item addFileChunk(long userId, long itemId, long fileId, byte[] data, long part) throws ItemNotFoundException;

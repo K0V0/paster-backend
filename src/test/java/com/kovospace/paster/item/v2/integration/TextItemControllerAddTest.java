@@ -1,5 +1,6 @@
 package com.kovospace.paster.item.v2.integration;
 
+import com.kovospace.paster.item.dtos.PlatformEnum;
 import com.kovospace.paster.item.dtos.v2.TextItemRequestDTO;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -178,14 +179,12 @@ public class TextItemControllerAddTest extends ItemControllerTest {
   @Order(12)
   @DirtiesContext
   public void platformWrong() throws Exception {
-    TextItemRequestDTO item = new TextItemRequestDTO();
-    item.setText("test");
-    item.setPlatform("kokotina");
+    final String val = "{\"platform\":\"pičovina\",\"text\":\"test\"}";
 
     postRequest()
             .withJwtToken(this.token)
             .withMediaType(MediaType.APPLICATION_JSON)
-            .withMediaContent(objectMapper.writeValueAsBytes(item))
+            .withMediaContent(val.getBytes())
             .run()
             .andExpect(status().is(400))
             .andExpect(jsonPath("$.messages.length()", is(1)))
@@ -205,7 +204,7 @@ public class TextItemControllerAddTest extends ItemControllerTest {
   public void platformOK() throws Exception {
     TextItemRequestDTO item = new TextItemRequestDTO();
     item.setText("test");
-    item.setPlatform("webapp");
+    item.setPlatform(PlatformEnum.WEBAPP.name());
 
     itemPostTest(item, 201);
     itemDbSaveTest();
