@@ -32,7 +32,7 @@ jobs:
         
     - name: Build and run unit tests
       run: |
-        ./gradlew clean test
+        ./run_tests.sh
         
     - name: Upload test results
       uses: actions/upload-artifact@v2

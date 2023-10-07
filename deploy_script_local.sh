@@ -1,5 +1,9 @@
 #!/bin/bash
 
+###
+### Script for deploying app on set-up environment (runs on localhost or SSH on virtual machine)
+###
+
 ###TODO vytvorenie priecinkov pre file uploady
 ### a nastavit prava
 
