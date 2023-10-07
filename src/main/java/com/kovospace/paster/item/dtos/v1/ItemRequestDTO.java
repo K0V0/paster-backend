@@ -3,7 +3,7 @@ package com.kovospace.paster.item.dtos.v1;
 import com.kovospace.paster.base.dtoHelpers.FirstOrder;
 import com.kovospace.paster.base.dtoHelpers.SecondOrder;
 import com.kovospace.paster.base.dtoHelpers.ThirdOrder;
-import com.kovospace.paster.base.validators.EnumValidator;
+import com.kovospace.paster.base.validators.platform.PlatformValidator;
 import com.kovospace.paster.item.dtos.PlatformEnum;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,8 +23,8 @@ import javax.validation.constraints.Size;
 })
 public class ItemRequestDTO {
 
-  @EnumValidator(enumClazz = PlatformEnum.class, groups = FirstOrder.class)
-  protected String platform;
+  @PlatformValidator(enumClazz = PlatformEnum.class, groups = ThirdOrder.class)
+  private String platform = PlatformEnum.UNKNOWN.name();
 
   private String deviceName;
 

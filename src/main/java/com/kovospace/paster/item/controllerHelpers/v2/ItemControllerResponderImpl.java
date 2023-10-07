@@ -2,7 +2,9 @@ package com.kovospace.paster.item.controllerHelpers.v2;
 
 import com.kovospace.paster.base.services.JwtService;
 import com.kovospace.paster.base.services.WebsocketService;
+import com.kovospace.paster.base.utils.Utils;
 import com.kovospace.paster.item.dtos.ItemsResponseDTO;
+import com.kovospace.paster.item.dtos.PlatformEnum;
 import com.kovospace.paster.item.dtos.v2.FileItemInitiateRequestDTO;
 import com.kovospace.paster.item.dtos.v2.FileItemUploadChunkRequestDTO;
 import com.kovospace.paster.item.dtos.v2.FileItemUploadResponseDTO;
@@ -28,7 +30,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.stream.Collectors;
 
-import static com.kovospace.paster.base.utils.Utils.getConvertedPlatformValue;
 import static com.kovospace.paster.base.utils.Utils.isFilled;
 
 @Component("v2Responder")
@@ -99,7 +100,11 @@ public class ItemControllerResponderImpl implements ItemControllerResponder {
           throws JwtException, UserNotFoundException
   {
     long userId = jwtService.parse(token);
-    itemService.addTextItem(userId, dto.getText(), getConvertedPlatformValue(dto.getPlatform()), dto.getDeviceName());
+    itemService.addTextItem(
+            userId,
+            dto.getText(),
+            Utils.stringValueToEnum(dto.getPlatform(), PlatformEnum.class),
+            dto.getDeviceName());
     websocketService.notifyForChanges(userId);
   }
 
@@ -114,8 +119,14 @@ public class ItemControllerResponderImpl implements ItemControllerResponder {
       item = itemService.getItemOfUser(userId, dto.getItemId());
     } else {
       /** request to create new file */
-      item = itemService.initiateFile(userId, dto.getPlatform(), dto.getDeviceName(),
-              dto.getOriginalFileName(), dto.getMimeType(), dto.getChunksCount(), dto.getChunkSize());
+      item = itemService.initiateFile(
+              userId,
+              Utils.stringValueToEnum(dto.getPlatform(), PlatformEnum.class),
+              dto.getDeviceName(),
+              dto.getOriginalFileName(),
+              dto.getMimeType(),
+              dto.getChunksCount(),
+              dto.getChunkSize());
     }
     return new ResponseEntity<FileItemUploadResponseDTO>(
             itemToFileItemUploadResponseDTOConversion.apply(item),

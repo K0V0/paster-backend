@@ -49,10 +49,18 @@ public abstract class ItemControllerTest extends KovoTest {
     protected ItemRepository itemRepository;
 
     protected <TYP> ResultActions itemPostTest(TYP item, int expectedStatus) throws Exception {
+        return itemPostTest(objectMapper.writeValueAsBytes(item), expectedStatus);
+    }
+
+    protected <TYP> ResultActions itemPostTest(final String itemJson, final int expectedStatus) throws Exception {
+        return itemPostTest(itemJson.getBytes(), expectedStatus);
+    }
+
+    protected <TYP> ResultActions itemPostTest(final byte[] itemJson, final int expectedStatus) throws Exception {
         return postRequest()
                 .withJwtToken(this.token)
                 .withMediaType(MediaType.APPLICATION_JSON)
-                .withMediaContent(objectMapper.writeValueAsBytes(item))
+                .withMediaContent(itemJson)
                 .run()
                 .andExpect(status().is(expectedStatus));
     }

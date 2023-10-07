@@ -1,28 +1,32 @@
 package com.kovospace.paster.item.dtos.v2;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.kovospace.paster.base.dtoHelpers.FirstOrder;
-import com.kovospace.paster.base.validators.EnumValidator;
+import com.kovospace.paster.base.dtoHelpers.SecondOrder;
+import com.kovospace.paster.base.dtoHelpers.ThirdOrder;
+import com.kovospace.paster.base.validators.platform.PlatformValidator;
 import com.kovospace.paster.item.dtos.PlatformEnum;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.lang.Nullable;
 
 import javax.validation.GroupSequence;
 
-import static com.kovospace.paster.base.utils.Utils.getConvertedPlatformValue;
-
+@Getter
+@Setter
 @GroupSequence({
         ItemRequestDTO.class,
-        FirstOrder.class
+        FirstOrder.class,
+        SecondOrder.class,
+        ThirdOrder.class
 })
-public abstract class ItemRequestDTO<PLATFORM_FORMAT> {
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public abstract class ItemRequestDTO {
 
-  @Getter
-  @Setter
-  @EnumValidator(enumClazz = PlatformEnum.class, groups = FirstOrder.class)
-  private PLATFORM_FORMAT platform;
+  @PlatformValidator(enumClazz = PlatformEnum.class, groups = ThirdOrder.class)
+  private String platform = PlatformEnum.UNKNOWN.name();
 
-  @Getter
-  @Setter
   private String deviceName;
 
 }

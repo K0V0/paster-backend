@@ -1,6 +1,10 @@
 package com.kovospace.paster.base.utils;
 
+import java.util.Arrays;
+
 public class Utils {
+
+    private Utils() {}
 
     public static boolean isFilled(String str) {
         return str != null && !str.trim().equals("");
@@ -10,30 +14,13 @@ public class Utils {
         return num != null && num != 0;
     }
 
-    public static <T> T exceptionHandler(ExceptionCallback<T> callback) {
-        try {
-            return callback.execute();
-        } catch (Exception e) {
-            // TODO nejaky logging ??
-            return null; // You can return a default value or throw a custom exception if needed
-        }
-    }
-
-    public interface ExceptionCallback<T> {
-        T execute() throws Exception;
-    }
-
-    public static String getConvertedPlatformValue(Object input) {
-        if (input == null) {
+    public static <TYP extends Enum<TYP>> TYP stringValueToEnum(final String value, final Class<TYP> klazz) {
+        if (value == null || value.isEmpty()) {
             return null;
         }
-
-        if (input instanceof Enum<?>) {
-            return ((Enum<?>) input).name();
-        } else if (input instanceof String) {
-            return (String) input;
-        } else {
-            throw new IllegalArgumentException("Unsupported input type: " + input.getClass());
-        }
+        return Arrays.stream(klazz.getEnumConstants())
+                .filter(constant -> constant .name().equalsIgnoreCase(value))
+                .findFirst()
+                .orElse(null);
     }
 }
