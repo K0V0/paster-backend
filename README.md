@@ -1,7 +1,11 @@
 # paster-backend
-*JSON based REST API, Java & SpringBoot*
+**MAIN backend microservice for paster.cloud project.**
 
-##API v1
+*JSON based REST API, Java (v8) & SpringBoot (2.5.4)* 
 
-*specs: Stateless, JWT Token method to identify user. Supported only text, up to 4 194 304 chars.*  
-**[Usage & Documentation](readme/v1/api.md)**
+## Documentation
+
+Documentation for endpoint capabilities is available in **OpenAPI v3** 
+format through Swagger-UI on ```http(s)://<HOST_ADDRESS>/swagger-ui/index.html```
+
+Live version is available at project domain: [https://paster.cloud:4004/swagger-ui/index.html](https://paster.cloud:4004/swagger-ui/index.html)
