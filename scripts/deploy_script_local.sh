@@ -18,15 +18,13 @@ echo -e "\n"
 
 
 ### BUILD!
-cd /var/www/paster-backend || exit
+cd "$working_directory_path" || exit
 
 git pull
 
-./gradlew clean build -x test
+sh gradlew clean build -x test
 
-cd ..
-
-cd build/libs || exit
+cd "$working_directory_path/build/libs" || exit
 
 systemctl restart paster-backend
 
