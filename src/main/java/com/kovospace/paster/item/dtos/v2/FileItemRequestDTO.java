@@ -16,7 +16,7 @@ import javax.validation.constraints.NotNull;
         FirstOrder.class,
         SecondOrder.class,
 })
-public abstract class FileItemRequestDTO extends ItemRequestDTO<String> {
+public abstract class FileItemRequestDTO extends ItemRequestDTO {
 
     @NotNull(message = "item.fileupload.initiation.originalFilename.missing", groups = FirstOrder.class)
     @NotBlank(message = "item.fileupload.initiation.originalFilename.empty", groups = SecondOrder.class)

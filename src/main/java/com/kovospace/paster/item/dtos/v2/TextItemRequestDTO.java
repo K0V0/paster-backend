@@ -3,7 +3,6 @@ package com.kovospace.paster.item.dtos.v2;
 import com.kovospace.paster.base.dtoHelpers.FirstOrder;
 import com.kovospace.paster.base.dtoHelpers.SecondOrder;
 import com.kovospace.paster.base.dtoHelpers.ThirdOrder;
-import com.kovospace.paster.item.dtos.PlatformEnum;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,15 +11,13 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import static com.kovospace.paster.base.utils.Utils.getConvertedPlatformValue;
-
 @GroupSequence({
         TextItemRequestDTO.class,
         FirstOrder.class,
         SecondOrder.class,
         ThirdOrder.class
 })
-public class TextItemRequestDTO extends ItemRequestDTO<PlatformEnum> {
+public class TextItemRequestDTO extends ItemRequestDTO {
 
     @Getter
     @Setter

@@ -4,6 +4,7 @@ import com.kovospace.paster.base.exceptions.ApiKeyInvalidException;
 import com.kovospace.paster.base.exceptions.ApiKeyMissingException;
 import com.kovospace.paster.base.services.ApiKeyService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -15,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -24,6 +26,9 @@ import java.util.stream.Collectors;
 public class ApiKeyAuthFilter extends OncePerRequestFilter {
 
     private final String API_KEY_HEADER = "x-auth-token";
+
+    @Value("#{'${app.swagger-ui.paths}'.split(',')}")
+    private List<String> swaggerUiPaths;
 
     private final ApiKeyService apiKeyService;
 
@@ -48,8 +53,9 @@ public class ApiKeyAuthFilter extends OncePerRequestFilter {
         }
         if (token == null || token.equals("")) {
             System.out.println("API key filter - token is NULL");
-            //TODO docasne deaktivovane kvoli swagger api
-            //throw new ApiKeyMissingException();
+            if (swaggerUiPaths.stream().noneMatch(path -> request.getRequestURI().startsWith(path))) {
+                throw new ApiKeyMissingException();
+            }
         }
 
         String ipAddress = request.getRemoteAddr();
