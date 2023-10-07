@@ -30,8 +30,9 @@ jobs:
         java-version: '11'
         distribution: 'temurin'
         
-    - name: Build and run unit tests
+    - name: Build and run unit & integration tests
       run: |
+        cd scripts
         ./run_tests.sh
         
     - name: Upload test results

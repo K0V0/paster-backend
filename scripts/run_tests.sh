@@ -1,8 +1,6 @@
 #!/bin/bash
 
-cd ..
-
-source scripts/_base.sh
+source _base.sh
 
 
 
@@ -46,5 +44,10 @@ echo -e "\n"
 
 ### RUN!
 echo -e "Starting tests..."
-
+cd "$working_directory_path" || exit
 sh gradlew test --rerun-tasks > "$summary_output_file" 2>&1
+
+
+
+### finished
+exit

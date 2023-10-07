@@ -1,8 +1,6 @@
 #!/bin/bash
 
-cd ..
-
-source scripts/_base.sh
+source _base.sh
 
 
 
@@ -20,14 +18,17 @@ echo -e "\n"
 
 
 ### BUILD!
-cd /var/www/paster-backend/paster-backend
+cd /var/www/paster-backend/paster-backend || exit
 
 git pull
 
 ./gradlew clean build -x test
 
-cd build/libs
+cd build/libs || exit
 
 systemctl restart paster-backend
 
+
+
+### finished
 exit

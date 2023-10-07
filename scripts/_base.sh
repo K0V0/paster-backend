@@ -16,7 +16,7 @@ DAYS_TO_KEEP=30
 
 
 ### shared and calculated basic vars
-working_directory_path="$(pwd)"
+working_directory_path=$(dirname "$(pwd)")
 user_primary_group_id=$(id -g)
 user_primary_group_name=$(getent group "$user_primary_group_id" | cut -d: -f1)
 current_datetime=$(date +'%Y-%m-%d-%H%M%S')
