@@ -18,7 +18,7 @@ echo -e "\n"
 
 
 ### BUILD!
-cd /var/www/paster-backend/paster-backend || exit
+cd /var/www/paster-backend || exit
 
 git pull
 
