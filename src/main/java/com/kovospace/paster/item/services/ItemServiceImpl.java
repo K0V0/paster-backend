@@ -1,5 +1,6 @@
 package com.kovospace.paster.item.services;
 
+import com.kovospace.paster.item.dtos.PlatformEnum;
 import com.kovospace.paster.item.exceptions.ItemException;
 import com.kovospace.paster.item.exceptions.ItemNotFoundException;
 import com.kovospace.paster.item.exceptions.ItemNotOwnedByUserException;
@@ -58,7 +59,7 @@ public class ItemServiceImpl implements ItemService {
   }
 
   @Transactional
-  public void addTextItem(long userId, String text, String platform, String deviceName) throws UserNotFoundException {
+  public void addTextItem(long userId, String text, PlatformEnum platform, String deviceName) throws UserNotFoundException {
     Item item = prepareNewItem(userId, platform, deviceName, userRepo);
     item.setData(text);
     itemRepo.save(item);
@@ -66,7 +67,7 @@ public class ItemServiceImpl implements ItemService {
   }
 
   @Override
-  public Item initiateFile(long userId, String platform, String deviceName,
+  public Item initiateFile(long userId, PlatformEnum platform, String deviceName,
                            String originalFileName, String mimeType, Long chunksCount, Long chunkSize)
           throws UserNotFoundException, FileException
   {

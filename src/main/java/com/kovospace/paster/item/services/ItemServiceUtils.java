@@ -31,7 +31,7 @@ public class ItemServiceUtils {
 
     public static Item prepareNewItem(
             long userId,
-            String platform,
+            PlatformEnum platform,
             String deviceName,
             UserRepository userRepository
     )
@@ -40,7 +40,7 @@ public class ItemServiceUtils {
         User user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
         Item item = new Item();
         item.setUser(user);
-        item.setPlatform(PlatformEnum.getByName(platform));
+        item.setPlatform(platform);
         item.setDeviceName(deviceName);
         return item;
     }
