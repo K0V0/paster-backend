@@ -35,3 +35,7 @@ testResults/
 .idea/
 .gradle/
 build/
+
+spring.log
+spring.log.*
+swagger.json

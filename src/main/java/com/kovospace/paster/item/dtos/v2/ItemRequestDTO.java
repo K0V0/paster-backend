@@ -1,6 +1,5 @@
 package com.kovospace.paster.item.dtos.v2;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.kovospace.paster.base.dtoHelpers.FirstOrder;
 import com.kovospace.paster.base.dtoHelpers.SecondOrder;
@@ -9,7 +8,6 @@ import com.kovospace.paster.base.validators.platform.PlatformValidator;
 import com.kovospace.paster.item.dtos.PlatformEnum;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.lang.Nullable;
 
 import javax.validation.GroupSequence;
 

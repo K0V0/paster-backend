@@ -11,8 +11,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-@Getter
-@Setter
 @GroupSequence({
         TextItemRequestDTO.class,
         FirstOrder.class,
@@ -21,6 +19,8 @@ import javax.validation.constraints.Size;
 })
 public class TextItemRequestDTO extends ItemRequestDTO {
 
+    @Getter
+    @Setter
     @NotNull(message = "item.request.missing", groups = FirstOrder.class)
     @NotBlank(message = "item.request.empty", groups = SecondOrder.class)
     @Size(
