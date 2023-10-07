@@ -24,6 +24,8 @@ git pull
 
 ./gradlew clean build -x test
 
+cd ..
+
 cd build/libs || exit
 
 systemctl restart paster-backend
