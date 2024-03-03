@@ -16,6 +16,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class FileItemControllerGetV1CompatibilityTest extends FileItemControllerV1CompatibilityTest {
 
+    //TODO pre testy vytvarat zlozky ak niesu inak to jebne
+    // pre testy spustene z idey musia byt v priecinku modulu (nie uplny root projektu)
+
     @org.junit.jupiter.api.Test
     @Order(1)
     @DirtiesContext

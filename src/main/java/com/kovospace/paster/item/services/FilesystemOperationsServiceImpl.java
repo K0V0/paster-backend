@@ -51,7 +51,7 @@ public class FilesystemOperationsServiceImpl implements FilesystemOperationsServ
         try {
             file.createNewFile();
         } catch (IOException e) {
-            throw new FileCreationException();
+            throw new FileCreationException(e.getMessage());
         }
         fileEntity.setFileName(fileName);
         return fileEntity;

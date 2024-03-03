@@ -1,6 +1,9 @@
 package com.kovospace.paster.item.exceptions;
 
-public abstract class ItemException extends Exception {
+import com.kovospace.paster.base.exceptions.BaseException;
+
+public abstract class ItemException extends BaseException {
   public ItemException() {}
-  public ItemException(String msg) { super(msg); }
+  public ItemException(final String code) { super(code); }
+  public ItemException(final String code, final String message) { super(code, message); }
 }
